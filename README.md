@@ -1,6 +1,10 @@
 Software Engineering - Blackjack
 ================================
 
+If we're going to learn about being in the real world, let's put ourselves in the real world.
+
+------
+
 Just a git for the Blackjack project.
 
 Easy setup:
@@ -19,3 +23,6 @@ Committing:
 5. Make any changes you'd like in the repository folder and save them.
 6. Open up your github client and commit your changes.
 	* The next time anyone pulls from the repository, they will get your changes.
+
+Note:
+I know that git itself can handle conflicting copies, but what I don't know is how it does so. It'd be easiest for now to just commit any changes you made when you're ready to stop working on it, and to pull any new changes when you're ready to start again.
