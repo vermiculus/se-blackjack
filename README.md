@@ -7,7 +7,7 @@ If we're going to learn about being in the real world, let's put ourselves in th
 
 Just a git for the Blackjack project.
 
-Easy setup:
+##Easy setup:
 
 1. Create an account on [Github](http://www.github.com) and [email me](mailto:seallred@smcm.edu) your username (so I can give you push permission)
 2. Download a simple git client and set it up with your Github info
@@ -18,11 +18,11 @@ Easy setup:
 4. Select 'Clone in Windows' or 'Clone in Mac'.
 	* The Github client should open up. It will download all source files into the root Github folder on your computer. This folder can be changed in settings, otherwise it just defaults to your documents folder.
 
-Committing:
+##Committing:
 
 5. Make any changes you'd like in the repository folder and save them.
-6. Open up your github client and commit your changes.
-	* The next time anyone pulls from the repository, they will get your changes.
+6. Open up your github client and commit your changes. Keep the commit message concise.
+7. Committing your changes will update your own local copy of the repository, but will not update the server's copy. Select 'Sync' to update the server. The next time anyone pulls from the repository, they will get your changes.
 
-Note:
+##Note:
 I know that git itself can handle conflicting copies, but what I don't know is how it does so. It'd be easiest for now to just commit any changes you made when you're ready to stop working on it, and to pull any new changes when you're ready to start again.
