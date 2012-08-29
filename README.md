@@ -34,4 +34,4 @@ I know that git itself can handle conflicting copies, but what I don't know is h
  * Josh Kaminsky
  * Molly Domino
  * Sean Allred
- * Matt Lee
+ * Mat Lee
