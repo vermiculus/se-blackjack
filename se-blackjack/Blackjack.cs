@@ -36,6 +36,9 @@ namespace se_blackjack
 
     public class BlackjackGame
     {
+        /// <summary>
+        /// All possible Suites for a playing card
+        /// </summary>
         internal enum Suite
         {
             Hearts,
@@ -44,6 +47,9 @@ namespace se_blackjack
             Clubs
         }
 
+        /// <summary>
+        /// All possible Ranks for a playing card
+        /// </summary>
         internal enum Rank
         {
             Ace,
@@ -62,11 +68,18 @@ namespace se_blackjack
         }
 
         /// <summary>
-        /// Represents a Playing Card
+        /// Represents a standard playing card
         /// </summary>
         internal class Card
         {
+            /// <summary>
+            /// The suite of this Card
+            /// </summary>
             public readonly Suite Suite;
+
+            /// <summary>
+            /// The rank of this Card
+            /// </summary>
             public readonly Rank Rank;
 
             /// <summary>
@@ -125,6 +138,9 @@ namespace se_blackjack
             }
         }
 
+        /// <summary>
+        /// Available cash to the Player
+        /// </summary>
         public int Cash { get; set; } // Note that Java's convention of 'get' and 'set' methods are obselete in C#
         private Deck deck;
         
