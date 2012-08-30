@@ -59,3 +59,22 @@ Select 'Sync' to update the server. The next time anyone pulls from the reposito
 ## Conflicts
 I know that git itself can handle conflicting copies, but what I don't know is how it does so.
 It'd be easiest for now to just commit any changes you made when you're ready to stop working on it, and to pull any new changes when you're ready to start again.
+
+# Getting Started
+This project is written in C# - a .NET technology from Microsoft. There are a couple of reasons this language was chosen:
+
+ * C# closely resembles Java in form and function (but the differences are nothing to be snuffed at)
+ * In Java, GUI programming is a chore. The visual editors of NetBeans and Eclipse are nothing compared to that of Visual Studio.
+ * The project is going to be tested and graded on a Windows-based computer. Seeing as Sean is the only one with a Mac, he is just going to have to deal ;). It is a lot easier to work with a GUI in Visual Studio than in Eclipse.
+ * C# is a very popular object-oriented language and is used heavily in industry. It's a good language to know.
+ * C#, like Java, has its own flavor of in-source documentation that actually makes sense. We are going to be using this heavily.
+
+## Terminology
+|  Term   |                              Meaning                               |
+|--------:|:-------------------------------------------------------------------|
+|solution |A collection of related projects and overall configuration settings |
+|project  |A collection of source files that compiles into an executable       |
+|source   |A single file that represents an object or other distinct purpose   |
+
+## Opening the Project
+Visual Studio solution files themselves are stored in a single `sln` file - this is only a list of references to other files (source and project files)
