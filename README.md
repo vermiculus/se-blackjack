@@ -85,15 +85,14 @@ Irregardless, there are several roles that we can fill out to make this a succes
 For intangible reasons that are innately obvious, we should all be taking on the roles of *Developer* and *Quality Assurance*.
 However, Sean barely has a working knowledge of the game itself, so the SME is not his cup of tea.
 
-Since we all know our skills and talents, let's fill in the roles we would be comfortable fulfilling.
+Since we all know our skills and talents, let's fill in the roles we would be comfortable fulfilling. (Note that we will all be taking on multiple roles, and not all roles we say we are okay with doing will be our actual roles.)
 
-
-<!-- This table is a test. Reddit uses markdown as well, and this table will work there. However, tables aren't part of Markdown proper, so I don't know how Github is going to react to it. -->
-| Column 1   | Column 2    | Column 3     |
-|:-----------|------------:|:------------:|
-| You        |          You|     You     
-| can align  |    can align|  can align   
-| left       |        right|   center  
+| Name  |  SME   |   FA   |   SA   |  
+|------:|:------:|:------:|:------:|  
+| Josh  |        |        |        |  
+| Molly |        |        |        |  
+| Mat   |        |        |        |  
+| Sean  |        |&#x2713;|&#x2713;|
 
 ## <a id="Questions"></a>Questions for Class
 
