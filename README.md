@@ -39,6 +39,62 @@ It'd be easiest for now to just commit any changes you made when you're ready to
  * Sean Allred
  * Mat Lee
 
+**Typical Software Engineering Roles**
+
+Adapted from a [Developer.com](http://www.developer.com/mgmt/article.php/3490871/Cracking-the-Code-Breaking-Down-the-Software-Development-Roles.htm) article by Robert Bogue.
+
+ * Subject Matter Expert (SME)  
+	The subject matter expert is the person(s) from which requirements are captured.
+	These are the people who know what the software needs to do and how the process works.
+	They are often the ones who will benefit from the use of the system.
+ * Functional Analyst (FA)  
+	Transforms the requirements of the SME into clear, concise, non-conflicting, and unambiguous requirements.
+ * Solutions Architect (SA)  
+	The Solutions Architect is responsible for creating the design documents from the requirements of the Functional Analysts.
+	These design documents are used by the rest of the team (mostly Developers and Development Lead).
+	The Solutions Architect is typically responsible for matching technologies to the problem being solved.
+ * Development Lead (DL)  
+	The Development Lead's role is focused around providing more detail to the Solution Architect's architecture (detailed program specifications creation).
+	The Development Lead is also the first line of support for a Developer who needs help understanding a concept or working through a particularly thorny issue.
+ * Developer (Dev)  
+	The Developer (more often a team of them) writes the code according to the specification.
+ * Quality Assurance (QA)  
+	Using a variety of techniques ranging from keying in data and playing with the system to formalized, automated testing scripts, the Quality Assurance team is responsible for ensuring the quality of the solution and it's fit to the requirements gathered by the Functional Analyst.
+ * Deployment (Deploy)  
+	Deployment packages up all of the compiled code and configuration files and deploys it through the appropriate environments or on the appropriate systems (getting the solution *used*).
+	To that end, the role may include automated software installation procedures or may be as simple as copying the files to the appropriate place and running them.
+ * Training  
+	The training role is responsible for documentation for the system as well as any instructor or computer based training solutions, which are designed to help the users better understand how the system works and what they can do with it.
+ * Project Manager (PM)  
+	The Project Manager is responsible for ensuring consistent reporting, risk mitigation, timeline, and cost control.
+	They try to resolve problems while they are small so that they can be handled more quickly and with less cost.
+ * Development Manager (DM)  
+	The Development Manager is responsible for managing multiple priorities of conflicting projects.
+	The Development Manager role is also an escalation for issues from the team, which it is unable to resolve internally.
+
+As you surely know by now, we don't need that many roles.
+This is a game of Blackjack for a class.
+Irregardless, there are several roles that we can fill out to make this a successful venture:
+
+ * Subject Matter Expert
+ * Functional Analyst
+ * Solutions Architect
+ * Developer
+ * Quality Assurance
+
+For intangible reasons that are innately obvious, we should all be taking on the roles of *Developer* and *Quality Assurance*.
+However, Sean barely has a working knowledge of the game itself, so the SME is not his cup of tea.
+
+Since we all know our skills and talents, let's fill in the roles we would be comfortable fulfilling.
+
+
+<!-- This table is a test. Reddit uses markdown as well, and this table will work there. However, tables aren't part of Markdown proper, so I don't know how Github is going to react to it. -->
+| Column 1   | Column 2    | Column 3     |
+|:-----------|------------:|:------------:|
+| You        |          You|     You     
+| can align  |    can align|  can align   
+| left       |        right|   center  
+
 ## <a id="Questions"></a>Questions for Class
 
 1. What if both the Player and Dealer bust on the same hand (or during a Hit)?
