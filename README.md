@@ -82,8 +82,7 @@ Irregardless, there are several roles that we can fill out to make this a succes
  * Developer
  * Quality Assurance
 
-For intangible reasons that are innately obvious, we should all be taking on the roles of *Developer* and *Quality Assurance*.
-However, Sean barely has a working knowledge of the game itself, so the SME is not his cup of tea.
+For intangible reasons that seem innately obvious, we should all be taking on the roles of *Developer* and *Quality Assurance*.
 
 Since we all know our skills and talents, let's fill in the roles we would be comfortable fulfilling. (Note that we will all be taking on multiple roles, and not all roles we say we are okay with doing will be our actual roles.)
 
@@ -92,7 +91,8 @@ Since we all know our skills and talents, let's fill in the roles we would be co
 | Josh  |        |        |        |  
 | Molly |        |        |        |  
 | Mat   |        |        |        |  
-| Sean  |        |&#x2713;|&#x2713;|
+| Sean  |        |&#x2713;|&#x2713;|  
+[Team Roles]
 
 ## <a id="Questions"></a>Questions for Class
 
