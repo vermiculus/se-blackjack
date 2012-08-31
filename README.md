@@ -58,12 +58,13 @@ Irregardless, there are several roles that we can fill out to make this a succes
 For intangible reasons that seem innately obvious, we should all be taking on the roles of *Developer* and *Quality Assurance*.
 
 Since we all know our skills and talents, let's fill in the roles we would be comfortable fulfilling. (Note that we will all be taking on multiple roles, and not all roles we say we are okay with doing will be our actual roles.)
+I've checked off roles that I think fit the bill, but please, please, *please* correct me if you want to do something else or if you don't want to do something listed.
 
 | Name  |  SME   |   FA   |   SA   |  DEV   |   QA   |  
 |------:|:------:|:------:|:------:|:------:|:------:|  
-| Josh  |        |        |        |        |        |  
-| Molly |        |        |        |        |        |  
-| Mat   |        |        |        |        |        |  
+| Josh  |&#x2713;|&#x2713;|&#x2713;|        |&#x2713;|  
+| Molly |&#x2713;|&#x2713;|        |&#x2713;|&#x2713;|  
+| Mat   |&#x2713;|&#x2713;|        |&#x2713;|&#x2713;|  
 | Sean  |        |&#x2713;|&#x2713;|&#x2713;|&#x2713;|
 
 ## <a id="Questions"></a>Questions for Class
