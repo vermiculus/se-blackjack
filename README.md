@@ -59,12 +59,12 @@ For intangible reasons that seem innately obvious, we should all be taking on th
 
 Since we all know our skills and talents, let's fill in the roles we would be comfortable fulfilling. (Note that we will all be taking on multiple roles, and not all roles we say we are okay with doing will be our actual roles.)
 
-| Name  |  SME   |   FA   |   SA   |  
-|------:|:------:|:------:|:------:|  
-| Josh  |        |        |        |  
-| Molly |        |        |        |  
-| Mat   |        |        |        |  
-| Sean  |        |&#x2713;|&#x2713;|
+| Name  |  SME   |   FA   |   SA   |  DEV   |   QA   |  
+|------:|:------:|:------:|:------:|:------:|:------:|  
+| Josh  |        |        |        |        |        |  
+| Molly |        |        |        |        |        |  
+| Mat   |        |        |        |        |        |  
+| Sean  |        |&#x2713;|&#x2713;|&#x2713;|&#x2713;|
 
 ## <a id="Questions"></a>Questions for Class
 
