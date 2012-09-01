@@ -139,3 +139,10 @@ The game ends when the Player runs out of Cash.
 	* Largest payoff
 	* Largest loss
  * The 'Restart...' menu item, after confirmation, resets the statistics of the game and starts a new hand.
+ * A good basis would be this picture: http://takegame.com/gamblings/pictures/blackjack.jpg
+ * 	On the left are the users cards, on the right the dealer's face up card. With labels explaining things thusly 
+ * 	Below the users cards are the "hit" "split" and "stand" buttons
+ * 	Above in the banner are the user's funds and their current bet
+ * 	Above that banner are the menu things:  Statistics, reset button, other things
+ * 		The announcement of a win/loss/ "are you sure you want to restart" should be new windows that open up
+ * 
