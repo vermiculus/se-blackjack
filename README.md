@@ -79,13 +79,13 @@ I've checked off roles that I think fit the bill, but please, please, *please* c
 
 This game shall be a GUI-driven program to emulate the interactive play of Blackjack between the user ('the Player') and the computer ('the Dealer').
 
-###Constraints
+### Constraints
 
  * Must run successfully on the Windows 7 computers in SH-165
  * Played with one deck only
  * No reshuffling
 
-###Example Execution
+### Example Execution
 
 1. The Dealer will ask for the Player's first name upon startup.
 2. The Player is given $500 of initial in-game betting money ('Cash') to start with.
@@ -120,13 +120,13 @@ The faces of both cards of the Player are visible, while only one card of the De
 The game ends when the Player runs out of Cash.
 		
 
-###Special Considerations
+### Special Considerations
 
  * If upon dealing the Dealer's hand initially totals 21, then both cards are face-up. (See [question 2](#Questions))
  * If the deal does not bust on a given hand, then the higher total wins. The Dealer invariable wins ties.
 	* If both the Player's and the Dealer's hands total 21, then this tie goes to the Player (at double the payoff)
 
-###Interface Design
+### Interface Design
 
  * The game is played on a felt-green background.
  * There is betting box in the upper-right-hand corner of the screen.
