@@ -67,6 +67,8 @@ I've checked off roles that I think fit the bill, but please, please, *please* c
 | Mat   |&#x2713;|&#x2713;|        |&#x2713;|&#x2713;|  
 | Sean  |        |&#x2713;|&#x2713;|&#x2713;|&#x2713;|
 
+Simon also mentioned in a previous class that there is often a *language specialist*, and Sean knows C# really, really well (although not quite as well as [MSDN](<http://msdn.microsoft.com/en-us/library/618ayhy6(v=vs.71)>)). Feel free to ask him any questions through either [Facebook](http://facebook.com/vermiculus) or [email](mailto:seallred@smcm.edu). For those of you who know Ashok, feel free to bother him about it as well. He'll love that. Yeah.
+
 ## <a id="Questions"></a>Questions for Class
 
 1. What if both the Player and Dealer bust on the same hand (or during a Hit)?
