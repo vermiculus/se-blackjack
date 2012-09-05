@@ -72,8 +72,22 @@ I've checked off roles that I think fit the bill, but please, please, *please* c
 1. What if both the Player and Dealer bust on the same hand (or during a Hit)?
 2. Does the Dealer win the round if the Dealer draws a hand totaling 21?
 3. What if the Player does not have the minimum bet requirement?
-	* Do they bet all their money?
-	* Does the game end as if they had reached $0?
+    * Do they bet all their money?
+    * Does the game end as if they had reached $0?
+4. Menu Structure
+    * File -> Exit
+    * File -> Restart…
+    * Help -> About
+5. Reshuffling happen during restart?
+    * Fresh deck.
+6. All cards used up?
+    * Fresh deck.
+7. If deck expires during deal out,
+    * shuffle used cards and continue deal out.
+8. Saving game?
+    * No
+9. Due?
+    * near end of the semester (check syllabus)
 
 ## Requirements Document
 
