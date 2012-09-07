@@ -29,7 +29,7 @@ blah
 
 |   Term   |   Definition   |
 |---------:|:---------------|
-|   SMCM   | St. Mary's College of Maryland |
+|   SMCM   | St. Mary's College of Maryland
 
 ### 1.4 References
 
@@ -49,9 +49,29 @@ blah
 ### 3.3 Roles and Responsibilities
 
 ## 4. Management Process
-
 ### 4.1 Project Estimates
+This project will cost absolutely nothing. This is exceptionally fortunate, as we have no money to spend on it anyways.
+
+| Week | Status |
+|:----:|:-------|
+|  1   | Project meta-planning underway
+|  2   | Project meta-planning complete
+|  3   | Scope defined
+|  4   | Resources acquired
+|  5   | Environment training complete
+|  6   | Language training underway
+|  7   | Language training complete
+|  8   | Class models complete
+|  9   | Activity diagrams underway
+|  10  | Activity diagrams complete
+|  11  | Construction underway
+|  12  | Construction complete
+|  13  | Quality Assurance
+|  14  | Deployment
+|  15  | Cookies
+
 ### 4.2 Project Plan
+
 #### 4.2.1 Phase Plan
 #### 4.2.2 Iteration Objectives
 #### 4.2.3 Releases
