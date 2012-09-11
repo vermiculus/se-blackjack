@@ -1,8 +1,0 @@
-T:\#_\Programming\GitHub\se-blackjack\se-blackjack\bin\Debug\se-blackjack.exe
-T:\#_\Programming\GitHub\se-blackjack\se-blackjack\bin\Debug\se-blackjack.pdb
-T:\#_\Programming\GitHub\se-blackjack\se-blackjack\obj\x86\Debug\se-blackjack.csprojResolveAssemblyReference.cache
-T:\#_\Programming\GitHub\se-blackjack\se-blackjack\obj\x86\Debug\se_blackjack.Blackjack.resources
-T:\#_\Programming\GitHub\se-blackjack\se-blackjack\obj\x86\Debug\se_blackjack.Properties.Resources.resources
-T:\#_\Programming\GitHub\se-blackjack\se-blackjack\obj\x86\Debug\se-blackjack.csproj.GenerateResource.Cache
-T:\#_\Programming\GitHub\se-blackjack\se-blackjack\obj\x86\Debug\se-blackjack.exe
-T:\#_\Programming\GitHub\se-blackjack\se-blackjack\obj\x86\Debug\se-blackjack.pdb
