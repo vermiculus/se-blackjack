@@ -1,0 +1,304 @@
+\documentclass[12pt]{article}
+\usepackage{fancyhdr}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\author{Sean Allred \\ Molly Domino \\ Josh Kaminsky \\ Matthan Lee}
+\date{\today}
+\title{Software Requirements Specification}
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={Software Requirements Specification},    % title
+    pdfauthor={No Dice!},     % author
+    pdfsubject={SRS},   % subject of the document
+    pdfcreator={\LaTeX},   % creator of the document
+    pdfproducer={Sean Allred}, % producer of the document
+    pdfkeywords={Blackjack}{No Dice!}{SMCM}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,        % false: boxed links; true: colored links
+    linkcolor=red,          % color of internal links
+    citecolor=green,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\pagestyle{fancy}
+\rhead{Blackjack\\
+Software Requirements Specification\\
+COSC 301 -- Software Engineering}
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\null
+\section{Introduction}
+
+\subsection{Purpose}
+The goal of our endeavor is to produce an executable file that will create a
+one user blackjack game.  The game should have many functions for the user
+including (but not limited to) betting functionality, personalization,
+\footnote{Is this really a requirement?} and a graphical user interface.
+
+\subsection{Scope}
+We will be creating a file that will play a game of blackjack with hit, split,
+and stand functionality. The scope of our project will be between this baseline
+and the constraints outlined below:
+\begin{itemize}
+\item No multiplayer functionality
+\item No other game functionality beyond blackjack
+\item No animations
+\end{itemize}
+
+\subsection{Definitions, Acronyms, and Abbreviations}
+\begin{table}[h]
+\begin{tabularx}{\linewidth}{|r|X|}
+\hline 
+\textbf{Term} & Definition \\ \hline 
+\textbf{SMCM} & St. Mary's College of Maryland \\ \hline 
+\textbf{SME} & Subject Matter Expert \\ \hline 
+\textbf{FA} & Functional Analyst \\ \hline 
+\textbf{SA} & Solutions Architect \\ \hline 
+\textbf{DEV} & Developer \\ \hline 
+\textbf{QA} & Quality Assurance \\ \hline 
+\textbf{Player} & The user \\ \hline 
+\textbf{Dealer} & The computer \\ \hline 
+\textbf{Hit} & The move in blackjack wherein the Player draws another Card from
+the Deck through the Dealer. \\ \hline 
+\textbf{Split} & The move in blackjack wherein the Player's hand is split into
+two, where each of the Player's hands take half of the bet. \\ \hline 
+\textbf{Stand} & The move in blackjack wherein the Player ceases to draw more
+Cards from the Deck, ending the Round. \\ \hline 
+\end{tabularx}
+\end{table}
+
+
+\subsection{References}
+\begin{itemize}
+\item Iteration Plans \\ None yet
+\item Development Case \\ None yet
+\item Vision \\ None yet
+\item Glossary \\ None yet
+\item Other \\ Thank you to \href{http://www.github.com}{GitHub.com} for allowing our team to collaborate
+online.
+\end{itemize}
+
+\subsection{Overview}
+\subsubsection{Project Overview}
+This \emph{Software Development Plan} provides a description of the purpose,
+scope, objectives and deliverables pertaining to the project.
+
+\subsubsection{Project Organization}
+\begin{tabular}{|r|c|c|c|c|c|}
+\hline 
+\textbf{Name} & \textbf{SME} & \textbf{FA} &
+\textbf{SA} & \textbf{DEV} & \textbf{QA} \\ 
+\hline 
+Sean Allred & \null & \checkmark & \checkmark & \checkmark & \checkmark \\ 
+\hline 
+Molly Domino & \checkmark & \null & \checkmark & \checkmark & \checkmark \\ 
+\hline 
+Joshua Kaminsky & \checkmark & \checkmark & \checkmark & \null & \checkmark \\ 
+\hline 
+Matthan Lee & \checkmark & \checkmark & \null & \checkmark & \checkmark \\ 
+\hline 
+\end{tabular} 
+
+\subsubsection{Management Process}
+This project should cost, essentially, only time, and should take about one
+semester to complete.  The major phases of this project are defined in
+\hyperref[sec:schedule]{sections 4.1 and 4.2}.
+
+\subsubsection{Applicable plans and Guidelines}
+Software development team will be following an iterative waterfall model with
+two iterations and GUI prototyping, iterating through the design of the logical
+structure of the game and the graphical user interface. Tools may include
+Microsoft Visual Studio for C\# development\footnote{There also is
+consideration of using NetBeans with Java.} and the computers to run these
+programming environments. Techniques may include round-table prototyping
+sessions and mock-up code demonstrations for the client.
+
+\section{Functional Description}
+\subsection{Language and Terminology}
+Planned program features will be described as ``necessary'', ``unnecessary'',
+or ``pending''; features will also be described as ``intended'' or ``not
+intended'', to indicate whether or not they will be implemented.
+Including the following language models in the descriptions of various
+requirements indicates their category as necessary, unnecessary, planned,
+unplanned, or pending categorization.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|r||c|c|}
+\hline 
+& \textbf{Intended} & \textbf{Unintended} \\ 
+\hline 
+\textbf{Necessary} & will & should \\ 
+\hline 
+\textbf{Pending} & may & may not \\ 
+\hline 
+\textbf{Unnecessary} & can & will not \\ 
+\hline 
+\end{tabular}
+\caption{Terminology}
+\end{table}
+
+\textbf{Must} --- Indicates a feature that absolutely must be included in the
+software for the software project to be considered finished, and is intended
+to be included in the software package.
+	
+\textbf{Should} --- Indicates a feature that absolutely must be included in the
+software for the software project to be considered finished, but is not
+intended to be included in the software package.  Concerted effort will be made
+to avoid ever using this keyword.
+	
+\textbf{May} --- Indicates a feature that or may not be necessary, pending
+further insight, but is intended to be included in the software package.
+	
+\textbf{May not} --- Indicates a feature that or may not be necessary, pending
+further insight, but is not intended to be included in the software package.
+	
+\textbf{Will} --- Indicates a feature that is not necessary, but is intended
+to be included in the software project.
+	
+\textbf{Will not} --- Indicates a feature that is not necessary, and is not
+intended to be included in the software project.
+
+\subsection{User Interface}
+The program must implement a graphical user interface (GUI) as the primary mode
+of interactions with the user.
+\paragraph{Title}
+The program's GUI must be titled for the game being played (i.e. `Blackjack').
+\paragraph{Menu}
+The GUI must contain a standardized menu bar situated at the top of the
+interface with the following items:
+\subparagraph{File}
+The menu must include the standard `File' menu option that reveals the
+following actions:
+\begin{itemize}
+\item \textbf{Restart} \\ Starts a new game.
+\item \textbf{Statistics} \\ Reveals, in a separate window, the Player's
+gameplay statistics for the current session: number of wins, number of losses,
+largest win, and greatest loss.
+\item \textbf{Exit} \\ Upon confirmation, terminates the program.
+\end{itemize}
+\subparagraph{Help}
+The menu must include the standard `Help' menu option that reveals the
+following actions:
+\begin{itemize}
+\item \textbf{About} \\ Reveals various information about the software
+including, but not limited to, the title of the program, the version number,
+its authors, and its license.
+\end{itemize}
+
+\subsection{Graphics}
+Program must access and display many visual resources, to include Windows
+graphics packages and external image files to represent objects in-game.
+\paragraph{Card Display}
+Graphics must include an image to represent the back of a playing card (i.e.,
+face-down) and the front of a playing card (i.e., face-up).
+\paragraph{Deck Display}
+Graphics must include an image to represent more than one card in a stack or
+deck.
+\paragraph{Animation}
+Graphics will not include any animations.
+\paragraph{Background}
+Graphics must include an image to represent the background of the game window
+(i.e., the ``table'' on which Blackjack is being played.)
+\paragraph{Money Display}
+Graphics must include an actively-updated text field in which the Player's
+current Funds will be displayed.
+\paragraph{Player's Name}
+Graphics must include an actively-updated text field in which the Player's Name
+is displayed.
+\paragraph{Hit Button}
+Graphics must include a button for the user to indicate their wish to Hit.
+\paragraph{Split Button}
+Graphics must include a button for the user to Split.
+\paragraph{Stand Button	}
+Graphics must include a button for the user to Stand.
+\paragraph{Betting Box}
+Graphics must include a betting box, which will be located in the upper left
+hand of the screen and will display the active bet for the hand. 
+\paragraph{Additional effects}
+Program may not include any additional effects.
+
+\subsection{Display Screens}
+\paragraph{Start-up}
+\subparagraph{GUI Initialization}
+The screen must appears without any cards dealt.  The player's name and total
+starting funds (\$500.00) must be displayed.  Buttons must remain inactive. 
+\subparagraph{Session Start}
+Program must prompt the user for their user name, and display it on the GUI. 
+This prompt will be in the form of a pop-up window or splash screen.
+\paragraph{Game over}
+Program must display a pop-up window or splash screen when the game ends. It
+must display a message telling the user whether they won or lost.  
+
+\section{System Requirements}
+\paragraph{Hardware Requirements}
+\begin{itemize}
+\item 4GB RAM
+\item 2.0 GHz CPU (i836)
+\end{itemize}
+\paragraph{Software Requirements}
+\begin{itemize}
+\item Microsoft .NET Framework 4
+\item Windows 7
+\end{itemize}
+
+\section{Interfaces}\label{sec:interfaces}
+\subsection{Standalone Program}
+The program will neither require nor implement a network interaction of any
+type.
+\subsection{Use of Windows DLLs}
+The program will utilize standard and required class libraries (from Windows 7
+and .NET 4), but will require no other resources not specified in System
+Requirements.
+\subsection{Use of Keyboard and Mouse}
+The program must take input via a keyboard and mouse.\footnote{It wouldn't be
+hard to add completely keyboard-based functionality to it. It'd be fun.}
+
+\subsection{Performance}
+\subsection{Standalone Executable}
+Program will be run from a standalone executable (*.exe).
+\subsection{System Benchmark}
+Program will have a minimal footprint and will operate near-instantaneously on
+any machine that meets the system requirements outlined in section 3.1. For
+best results, program should be run independently on a dedicated machine by a
+trained operator wearing static-resistant clothing.
+
+\section{Delivery}
+\subsection{CD-ROM}
+Compiled program files will be delivered on a CD-ROM. Users must be able to run
+the program by double-clicking or otherwise activating the .exe file on the CD
+ROM.
+
+\subsection{Installation}
+The program will not contain any installation methods and will not be supported
+post-release.  The user will bear the responsibility for accessing the CD-ROM
+and activating the executable.
+
+\section{Schedule}\label{sec:schedule}
+To be completed.\footnote{Gantt chart?}
+
+\section{Miscellaneous}
+\subsection{Specificity}
+Blackjack! v. 1.0 by No Dice has been optimized for functionality on machine 4,
+lab 165, Physical Sciences Building, St. Mary’s College.
+
+\subsection{Safety}
+Blackjack! v. 1.0 has not been proven to be non-carcinogenic or arsenic-free. 
+Blackjack! v. 1.0 is pending FDA approval.  The user takes full responsibility
+for any damages or injuries incurred by running the program while operating
+heavy machinery or during late-term pregnancy.
+
+\end{document}
