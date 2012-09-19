@@ -140,7 +140,7 @@ packages/
 *.sql
 *.sqlite
 *.sql
-*.tex.bak
+*.tex.bak #from texmaker
 
 # OS generated files #
 ######################
