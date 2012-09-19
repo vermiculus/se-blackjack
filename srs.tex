@@ -4,6 +4,7 @@
 \usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{geometry}
+\usepackage{pgfgantt}
 \geometry{margin=1in}
 
 \author{Sean Allred \\ Molly Domino \\ Josh Kaminsky \\ Matthan Lee}
@@ -269,7 +270,7 @@ hard to add completely keyboard-based functionality to it. It'd be fun.}
 
 \subsection{Performance}
 \subsection{Standalone Executable}
-Program will be run from a standalone executable (*.exe).
+Program will be run from a standalone executable (\texttt{*.exe}).
 \subsection{System Benchmark}
 Program will have a minimal footprint and will operate near-instantaneously on
 any machine that meets the system requirements outlined in section 3.1. For
@@ -279,8 +280,8 @@ trained operator wearing static-resistant clothing.
 \section{Delivery}
 \subsection{CD-ROM}
 Compiled program files will be delivered on a CD-ROM. Users must be able to run
-the program by double-clicking or otherwise activating the .exe file on the CD
-ROM.
+the program by double-clicking or otherwise activating the \texttt{*.exe} file
+on the CD-ROM.
 
 \subsection{Installation}
 The program will not contain any installation methods and will not be supported
@@ -288,15 +289,72 @@ post-release.  The user will bear the responsibility for accessing the CD-ROM
 and activating the executable.
 
 \section{Schedule}\label{sec:schedule}
-To be completed.\footnote{Gantt chart?}
-
+{
+    \definecolor{barblue}{RGB}{153,204,254}
+    \definecolor{groupblue}{RGB}{51,102,254}
+    \definecolor{linkred}{RGB}{165,0,33}
+    \renewcommand\sfdefault{phv}
+    \renewcommand\mddefault{mc}
+    \renewcommand\bfdefault{bc}
+    \sffamily
+    \begin{ganttchart}%
+        [x unit=1cm, canvas/.style={fill=none, draw=black!5, line width=.75pt},
+            hgrid style/.style={draw=black!5, line width=.75pt},
+            vgrid={*1{draw=black!5, line width=.75pt}},
+            today=2.0,
+            today rule/.style={draw=black!64,
+            dash pattern=on 3.5pt off 4.5pt, line width=1.5pt},
+            today label={\small\bfseries TODAY},
+            title/.style={draw=none, fill=none},
+            title label font=\bfseries\footnotesize,
+            title label anchor/.style={below=7pt},
+            include title in canvas=false,
+            bar label font=\mdseries\small\color{black!70},
+            bar label anchor/.style={left=2cm},
+            bar/.style={draw=none, fill=black!63},
+            bar incomplete/.style={fill=barblue},
+            progress label font=\mdseries\footnotesize\color{black!70},
+            group incomplete/.style={fill=groupblue},
+            group left shift=0,
+            group right shift=0,
+            group height=.5,
+            group peaks={0}{}{},
+            group label anchor/.style={left=.6cm},
+            link/.style={-latex, line width=1.25pt, linkred}
+        ]{10}
+        \gantttitle[title label anchor/.style={below left=7pt and -3pt}]%
+            {WEEKS:\quad1}{1}
+        \gantttitlelist{2,...,10}{1} \\
+        \ganttgroup[progress=95, name=GPlanning, progress label font=\bfseries\small]{Planning}{1}{2} \\
+            \ganttbar[progress=100, name=1SD]{Scope Defined}{1}{.25} \\
+            \ganttbar[progress=90, name=1MP]{Meta-Planning}{1.25}{2} \\[grid]
+            
+        \ganttgroup[progress=5, name=GModeling, name=2M, progress label font=\bfseries\small]{Modeling}{2}{5} \\
+            \ganttbar[progress=10, name=2RA]{Resources acquired}{2}{5} \\
+            \ganttbar[progress=5, name=2ET]{Environment Training}{2}{2.5} \\
+            \ganttbar[progress=0, name=2LT]{Language Training}{2.5}{4} \\
+            \ganttbar[progress=5, name=2CM]{Class Models}{4}{4.5} \\
+            \ganttbar[progress=0, name=2SM]{State Machines}{4.5}{5} \\
+            \ganttbar[progress=10, name=2AD]{Activity Diagrams}{5}{5.5} \\[grid]
+            
+        \ganttgroup[progress=0, name=GConstruction, progress label anchor/.style={below=8pt}, progress label font=\bfseries\small]{Construction}{6.5}{10} \\
+            \ganttbar[progress=0, name=3C, progress label anchor/.style={below=4pt}]{Construction}{6.5}{8.5} \\
+            \ganttbar[progress=0, name=3QA, progress label anchor/.style={below=4pt}]{Quality Assurance}{9.5}{9.5} \\
+            \ganttbar[progress=0, name=3D, progress label anchor/.style={below=4pt}]{Deployment}{10.5}{10}
+            
+%        \ganttlink[link type=f-s, link label={~}]{1SD}{1MP}
+%        \ganttlink[link type=f-s, link label={~}]{1MP}{2CM}
+%        \ganttlink[link type=f-s, link label={~}]{2AD}{3C}
+%        \ganttlink[link type=dr, link type=f-s, link label={~}]{3QA}{3D}
+    \end{ganttchart}
+}
 \section{Miscellaneous}
 \subsection{Specificity}
 Blackjack! v. 1.0 by No Dice has been optimized for functionality on machine 4,
 lab 165, Physical Sciences Building, St. Mary’s College.
 
 \subsection{Safety}
-Blackjack! v. 1.0 has not been proven to be non-carcinogenic or arsenic-free. 
+\tiny Blackjack! v. 1.0 has not been proven to be non-carcinogenic or arsenic-free. 
 Blackjack! v. 1.0 is pending FDA approval.  The user takes full responsibility
 for any damages or injuries incurred by running the program while operating
 heavy machinery or during late-term pregnancy.

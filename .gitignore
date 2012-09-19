@@ -139,6 +139,8 @@ packages/
 *.log
 *.sql
 *.sqlite
+*.sql
+*.tex.bak
 
 # OS generated files #
 ######################
