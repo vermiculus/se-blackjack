@@ -5,6 +5,7 @@
 \usepackage{hyperref}
 \usepackage{geometry}
 \usepackage{pgfgantt}
+\usepackage{rotating}
 \geometry{margin=1in}
 
 \author{Sean Allred \\ Molly Domino \\ Josh Kaminsky \\ Matthan Lee}
@@ -38,6 +39,10 @@ Software Requirements Specification\\
 COSC 301 -- Software Engineering}
 \begin{document}
 \maketitle
+\thispagestyle{empty}
+\newpage
+\null
+\tableofcontents
 \thispagestyle{empty}
 \newpage
 \null
@@ -88,30 +93,36 @@ Cards from the Deck, ending the Round. \\ \hline
 \item Development Case \\ None yet
 \item Vision \\ None yet
 \item Glossary \\ None yet
-\item Other \\ Thank you to \href{http://www.github.com}{GitHub.com} for allowing our team to collaborate
+\item Other \\ Thank you to \href{http://www.github.com/vermiculus/se-blackjack}{GitHub.com} and \href{http://drive.google.com}{Google Docs} for allowing our team to collaborate
 online.
 \end{itemize}
 
 \subsection{Overview}
+
+{
 \subsubsection{Project Overview}
 This \emph{Software Development Plan} provides a description of the purpose,
 scope, objectives and deliverables pertaining to the project.
 
+% indicates responsibility
+\newcommand{\gy}{\checkmark}
+% Bolds text and puts it sideways (for headers)
+\newcommand{\sdwb}[1]{\begin{sideways}\textbf{#1}\end{sideways}}
 \subsubsection{Project Organization}
-\begin{tabular}{|r|c|c|c|c|c|}
+\begin{table}[!h]
+\centering
+\begin{tabular}{r|ccccc}
+\textbf{Name} & \sdwb{SME} & \sdwb{FA} & \sdwb{SA} & \sdwb{DEV} & \sdwb{QA} \\ 
 \hline 
-\textbf{Name} & \textbf{SME} & \textbf{FA} &
-\textbf{SA} & \textbf{DEV} & \textbf{QA} \\ 
-\hline 
-Sean Allred & \null & \checkmark & \checkmark & \checkmark & \checkmark \\ 
-\hline 
-Molly Domino & \checkmark & \null & \checkmark & \checkmark & \checkmark \\ 
-\hline 
-Joshua Kaminsky & \checkmark & \checkmark & \checkmark & \null & \checkmark \\ 
-\hline 
-Matthan Lee & \checkmark & \checkmark & \null & \checkmark & \checkmark \\ 
-\hline 
-\end{tabular} 
+Sean Allred & \null & \gy & \gy & \gy & \gy \\ 
+Molly Domino & \gy & \null & \gy & \gy & \gy \\ 
+Joshua Kaminsky & \gy & \gy & \gy & \null & \gy \\ 
+Matthan Lee & \gy & \gy & \null & \gy & \gy \\ 
+\end{tabular}
+\caption{Roles and Responsibilities}
+\end{table}
+
+}
 
 \subsubsection{Management Process}
 This project should cost, essentially, only time, and should take about one
@@ -138,16 +149,12 @@ unplanned, or pending categorization.
 
 \begin{table}[!h]
 \centering
-\begin{tabular}{|r||c|c|}
-\hline 
+\begin{tabular}{r|cc} 
 & \textbf{Intended} & \textbf{Unintended} \\ 
 \hline 
 \textbf{Necessary} & will & should \\ 
-\hline 
 \textbf{Pending} & may & may not \\ 
-\hline 
 \textbf{Unnecessary} & can & will not \\ 
-\hline 
 \end{tabular}
 \caption{Terminology}
 \end{table}
