@@ -1,0 +1,166 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+
+\pagestyle{headings}
+
+\title{Software Development Plan}
+\author{Sean Allred, Molly Domino, Joshua Kaminsky, Matthan Lee}
+\date{\today}
+
+\newcommand{\role}{\checkmark}
+\newcommand{\setupintro}{
+  \renewcommand{\thepage}{}
+  \maketitle
+  \begin{center}
+    \large Version 1.1 \normalsize
+  \end{center}
+  \newpage
+  \setcounter{page}{1}
+  \renewcommand{\thepage}{\roman{page}}
+  \tableofcontents
+  \newpage
+  \setcounter{page}{1}
+  \renewcommand{\thepage}{\arabic{page}}
+}
+
+\markright{\thesection\hfill Blackjack}
+
+\begin{document}
+\setupintro
+\section{Version History}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Date & Version & Description & Author \\ \hline
+September 6, 2012 & 1.0 & Initial planning and description & Sean, Molly, Josh, Mat\\ \hline
+September 21, 2012 & 1.0 & Response to comments & Josh\\ \hline
+\end{tabular}
+\section{Introduction}
+\subsection{Purpose}
+This document will outline the procedures the development team plans to take over the course of the Blackjack project. This document will outline the steps we will take in completing the problems, and the timeframes for those steps. It willl also describe the organizational structure for the team.
+\subsection{Scope}
+This document will outline procedures taken by the development team. It will provide a thorough outline of how we will spend our time, how we will organize ourselves, and the methods we will use to complete the project. It will not outline details of the project itself. Furthermore, it will not reflect a general approach to this sort of work. This document is specifically tailored to the project Blackjack, and should not be viewed as generalizeable. Furthermore, this document is also subject to change as the design process continues. While we hope to stick to the particulars of this document, we allow that changes may be made to the following plans as more information becomes available. Finally, all information in this document is subject to the approval of the client.
+\subsection{Definitions, Acronyms, Abbreviations}\label{Terms}
+\begin{tabular}{|l|l|}
+\hline
+Term & Definition \\ \hline
+GUI & Graphical User Interface\\ \hline
+SME & Subject Matter Expert\\ \hline
+FA & Functional Analyst\\ \hline
+SA & Solutions Architect\\ \hline
+DEV & Developer \\ \hline
+QA & Quality Assurance \\ \hline
+\end{tabular}
+\subsection{References}
+\begin{itemize}
+\item Iteration Plans - none yet
+\item Development Case - none yet
+\item Vision - none yet
+\item Glossary - See section \ref{Terms}
+\item Other - Thank you to GitHub.com for allowing our team to collaborate online
+\item Other - Thank you to Google.com for allowing our team to share documents online
+\item Other - The organizational structures referenced in Section \ref{organizational structures} come from www.Developer.com
+\end{itemize}
+\subsection{Overview}
+\paragraph{Project Overview}
+This Software Development Plan provides a description ofo the purpose, scope, objectives and deliverables pertaining to the project.
+\paragraph{Project Organization}
+\begin{tabular}{|r|c|c|c|c|c|}
+\hline
+Name            & SME   & FA    & SA    & DEV   & QA    \\ \hline
+Sean Allred     &       & \role & \role & \role & \role \\ \hline
+Molly Domino    & \role &       & \role & \role & \role \\ \hline
+Joshua Kaminsky & \role & \role & \role &       & \role \\ \hline
+Matthan Lee     & \role & \role &       & \role & \role \\ \hline
+\end{tabular}
+\paragraph{Management Process} This project should cost, essentially, only time, and should take about one semester to complete. The major phases of thsis project are defined in sections \ref{estimates} and \ref{plans}
+\paragraph{Applicable Plans and Guidelines} Provide an overview of the software development process, including methods, tools and techniques to be followed. For now, we intend to proceed with a waterfall method. Additionally, we intend to portotype the GUI beforehand.
+\section{Project Overview}
+\subsection{Project Purpose, Scope, and Objectives}
+The purpose of our endeavorurs is to design and produce a blackjack game. We intend to produce a fully functional 1-player blackjack game complete with GUI.
+We do not indend for our game to be extensible to multiple players. We also do not intend to include any other game functionality. We are not currently planning to include animation.
+We will deliver an executable installer, source code and all other documentation (including a revised copy fo the Software Development Plan) to Professor Tracy at the end of the semester.
+\subsection{Assumptions and Constraints}
+We asume that the four of us will be the only staff members working on this project. We each have our own computers, and access to the computers in Schaefer Hall. We are all acquiring one copy of the most recent edition of Visual Studio in order to create our user interface as well as to have the same coding environment when we begin construction. However, as Visual Studio is a free download to all St. Mary's computer science majors, we will purchase no additional equipment beyond what we currently possess. Additionally, we will retain use of all equipment after the project finishes.
+\subsection{Project Deliverables}
+\begin{itemize}
+\item Executable Installer
+\item Source Code
+\item Documentation Specifically requested by the customer (including but not limited to this document, the software requirements specificaiton and others)
+\end{itemize}
+\subsection{Evolution of the Software Development Plan}
+The first version will be version 1.0. Subsequent versions will increase the number by 0.1, unless the changes made are purely cosmetic. Additionally, whenever a part of the software is deployed, the version number will increase before the decimal (eg: 1.5 will increase to 2.0). Finally, because we do not know the version number of the final documents, we will refer to them as Version n.0. Documentation will become more specific and polished as per direction from our client as well as the needs of the group. Changes to the source code will not be documented in the code itself, but noted elsewhere as they become necessary.
+\section{Project Organization}
+\subsection{Organizational Structure}\label{organizational structures}
+\begin{itemize}
+\item Subject Matter Expert (SME)\\
+The subject matter expert is the person(s) from which requirements are captured. These are the people who know what the software needs to do and how the process works. They are ften the ones who will benefit from the use of the system. From our team, Molly, Josh, and Matt will fulfill this role
+\item Functional Analyst (FA)\\
+Transforms the requirements of the SME into clear, concise, non-conflicting, and unambiguous requirements. From our team, Sean, Josh, and Mat will fulfill this role.
+\item Developer (DEV)\\
+The Developer (more often a team of them) writes the code according to the specification.
+\item Quality Assurance (QA)\\
+Using a variety of techniques ranging from keying in data and playing with the system to formalized automated testing scripts, the Quality Assurance team is responsible for ensuring the quality of the solution and it's fit to the requirements gathered by the Functional Analyst. From our team, everyone will assume the role of quality assurance.
+\end{itemize}
+\subsection{External Interfaces}
+this program interfaces with Professor Tracy. He is our only external interface.
+\subsection{Roles and Responsibilities}
+\begin{tabular}{|r|c|c|c|c|c|}
+\hline
+Name & SME & FA & SA& DEV& QA \\ \hline
+Sean Allred     &       & \role & \role & \role & \role \\ \hline
+Molly Domino    & \role &       & \role & \role & \role \\ \hline
+Joshua Kaminsky & \role & \role & \role &       & \role \\ \hline
+Matthan Lee     & \role & \role &       & \role & \role \\ \hline
+\end{tabular}\\
+For any duties not covered by one of these roles, the team will decide who is responsible informally, and modify this document.
+\section{Management Process}
+\subsection{Project Estimates}
+This project will not put any financial strain on our team as this program will cost nothing to create. This is exceptionally fortunate, as we have no money to spend on it anyway. However, as a form of payment for our good work,, we expect to receive 4 credits with an A letter grade from Professor Tracy.
+\subsection{Project Plan}
+\subsubsection{Phase Plan}
+%GANNT CHART
+\subsubsection{Iteration Objectives}
+We currently intend for the main parrt of our project to proceed in two iterations. We will first provide prototype GUI mockups to Professor Tracy iteratively until he is satisfied with the design. We do not forsee more than four mockups being necessary for him to be satisfied. After obtaining a successful GUI prototype, we intend to do the rest in a single iteration. This will not result in a full iterative waterfall model, because we will not deploy the GUI separately. Additionally, all documentation will go through at least two iterations: version 1.0, and version n.0. The former will be the document submitted for review, and the latter will be the version submitted with the final release.
+\subsubsection{Releases}
+\begin{itemize}
+\item[h] Blackjack Prototype v1.0
+\item[] GUI Prototype vn.0
+\item[Nov 11] Blackjack Release v1.0
+\item[] Blackjack Release vn.0
+\end{itemize}
+\subsubsection{Project Schedule}
+\begin{tabular}{|c|l|p{4in}|}
+\hline
+Week	&Status & Description\\ \hline
+1	&Project meta-planning Underway	&Deciding how we are going to tackle this project. Determining which sort of developoment plan to use in this situation. Planning a weeekly meeting time and place. Assigning the unofficial and preliminary jobs.\\ \hline
+2	&Project meta-planning Complete	&Finish work from week 1. Begin to develop more full plan of how to go about creating the blackjack program. Begin firstdraft of Software Development Plan\\ \hline
+3	&Scope Defined				&Finish work from week 2. Give out official jobs and begin creating preliminary prototype. Exchange cell phone numbers.\\ \hline
+4	&Resources Acquired			&Finish work from week 3. Ensure that everyone has Visual Studio downloaded on personal computer.\\ \hline
+5	&Environment Training Complete		&Finish work from previous weeks. No new work.\\ \hline
+6	&Language Training Underway		&As only one of our group members has a background in the language we are going to be coding in, we are taking weeks 6 and 7 to practice using C\#\\ \hline
+7	&Language Training Complete		&As only one of our group members has a background in the language we are going to be coding in, we are taking weeks 6 and 7 to practice using C\#\\ \hline
+8	&Class Models Complete			&We create a formal class model. Another week to catch up on documenation that might have fallen by the wayside.\\ \hline
+9	&Activity Diagrams Underway		&Finish class model. We create all activity diagrams.\\ \hline
+10	&Activity Diagrams Compplete		&Finish activity diagrams. Begin construction.\\ \hline
+11	&Construction Underway			&Construction\\ \hline
+12	&Construction Complete			&Complete Construction\\ \hline
+13	&Quality Assurance Testing		&Quality Assurance Testing on personal computers as well as desktop computers in Scaeffer.\\ \hline
+14	&Deployment				&Pass on all deliverables to customer\\ \hline
+15	&Cookies (om nom nom)			&Celebration with delicious baked goods.\\ \hline
+\end{tabular}
+\subsubsection{Project Resourcing}
+In total, we have four staff members: Sean Allred, Molly Domino, Joshua Kaminksy, and Matthan Lee. They will take care of modeling, creating prototypes, consulting with the client, deployment, construction of all code, writing (and editing) documentation, communicating with eachother as well as end of project cookies.
+\subsection{Project Monitoring and Control}
+\subsubsection{Requirements Management}
+Documentation will be monitored and changed through the software package GitHub as well as Google Docs. All requirements will be outlined in the Software Requirement Specification \cite{SRS}. Furthermore, the %I totally blanked on what this document is called
+will outline how these requirements are grouped into aspects. It is the responsibility of the team coding each of the aspects to assure that they meet all of the requirements. Additionally, after any aspect is complete, it will be subject to Test to ensure it meets all associated requirements.
+\subsubsection{Quality Control}
+As stated above, any aspect that is completed will be subject to Test, to ensure that it meets all of the associated requirements. Aspects that do not meet requirements will be logged on a document created for that purpose. That document (which can just be the text in an email) will be sent to the team who worked on that aspect, letting them know that changes need to be made before release. A separate more formal document will be used to keep track of which aspects have passed testing, and are ready for production. Finally, code will be rutinely posted to GitHub, and checked to ensure all components can run synchonously.
+\subsubsection{Reporting and Management}
+After the release of the software, we intend to wash our hands of it. In light of this, we will allow a period for the customer to report errors after the initial release. The development team will use the remaining time to address these errors in the same way they would handle a bug found from Test (with the possible exception of updating the testing requirements as well).
+\subsubsection{Configuration Management}
+Configuration management will be processed entirely through GitHub. GitHub includes several relevant features for this purpose. It does automatic version management, and automatically constructs a tree diagram of the evolution of the code (based on which code it was designed from). These features will allow the development team to ensure that code will work with the current system, before merging separate projects. Furthermore, in the case that code will not work, it will allow us to determine precisely the changes that were made that caused components to not function together. Finally, it allows us to revert to older code should we find that we have made a terrible mistake.
+\section{Annexes}
+There are currently no Annexes
+\end{document}
