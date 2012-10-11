@@ -5,8 +5,24 @@ using System.Text;
 
 namespace proj
 {
-    internal class Card
+    public class Card
     {
+        /// <summary>
+        /// Denotes the Rank of the Card
+        /// </summary>
+        private Rank myRank;
+        /// <summary>
+        /// Denotes the Suite of the Card
+        /// </summary>
+        private Suite mySuite;
+
+        /// <summary>
+        /// Returns all Cards to the Deck.
+        /// </summary>
+        ~Card()
+        {
+            throw new System.NotImplementedException();
+        }
         // override object.Equals
         public override bool Equals (object obj)
         {
@@ -15,7 +31,6 @@ namespace proj
                 return false;
             }
             // TODO: write your implementation of Equals() here
-            throw new NotImplementedException();
             return base.Equals(obj);    
         }
     
@@ -23,8 +38,32 @@ namespace proj
         public override int GetHashCode()
         {
             // TODO: write your implementation of GetHashCode() here
-            throw new NotImplementedException();
             return base.GetHashCode();
         }
         }
+
+    internal enum Rank
+    {
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King,
+        Ace
+    }
+
+    internal enum Suite
+    {
+        Hearts,
+        Spades,
+        Diamonds,
+        Clubs,
+    }
 }

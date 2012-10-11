@@ -7,6 +7,15 @@ namespace proj
 {
     public class Shoe
     {
+        /// <summary>
+        /// Contains references to all hands that draw from this Shoe
+        /// </summary>
+        private List<Hand> myHands;
+        /// <summary>
+        /// Contains references to all decks that
+        /// </summary>
+        private List<Deck> myDecks;
+    
         internal List<Hand> ActiveHands
         {
             get
