@@ -12,5 +12,8 @@ namespace BlackerJack
     /// </summary>
     public partial class App : Application
     {
+        public App() {
+            Console.WriteLine("Hello!");
+        }
     }
 }

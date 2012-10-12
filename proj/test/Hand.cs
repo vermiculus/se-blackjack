@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BlackerJack
+namespace test
 {
     class Hand
     {
@@ -35,11 +35,12 @@ namespace BlackerJack
         }
         public void Draw()
         {
-            Draw(0);
+            Draw(1);
         }
 
         public bool Discard(Card card)
         {
+            card.Replace();
             return this.cards.Remove(card);
         }
 
@@ -53,13 +54,20 @@ namespace BlackerJack
         public List<Card> DiscardAll()
         {
             List<Card> r = new List<Card>(cards);
-            cards.Clear();
+            while (cards.Count > 0) {
+                Discard(0);
+            }
             return r;
         }
 
-        public string ToString()
+         public override string ToString()
         {
-            return cards.Count + " " + cards.ToString();
+            List<string> s = new List<string>();
+            foreach (Card c in cards) {
+                s.Add(c.ToString());
+            }
+
+            return String.Format("{0} [{1}]", cards.Count, String.Join<string>(", ", s.ToArray()));
         }
 
         public int Count

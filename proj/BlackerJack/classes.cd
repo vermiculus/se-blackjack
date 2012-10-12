@@ -7,8 +7,8 @@
       <FileName>Card.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="myRank" />
       <Field Name="mySuite" />
+      <Field Name="myRank" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -28,12 +28,6 @@
       <HashCode>AAAAAEAAAAAAAgAEAAgQAIQAgACIAAAAAAABAAAAAAA=</HashCode>
       <FileName>Hand.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="myParent" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Field Name="cards" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="BlackerJack.Shoe">
     <Position X="1" Y="0.5" Width="1.75" />
@@ -44,6 +38,13 @@
     <ShowAsCollectionAssociation>
       <Field Name="decks" />
     </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BlackerJack.BlackjackHand">
+    <Position X="6" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>IoAAAAIAAAAAgAACAAAgAABAAAAAAAgAAAAAAAAAAAQ=</HashCode>
+      <FileName>BlackjackHand.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Enum Name="BlackerJack.Suit">
     <Position X="4.25" Y="1" Width="1.5" />
