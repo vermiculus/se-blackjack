@@ -10,7 +10,7 @@ namespace test {
             while (true) {
                 g.Play();
                 Console.WriteLine("\n\n Game ended.");
-                Console.ReadKey();
+                Console.ReadKey(true);
                 Console.Clear();
             }
         }

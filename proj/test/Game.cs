@@ -8,33 +8,18 @@ namespace test {
     /// Contains program logic for playing multiple games of Blackjack on the console
     /// </summary>
     class Game {
-        const int NUM_SHOES = 1;
-
-        private enum WinLoss {
-            NoWin,
-            Dealer,
-            Player
-        }
+        public static uint NUM_SHOES = 1;
 
         private Shoe shoe;
         PlayerHand player;
         DealerHand dealer;
 
-        int turn;
+        uint turn;
 
         private bool endTurns;
 
         public Game() {
             shoe = new Shoe(NUM_SHOES);
-        }
-
-        public double PlayerBet {
-            get {
-                return player.Bet;
-            }
-            set {
-                player.Bet = value;
-            }
         }
 
         public void shuffleShoe() {
@@ -54,16 +39,11 @@ namespace test {
 
         private void printHands() {
             if (endTurns) {
-                Console.WriteLine("Dealer's Hand: {0}", dealer.ToRevealingString());
+                Console.WriteLine("  Dealer's Hand: {0}", dealer.ToRevealingString());
             } else {
-                Console.WriteLine("Dealer's Hand: {0}", dealer.ToString());
+                Console.WriteLine("  Dealer's Hand: {0}", dealer.ToString());
             }
-            if (player.HasSplit) {
-                Console.WriteLine("Your Hand (1): {0}", player.ToString());
-                Console.WriteLine("          (2): {0}", player.SplitHand.ToString());
-            } else {
-                Console.WriteLine("    Your Hand: {0}", player.ToString());
-            }
+            Console.WriteLine("      Your Hand: {0}", player.ToString());
         }
 
         public void Play() {
@@ -73,19 +53,20 @@ namespace test {
             turn = 1;
             printHands();
 
-            // TODO: incorrect [from old source -- dunno what this means]
+            // TODO: incorrect [from old source -- dunno what this means or why it's incorrect]
             BlackjackAction a;
             while (checkWinLoss() == WinLoss.NoWin && !endTurns) {
                 a = displayMenu();
                 switch (a) {
                     case BlackjackAction.Stand:
-                        while (dealer.doTurn());
+                        while (dealer.doTurn()) ;
                         endTurns = true;
                         printHands();
                         break;
                     case BlackjackAction.Split:
                         if (!player.CanSplit) {
-                            Console.WriteLine("You can't split now!");
+                            Console.WriteLine("  You can't split now!");
+                            Console.ReadKey(true);
                         } else {
                             player.doTurn(BlackjackAction.Split);
                             dealer.doTurn();
@@ -93,7 +74,7 @@ namespace test {
                         break;
                     case BlackjackAction.DoubleDown:
                         player.doTurn(BlackjackAction.DoubleDown);
-                        while(dealer.doTurn());
+                        while (dealer.doTurn()) ;
                         endTurns = true;
                         printHands();
                         break;
@@ -102,17 +83,16 @@ namespace test {
                         dealer.doTurn();
                         break;
                 }
-
-                if (!endTurns) {
-                    printHands();
-                    turn++;
-                }
             }
             end();
         }
 
         private WinLoss checkWinLoss() {
             // TODO: verify accuracy?
+            if ((player.IsBust && dealer.IsBust) || (player.IsPerfect && dealer.IsPerfect)) {
+                endTurns = true;
+                return WinLoss.Tie;
+            }
             if (player.IsBust || dealer.IsPerfect) {
                 endTurns = true;
                 return WinLoss.Dealer;
@@ -125,27 +105,29 @@ namespace test {
         }
 
         private void __dispDealerWin() {
-            Console.WriteLine("You lost with {0} points against the dealer's hand of {1} points. :[", player.Sum, dealer.Sum);
+            Console.WriteLine("  You lost with {0} points against the dealer's hand of {1} points. :C", player.Sum, dealer.Sum);
         }
 
         private void __dispPlayerWin() {
-            Console.WriteLine("You won with {0} points against the dealer's hand of {1} points. :D", player.Sum, dealer.Sum);
+            Console.WriteLine("  You won with {0} points against the dealer's hand of {1} points. :D", player.Sum, dealer.Sum);
         }
 
         private void __dispTie() {
-            Console.WriteLine("You tied the dealer with {0} points! :O", player.Sum);
+            Console.WriteLine("  You tied the dealer with {0} points! :O", player.Sum);
         }
 
         private void end() {
             if (endTurns) {
-                switch (checkWinLoss()) {
-                    case WinLoss.NoWin:
+                Console.Clear();
+                printHands();
+                Console.WriteLine();
+                WinLoss w = checkWinLoss();
+                switch (w) {
+                    case WinLoss.NoWin: // TODO: There has to be a better way to do this
                         if (player.Sum > dealer.Sum) {
                             __dispPlayerWin();
-                        } else if (player.Sum < dealer.Sum) {
-                            __dispDealerWin();
                         } else {
-                            __dispTie();
+                            __dispDealerWin();
                         }
                         break;
                     case WinLoss.Dealer:
@@ -154,11 +136,13 @@ namespace test {
                     case WinLoss.Player:
                         __dispPlayerWin();
                         break;
+                    case WinLoss.Tie:
+                        __dispTie();
+                        break;
                     default:
                         throw new ArgumentException("What the fuck happened? I didn't get a valid WinLoss out of checkWinLoss()");
                 }
 
-                printHands();
                 endTurns = false;
 
                 player.PutCardsBack();
@@ -166,29 +150,26 @@ namespace test {
             }
         }
 
-        private void split() {
-        }
-
-        private void double_down() {
-        }
-
         private BlackjackAction displayMenu() {
-            Console.WriteLine("What would you like to do?");
-            Console.WriteLine("1] Hit");
-            Console.WriteLine("2] Stand");
-            Console.WriteLine("3] Split");
-            Console.WriteLine("4] Double Down");
-            Console.WriteLine("0] Quit Game");
-            //TODO Allow a doubling factor of 1.0 to 2.0
+            Console.Clear();
+            printHands();
+            Console.WriteLine();
+            Console.WriteLine("  What would you like to do?");
+            Console.WriteLine(" [1] Hit");
+            Console.WriteLine(" [2] Stand");
+            Console.WriteLine(" [3] Split");
+            Console.WriteLine(" [4] Double Down");
+            Console.WriteLine(" [0] Quit Game");
+            //TODO: Allow a doubling factor of 1.0 to 2.0 [what did I mean by this? - from old code]
 
             ConsoleKeyInfo k = Console.ReadKey(true); //nextInt();
             if (!Char.IsDigit(k.KeyChar)) {
-                Console.WriteLine("Invalid option. Choose 0-4.");
+                Console.WriteLine("  Invalid option. Choose 0-4.");
                 return displayMenu();
             }
-            int t = Int32.Parse(""+k.KeyChar);
+            int t = Int32.Parse("" + k.KeyChar);
             if (t < 0 || t > 4) {
-                Console.WriteLine("Invalid option. Choose 0-4.");
+                Console.WriteLine("  Invalid option. Choose 0-4.");
                 return displayMenu();
             } else {
                 switch (t) {
@@ -206,17 +187,7 @@ namespace test {
                         throw new ArgumentOutOfRangeException("Wha happun?");
                 };
             }
-        }
-
-        private int nextInt() {
-            String c = Console.ReadLine();
-            int x = -1;
-            try {
-                x = Int32.Parse(c);
-            } catch {
-                return -1;
-            }
-            return x;
+            Console.Clear();
         }
     }
 }

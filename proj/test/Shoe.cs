@@ -17,7 +17,7 @@ namespace test {
         /// Creates a Shoe containing the specified number of Decks
         /// </summary>
         /// <param name="count">The number of Decks to create</param>
-        public Shoe(int count) {
+        public Shoe(uint count) {
             decks = new List<Deck>();
             for (int i = 0; i < count; i++) {
                 decks.Add(new Deck());
@@ -35,9 +35,9 @@ namespace test {
 
         public Card Draw() {
             Random rn = new Random();
-            int i = rn.Next(DeckCount);
+            int i = rn.Next((int)DeckCount);
             while (decks[i].IsEmpty) {
-                i = rn.Next(DeckCount);
+                i = rn.Next((int)DeckCount);
             }
             return decks[i].Draw();
         }
@@ -58,20 +58,20 @@ namespace test {
         /// <summary>
         /// The total number of Decks that make up the Shoe
         /// </summary>
-        public int DeckCount {
+        public uint DeckCount {
             get {
-                return decks.Count;
+                return (uint)decks.Count;
             }
         }
 
         /// <summary>
         /// The total number of Cards currently available in the Shoe
         /// </summary>
-        public int CardCount {
+        public uint CardCount {
             get {
-                int r = 0;
+                uint r = 0;
                 foreach (Deck d in decks) {
-                    r += d.Count;
+                    r += (uint)d.Count;
                 }
                 return r;
             }

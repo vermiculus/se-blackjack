@@ -18,7 +18,7 @@ namespace test {
         /// Creates a new Blackjack Hand from the specified Deck
         /// </summary>
         /// <remarks>As its superclass Hand, the given Deck is put in a Shoe for operations.</remarks>
-        public BlackjackHand(Deck d, int size = 2) : this(new Shoe(d), size) { }
+        public BlackjackHand(Deck d, uint size = 2) : this(new Shoe(d), size) { }
 
         /// <summary>
         /// Creates a new Blackjack Hand from the specified Shoe
@@ -26,16 +26,16 @@ namespace test {
         /// <param name="s">The parent Shoe this Hand si to be associated with</param>
         /// <param name="size">The size of this hand, defaulting to two. If this hand is split, set this to zero.</param>
         // TODO: Find a better way to handle splits when it comes to the constructor. Splitting functionality should be strictly limited to the PlayerHand.
-        public BlackjackHand(Shoe s, int size = 2) : base(s, size) { }
+        public BlackjackHand(Shoe s, uint size = 2) : base(s, size) { }
 
         /// <summary>
         /// The highest possible sum for the hand without busting.
         /// If a bust is inevitable, the sum is returned as-is.
         /// </summary>
-        public int Sum {
+        public uint Sum {
             get {
-                int s = sumCards(cards);
-                int n = NumberOfAces;
+                uint s = sumCards(cards);
+                uint n = NumberOfAces;
                 while (s > 21 && n > 0) {
                     s -= 10;
                     n--;
@@ -65,9 +65,9 @@ namespace test {
         /// <summary>
         /// The number of aces in the Hand
         /// </summary>
-        public int NumberOfAces {
+        public uint NumberOfAces {
             get {
-                int r = 0;
+                uint r = 0;
                 foreach (Card c in cards) {
                     if (c.Rank == Rank.Ace) {
                         r++;
@@ -81,8 +81,8 @@ namespace test {
         /// Returns the sum of all the cards in the given collection, ace high
         /// </summary>
         /// <param name="cards">The collection of cards to sum</param>
-        private static int sumCards(List<Card> cards) {
-            int s = 0;
+        protected static uint sumCards(List<Card> cards) {
+            uint s = 0;
             foreach (Card c in cards) {
                 s += cardValue(c);
             }
@@ -94,7 +94,7 @@ namespace test {
         /// </summary>
         /// <param name="c">A Card to determine the point value of</param>
         /// <returns>the point value of the passed Card</returns>
-        private static int cardValue(Card c) {
+        private static uint cardValue(Card c) {
             switch (c.Rank) {
                 case Rank.Ace:
                     return 11;

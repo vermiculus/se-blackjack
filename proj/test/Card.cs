@@ -19,7 +19,7 @@ namespace test {
         /// <summary>
         /// The deck this Card was drawn from
         /// </summary>
-        Deck parentDeck; // TODO: Discard back into parent deck
+        Deck parentDeck;
 
 
         /// <summary>

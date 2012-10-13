@@ -46,6 +46,7 @@
     <Compile Include="BlackjackHand.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="BlackjackAction.cs" />
+    <Compile Include="WinLoss.cs" />
     <Compile Include="DealerHand.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
