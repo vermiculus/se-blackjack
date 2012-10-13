@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace test {
+    /// <summary>
+    /// Contains members suitable for representing the rank of a playing card.
+    /// </summary>
     public enum Rank {
         Ace = 'A',
         Two = '2',

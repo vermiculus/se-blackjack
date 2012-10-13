@@ -5,6 +5,9 @@ using System.Text;
 
 namespace test
 {
+    /// <summary>
+    /// Contains members suitable for representing the suit of a playing card.
+    /// </summary>
     public enum Suit
     {
         Hearts = 'H',

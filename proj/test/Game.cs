@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace test {
+    /// <summary>
+    /// Contains program logic for playing multiple games of Blackjack on the console
+    /// </summary>
     class Game {
         const int NUM_SHOES = 1;
 
@@ -76,19 +79,27 @@ namespace test {
                 a = displayMenu();
                 switch (a) {
                     case BlackjackAction.Stand:
-                        while (dealer.doTurn(BlackjackAction.None));
+                        while (dealer.doTurn());
                         endTurns = true;
                         printHands();
                         break;
                     case BlackjackAction.Split:
                         if (!player.CanSplit) {
                             Console.WriteLine("You can't split now!");
-                            continue;
+                        } else {
+                            player.doTurn(BlackjackAction.Split);
+                            dealer.doTurn();
                         }
+                        break;
+                    case BlackjackAction.DoubleDown:
+                        player.doTurn(BlackjackAction.DoubleDown);
+                        while(dealer.doTurn());
+                        endTurns = true;
+                        printHands();
                         break;
                     default:
                         player.doTurn(a);
-                        dealer.doTurn(BlackjackAction.None);
+                        dealer.doTurn();
                         break;
                 }
 

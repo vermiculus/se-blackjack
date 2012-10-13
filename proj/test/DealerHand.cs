@@ -5,13 +5,23 @@ using System.Text;
 
 namespace test {
     class DealerHand : BlackjackHand {
+        /// <summary>
+        /// Creates a Dealer Hand associated with the specified shoe
+        /// </summary>
+        /// <param name="shoe">the Shoe to associate with</param>
         public DealerHand(Shoe shoe) : base(shoe) { }
 
+        /// <summary>
+        /// Returns a String representation of this DealerHand where only the Top card is visible
+        /// </summary>
         public override string ToString() {
             return String.Format("{0} [{1}{2}]", cards.Count, cards[0].ToString(), cards.Count > 1 ? "..." : "");
         }
 
-        public override bool doTurn(BlackjackAction action) {
+        /// <summary>
+        /// Completes one turn of a Dealer according to appropriate logic. The only valid BlackjackAction is None.
+        /// </summary>
+        public override bool doTurn(BlackjackAction action = BlackjackAction.None) {
             switch (action) {
                 case BlackjackAction.Hit:
                 case BlackjackAction.Stand:
@@ -32,6 +42,9 @@ namespace test {
             return false;
         }
 
+        /// <summary>
+        /// Returns a String representation of this DealerHand where every card is visible
+        /// </summary>
         public string ToRevealingString() {
             List<string> s = new List<string>();
             foreach (Card c in cards) {
@@ -41,6 +54,9 @@ namespace test {
             return String.Format("{0} (sum:{2}) [{1}]", cards.Count, String.Join<string>(", ", s.ToArray()), Sum);
         }
 
+        /// <summary>
+        /// Discards all cards
+        /// </summary>
         public override void PutCardsBack() {
             DiscardAll();
         }

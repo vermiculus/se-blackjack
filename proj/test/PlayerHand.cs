@@ -5,7 +5,7 @@ using System.Text;
 
 namespace test {
     class PlayerHand : BlackjackHand {
-        private double myBet;
+        private uint myBet;
         private bool hasSplit;
 
         public bool HasSplit {
@@ -22,7 +22,11 @@ namespace test {
             get { return psplit; }
         }
 
-        public double Bet {
+        /// <summary>
+        /// The Bet that rides on this specific Hand
+        /// </summary>
+        /// <remarks>Note that the SplitHand has its own separate bet.</remarks>
+        public uint Bet {
             get { return myBet; }
             set { myBet = value; }
         }
@@ -33,12 +37,12 @@ namespace test {
             }
         }
 
-        public PlayerHand(Shoe shoe) : base(shoe) { }
-        public PlayerHand(Shoe ParentShoe, bool p) : base(ParentShoe, p) { }
+        public PlayerHand(Shoe shoe) : base(shoe, 2) { }
 
         public PlayerHand Split() {
             // TODO: Does the split need to be only on two cards?
-            PlayerHand r = new PlayerHand(ParentShoe, false);
+            PlayerHand r = new PlayerHand(ParentShoe);
+            r.DiscardAll();
             r.cards.Add(this.Discard(0));
             return r;
         }
@@ -64,7 +68,6 @@ namespace test {
                     if (hasSplit) {
                         psplit.Draw();
                     }
-                    //dealer.doTurn();
                     break;
                 case BlackjackAction.Stand:
                     // taken care of in Game (Standing is a complete *lack* of action of the Player
@@ -77,7 +80,7 @@ namespace test {
                     break;
                 case BlackjackAction.DoubleDown:
                     if (Count == 2) {
-                        Draw();
+                        Draw(); // TODO: really?
                         Bet *= 2;
                         hasDoubledDown = true;
                     }
@@ -88,6 +91,8 @@ namespace test {
                     Console.ReadKey();
                     Environment.Exit(0);
                     return true;
+                case BlackjackAction.None:
+                    throw new InvalidOperationException("'None' is not an acceptable action for this class.");
                 default:
                     throw new ArgumentOutOfRangeException("What?");
             }

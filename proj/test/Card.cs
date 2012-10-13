@@ -4,12 +4,27 @@ using System.Linq;
 using System.Text;
 
 namespace test {
+    /// <summary>
+    /// Represents a standard playing card
+    /// </summary>
     class Card : IComparable<Card> {
+        /// <summary>
+        /// The suit of this Card
+        /// </summary>
         Suit mySuite;
+        /// <summary>
+        /// The rank of this Card
+        /// </summary>
         Rank myRank;
+        /// <summary>
+        /// The deck this Card was drawn from
+        /// </summary>
         Deck parentDeck; // TODO: Discard back into parent deck
 
 
+        /// <summary>
+        /// The rank of this Card
+        /// </summary>
         public Rank Rank {
             get {
                 return myRank;
@@ -18,6 +33,9 @@ namespace test {
                 myRank = value;
             }
         }
+        /// <summary>
+        /// The suit of this Card
+        /// </summary>
         public Suit Suit {
             get {
                 return mySuite;
@@ -27,9 +45,10 @@ namespace test {
             }
         }
 
-        public Card(Rank rank, Suit suit) : this(rank, suit, null) { }
-
-        public Card(Rank rank, Suit suit, Deck momma) {
+        /// <param name="rank">The rank of the new Card</param>
+        /// <param name="suit">The suit of the new Card</param>
+        /// <param name="momma">The Deck this Card is from</param>
+        public Card(Rank rank, Suit suit, Deck momma = null) {
             this.Rank = rank;
             this.Suit = suit;
             parentDeck = momma;
@@ -43,6 +62,10 @@ namespace test {
             return r;
         }
 
+        /// <summary>
+        /// Orders by suit and then by rank, ace low.
+        /// </summary>
+        /// <param name="c">A Card to compare to</param>
         public int CompareTo(Card c) {
             if (c.Suit > this.Suit)
                 return 1;
@@ -55,6 +78,10 @@ namespace test {
             else return 0;
         }
 
+        /// <summary>
+        /// Returns true if two cards are of equal rank and suit. Note that they need not be from the same deck.
+        /// </summary>
+        /// <param name="obj">An object to test equality on</param>
         public override bool Equals(Object obj) {
             if (obj.GetType() != this.GetType()) {
                 return false;
@@ -67,6 +94,9 @@ namespace test {
             return (int)Rank * 10 + (int)Suit;
         }
 
+        /// <summary>
+        /// Places the card back in the deck from which it was drawn.
+        /// </summary>
         public void Replace() {
             this.parentDeck.ReplaceCard(this);
         }

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace test {
+    /// <summary>
+    /// Extends a normal Hand and adds functionality specific to the game Blackjack
+    /// </summary>
     abstract class BlackjackHand : Hand {
         /*private bool isHard;
 
@@ -11,12 +14,22 @@ namespace test {
             get { return isHard; }
         }*/
 
-        public BlackjackHand(Deck d) : base(d, 2) { }
-        public BlackjackHand(Shoe s) : base(s, 2) { }
-        public BlackjackHand(Shoe s, bool shouldDraw) : base(s, shouldDraw ? 0 : 2) { }
+        /// <summary>
+        /// Creates a new Blackjack Hand from the specified Deck
+        /// </summary>
+        /// <remarks>As its superclass Hand, the given Deck is put in a Shoe for operations.</remarks>
+        public BlackjackHand(Deck d, int size = 2) : this(new Shoe(d), size) { }
 
         /// <summary>
-        /// Returns the highest possible sum for the hand without busting.
+        /// Creates a new Blackjack Hand from the specified Shoe
+        /// </summary>
+        /// <param name="s">The parent Shoe this Hand si to be associated with</param>
+        /// <param name="size">The size of this hand, defaulting to two. If this hand is split, set this to zero.</param>
+        // TODO: Find a better way to handle splits when it comes to the constructor. Splitting functionality should be strictly limited to the PlayerHand.
+        public BlackjackHand(Shoe s, int size = 2) : base(s, size) { }
+
+        /// <summary>
+        /// The highest possible sum for the hand without busting.
         /// If a bust is inevitable, the sum is returned as-is.
         /// </summary>
         public int Sum {
@@ -31,18 +44,27 @@ namespace test {
             }
         }
 
+        /// <summary>
+        /// True if Sum &gt; 21
+        /// </summary>
         public bool IsBust {
             get {
                 return this.Sum > 21;
             }
         }
 
+        /// <summary>
+        /// True if Sum == 21
+        /// </summary>
         public bool IsPerfect {
             get {
                 return this.Sum == 21;
             }
         }
 
+        /// <summary>
+        /// The number of aces in the Hand
+        /// </summary>
         public int NumberOfAces {
             get {
                 int r = 0;
@@ -55,6 +77,10 @@ namespace test {
             }
         }
 
+        /// <summary>
+        /// Returns the sum of all the cards in the given collection, ace high
+        /// </summary>
+        /// <param name="cards">The collection of cards to sum</param>
         private static int sumCards(List<Card> cards) {
             int s = 0;
             foreach (Card c in cards) {
@@ -64,7 +90,7 @@ namespace test {
         }
 
         /// <summary>
-        /// Gets the point value of the passed Card.
+        /// Gets the point value of the passed Card, ace high
         /// </summary>
         /// <param name="c">A Card to determine the point value of</param>
         /// <returns>the point value of the passed Card</returns>
@@ -98,7 +124,14 @@ namespace test {
             }
         }
 
-        public abstract bool doTurn(BlackjackAction action);
-        public abstract void PutCardsBack();
+        /// <summary>
+        /// Does appropriate logic for a turn
+        /// </summary>
+        /// <param name="action">Action to do, defaulting to None</param>
+        public abstract bool doTurn(BlackjackAction action = BlackjackAction.None);
+        /// <summary>
+        /// Places all cards this object is responsible for back in their respective decks
+        /// </summary>
+        public abstract void PutCardsBack(); // TODO: make this method name not suck
     }
 }
