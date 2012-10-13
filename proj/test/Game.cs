@@ -105,20 +105,21 @@ namespace test {
         }
 
         private void __dispDealerWin() {
-            Console.WriteLine("  You lost with {0} points against the dealer's hand of {1} points. :C", player.Sum, dealer.Sum);
+            Console.WriteLine("\n     You lost with {0} points against the dealer's hand of {1} points. :C", player.Sum, dealer.Sum);
         }
 
         private void __dispPlayerWin() {
-            Console.WriteLine("  You won with {0} points against the dealer's hand of {1} points. :D", player.Sum, dealer.Sum);
+            Console.WriteLine("\n     You won with {0} points against the dealer's hand of {1} points. :D", player.Sum, dealer.Sum);
         }
 
         private void __dispTie() {
-            Console.WriteLine("  You tied the dealer with {0} points! :O", player.Sum);
+            Console.WriteLine("\n     You tied the dealer with {0} points! :O", player.Sum);
         }
 
         private void end() {
             if (endTurns) {
                 Console.Clear();
+                Console.WriteLine();
                 printHands();
                 Console.WriteLine();
                 WinLoss w = checkWinLoss();
@@ -152,9 +153,9 @@ namespace test {
 
         private BlackjackAction displayMenu() {
             Console.Clear();
-            printHands();
             Console.WriteLine();
-            Console.WriteLine("  What would you like to do?");
+            printHands();
+            Console.WriteLine("\n\n     What would you like to do?\n");
             Console.WriteLine(" [1] Hit");
             Console.WriteLine(" [2] Stand");
             Console.WriteLine(" [3] Split");
@@ -187,7 +188,6 @@ namespace test {
                         throw new ArgumentOutOfRangeException("Wha happun?");
                 };
             }
-            Console.Clear();
         }
     }
 }

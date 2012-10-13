@@ -110,14 +110,6 @@ namespace test {
         }
 
         /// <summary>
-        /// Gets the Card at the specified index
-        /// </summary>
-        /// <param name="index">The index of the desired card (0-indexed from Top)</param>
-        public Card At(uint index) {
-            return cards[(int)index];
-        }
-
-        /// <summary>
         /// The first card in the Hand (the first drawn)
         /// </summary>
         public Card Top {
@@ -130,9 +122,12 @@ namespace test {
             get { return cards[cards.Count - 1]; }
         }
 
+        /// <summary>
+        /// Gets the Card at the specified index
+        /// </summary>
+        /// <param name="index">The index of the desired card (0-indexed from Top)</param>
         public Card this[int index] {
             get { return cards[index]; }
-            set { cards[index] = value; }
         }
     }
 }

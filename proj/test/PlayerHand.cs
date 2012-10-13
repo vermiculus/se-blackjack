@@ -112,7 +112,7 @@ namespace test {
                     break;
                 case BlackjackAction.EndGame:
                     Console.Clear();
-                    Console.WriteLine("Peace bro");
+                    Console.Write("\n Peace bro");
                     Console.ReadKey(true);
                     Environment.Exit(0);
                     return true;
