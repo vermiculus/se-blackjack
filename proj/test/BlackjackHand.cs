@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 
 namespace test {
-    class BlackjackHand : Hand {
-        private bool isHard;
+    abstract class BlackjackHand : Hand {
+        /*private bool isHard;
 
         public bool IsHard {
             get { return isHard; }
-        }
+        }*/
 
         public BlackjackHand(Deck d) : base(d, 2) { }
         public BlackjackHand(Shoe s) : base(s, 2) { }
@@ -98,10 +98,7 @@ namespace test {
             }
         }
 
-        public bool CanSplit {
-            get {
-                return this.Count == 2 && this.cards[0].Equals(this.cards[1]);
-            }
-        }
+        public abstract bool doTurn(BlackjackAction action);
+        public abstract void PutCardsBack();
     }
 }

@@ -15,7 +15,7 @@ namespace test
             {
                 foreach (Rank r in Enum.GetValues(typeof(Rank)))
                 {
-                    cards.Add(new Card(r, s));
+                    cards.Add(new Card(r, s, this));
                 }
             }
         }

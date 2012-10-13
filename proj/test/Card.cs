@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace test {
-    public class Card : IComparable<Card> {
+    class Card : IComparable<Card> {
         Suit mySuite;
         Rank myRank;
         Deck parentDeck; // TODO: Discard back into parent deck
@@ -27,9 +27,12 @@ namespace test {
             }
         }
 
-        public Card(Rank rank, Suit suite) {
+        public Card(Rank rank, Suit suit) : this(rank, suit, null) { }
+
+        public Card(Rank rank, Suit suit, Deck momma) {
             this.Rank = rank;
-            this.Suit = suite;
+            this.Suit = suit;
+            parentDeck = momma;
         }
 
         /// <summary>

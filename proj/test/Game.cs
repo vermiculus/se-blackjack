@@ -13,23 +13,12 @@ namespace test {
             Player
         }
 
-        private enum Action {
-            Hit,
-            Stand,
-            Split,
-            DoubleDown,
-            EndGame
-        }
-
         private Shoe shoe;
         PlayerHand player;
-        PlayerHand psplit;
         DealerHand dealer;
 
         int turn;
 
-        private bool playerSplit;
-        private bool playerDoubledDown;
         private bool endTurns;
 
         public Game() {
@@ -60,51 +49,15 @@ namespace test {
             }
         }
 
-        private void doTurn() {
-            Action c;
-            if (playerDoubledDown) // TODO: Is this functionality required anymore?
-                c = Action.DoubleDown;
-            else
-                c = displayMenu();
-
-            switch (c) {
-                case Action.Hit:
-                    hit();
-                    break;
-                case Action.Stand:
-                    stand();
-                    break;
-                case Action.Split:
-                    split();
-                    break;
-                case Action.DoubleDown:
-                    double_down();
-                    break;
-                case Action.EndGame:
-                    Console.Clear();
-                    Console.WriteLine("Peace bro");
-                    Console.ReadKey();
-                    Environment.Exit(0);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("What?");
-            }
-            if (!endTurns) {
-                printHands();
-                turn++;
-            }
-        }
-
-        private void printHands(bool displayDealer = false) {
-            if (displayDealer) {
-                //  TODO: not implemented
-                Console.WriteLine("Dealer's Hand: {0}", dealer.ToString());
+        private void printHands() {
+            if (endTurns) {
+                Console.WriteLine("Dealer's Hand: {0}", dealer.ToRevealingString());
             } else {
                 Console.WriteLine("Dealer's Hand: {0}", dealer.ToString());
             }
-            if (playerSplit) {
+            if (player.HasSplit) {
                 Console.WriteLine("Your Hand (1): {0}", player.ToString());
-                Console.WriteLine("          (2): {0}", psplit.ToString());
+                Console.WriteLine("          (2): {0}", player.SplitHand.ToString());
             } else {
                 Console.WriteLine("    Your Hand: {0}", player.ToString());
             }
@@ -115,14 +68,35 @@ namespace test {
             dealer = new DealerHand(shoe);
 
             turn = 1;
-            playerSplit = false;
             printHands();
 
             // TODO: incorrect [from old source -- dunno what this means]
+            BlackjackAction a;
             while (checkWinLoss() == WinLoss.NoWin && !endTurns) {
-                doTurn();
-            }
+                a = displayMenu();
+                switch (a) {
+                    case BlackjackAction.Stand:
+                        while (dealer.doTurn(BlackjackAction.None));
+                        endTurns = true;
+                        printHands();
+                        break;
+                    case BlackjackAction.Split:
+                        if (!player.CanSplit) {
+                            Console.WriteLine("You can't split now!");
+                            continue;
+                        }
+                        break;
+                    default:
+                        player.doTurn(a);
+                        dealer.doTurn(BlackjackAction.None);
+                        break;
+                }
 
+                if (!endTurns) {
+                    printHands();
+                    turn++;
+                }
+            }
             end();
         }
 
@@ -137,21 +111,6 @@ namespace test {
                 return WinLoss.Player;
             }
             return WinLoss.NoWin;
-        }
-
-        private void hit() {
-            player.Draw();
-            if (playerSplit) {
-                psplit.Draw();
-            }
-            dealerTurn();
-        }
-
-        private void stand() {
-            while (dealerTurn()) ;
-
-            printHands(true);
-            endTurns = true;
         }
 
         private void __dispDealerWin() {
@@ -187,35 +146,22 @@ namespace test {
                     default:
                         throw new ArgumentException("What the fuck happened? I didn't get a valid WinLoss out of checkWinLoss()");
                 }
-                endTurns = false;
-            }
-        }
 
-        private bool dealerTurn() {
-            // TODO: verify
-            if (dealer.Sum < 17 || (dealer.NumberOfAces > 0 && dealer.Sum <= 17)) {
-                dealer.Draw();
-                return true;
+                printHands();
+                endTurns = false;
+
+                player.PutCardsBack();
+                dealer.PutCardsBack();
             }
-            return false;
         }
 
         private void split() {
-            if (turn == 1 && !playerSplit && player.CanSplit) {
-                psplit = player.Split();
-                playerSplit = true;
-            }
         }
 
         private void double_down() {
-            if (turn == 0) {
-                player.Draw();
-                player.Bet *= 2;
-                playerDoubledDown = true;
-            }
         }
 
-        private Action displayMenu() {
+        private BlackjackAction displayMenu() {
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("1] Hit");
             Console.WriteLine("2] Stand");
@@ -224,22 +170,27 @@ namespace test {
             Console.WriteLine("0] Quit Game");
             //TODO Allow a doubling factor of 1.0 to 2.0
 
-            int t = nextInt();
+            ConsoleKeyInfo k = Console.ReadKey(true); //nextInt();
+            if (!Char.IsDigit(k.KeyChar)) {
+                Console.WriteLine("Invalid option. Choose 0-4.");
+                return displayMenu();
+            }
+            int t = Int32.Parse(""+k.KeyChar);
             if (t < 0 || t > 4) {
                 Console.WriteLine("Invalid option. Choose 0-4.");
                 return displayMenu();
             } else {
                 switch (t) {
                     case 0:
-                        return Action.EndGame;
+                        return BlackjackAction.EndGame;
                     case 1:
-                        return Action.Hit;
+                        return BlackjackAction.Hit;
                     case 2:
-                        return Action.Stand;
+                        return BlackjackAction.Stand;
                     case 3:
-                        return Action.Split;
+                        return BlackjackAction.Split;
                     case 4:
-                        return Action.DoubleDown;
+                        return BlackjackAction.DoubleDown;
                     default:
                         throw new ArgumentOutOfRangeException("Wha happun?");
                 };
