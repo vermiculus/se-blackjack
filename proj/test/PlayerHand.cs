@@ -150,7 +150,8 @@ namespace test {
         }
 
         // TODO: When the hand has been split on two aces, the aces do not 'buckle down' if necessary.
-        public uint Sum {
+        // Adding 'new' tells the compiler that I know this property in the base class is being hidden.
+        public new uint Sum {
             get {
                 if (psplit == null) {
                     return base.Sum;
