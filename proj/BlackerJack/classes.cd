@@ -15,15 +15,15 @@
   <Class Name="BlackerJack.Deck">
     <Position X="1.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAAAgAEAAgAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAAAAAAAgAEAAgAAAQAAAAAAAAAAAQAAAAAAAA=</HashCode>
       <FileName>Deck.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Field Name="cards" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="BlackerJack.Hand">
-    <Position X="7.5" Y="3" Width="2.25" />
+  <Class Name="BlackerJack.Hand" Collapsed="true">
+    <Position X="6.75" Y="5.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAgAEAAgQAIQAgACIAAAAAAABAAAAAAA=</HashCode>
       <FileName>Hand.cs</FileName>
@@ -32,7 +32,7 @@
   <Class Name="BlackerJack.Shoe">
     <Position X="1" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAACAAAAAgAAAAAAAAUAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <HashCode>AAAAAAACAAAAAgAAAAAAEAEAAAAAAAAAAAAAAAAAQAA=</HashCode>
       <FileName>Shoe.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -40,10 +40,32 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="BlackerJack.BlackjackHand">
-    <Position X="6" Y="0.5" Width="2.5" />
+    <Position X="7.25" Y="0.5" Width="2.5" />
+    <InheritanceLine Type="BlackerJack.Hand" FixedToPoint="true">
+      <Path>
+        <Point X="7.875" Y="5.5" />
+        <Point X="7.875" Y="4.55" />
+        <Point X="8.125" Y="4.55" />
+        <Point X="8.125" Y="4.175" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>IoAAAAIAAAAAgAACAAAgAABAAAAAAAgAAAAAAAAAAAQ=</HashCode>
+      <HashCode>IoAAAAIAAAAQgAACAAAAAABAAAAAAAgAAAAAAAAAAAQ=</HashCode>
       <FileName>BlackjackHand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BlackerJack.PlayerHand">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAgAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>PlayerHand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BlackerJack.DealerHand">
+    <Position X="11" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DealerHand.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="BlackerJack.Suit">

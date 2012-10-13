@@ -7,7 +7,7 @@ namespace test {
     public class Card : IComparable<Card> {
         Suit mySuite;
         Rank myRank;
-        Deck parentDeck;
+        Deck parentDeck; // TODO: Discard back into parent deck
 
 
         public Rank Rank {
@@ -18,7 +18,7 @@ namespace test {
                 myRank = value;
             }
         }
-        public Suit Suite {
+        public Suit Suit {
             get {
                 return mySuite;
             }
@@ -29,21 +29,21 @@ namespace test {
 
         public Card(Rank rank, Suit suite) {
             this.Rank = rank;
-            this.Suite = suite;
+            this.Suit = suite;
         }
 
         /// <summary>
         /// Returns a String representation of the Card
         /// </summary>
         public override string ToString() {
-            var r = (char)Rank + " " + (char)Suite;
+            var r = (char)Rank + "" + (char)Suit;
             return r;
         }
 
         public int CompareTo(Card c) {
-            if (c.Suite > this.Suite)
+            if (c.Suit > this.Suit)
                 return 1;
-            else if (c.Suite < this.Suite)
+            else if (c.Suit < this.Suit)
                 return -1;
             else if (c.Rank > this.Rank)
                 return 1;
@@ -58,6 +58,10 @@ namespace test {
             } else {
                 return this.CompareTo((Card)obj) == 0;
             }
+        }
+
+        public override int GetHashCode() {
+            return (int)Rank * 10 + (int)Suit;
         }
 
         public void Replace() {

@@ -5,13 +5,7 @@ using System.Text;
 
 namespace test {
     class BlackjackHand : Hand {
-        private double myBet;
         private bool isHard;
-
-        public double Bet {
-            get { return myBet; }
-            set { myBet = value; }
-        }
 
         public bool IsHard {
             get { return isHard; }
@@ -61,13 +55,6 @@ namespace test {
             }
         }
 
-        public BlackjackHand Split() {
-            // TODO: Does the split need to be only on two cards?
-            BlackjackHand r = new BlackjackHand(ParentShoe, false);
-            r.cards.Add(this.Discard(0));
-            return r;
-        }
-
         private static int sumCards(List<Card> cards) {
             int s = 0;
             foreach (Card c in cards) {
@@ -109,20 +96,6 @@ namespace test {
                 default:
                     throw new ArgumentException("That Rank is not recognized! Are you doing any funny casting business? Bad programmer!");
             }
-        }
-
-        public string ToDealerString() {
-            // TODO: implement?
-            return this.ToString();
-        }
-
-        public override string ToString() {
-            List<string> s = new List<string>();
-            foreach (Card c in cards) {
-                s.Add(c.ToString());
-            }
-
-            return String.Format("{0} (sum:{2}) [{1}]", cards.Count, String.Join<string>(", ", s.ToArray()), Sum);
         }
 
         public bool CanSplit {

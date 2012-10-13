@@ -9,6 +9,9 @@ namespace test {
             Game g = new Game();
             while (true) {
                 g.Play();
+                Console.WriteLine("\n\n Game ended.");
+                Console.ReadKey();
+                Console.Clear();
             }
         }
     }

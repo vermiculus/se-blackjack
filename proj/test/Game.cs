@@ -17,13 +17,14 @@ namespace test {
             Hit,
             Stand,
             Split,
-            DoubleDown
+            DoubleDown,
+            EndGame
         }
 
         private Shoe shoe;
-        BlackjackHand player;
-        BlackjackHand psplit;
-        BlackjackHand dealer;
+        PlayerHand player;
+        PlayerHand psplit;
+        DealerHand dealer;
 
         int turn;
 
@@ -32,7 +33,6 @@ namespace test {
         private bool endTurns;
 
         public Game() {
-            Console.WriteLine("Welcome to Blackjack!");
             shoe = new Shoe(NUM_SHOES);
         }
 
@@ -80,6 +80,12 @@ namespace test {
                 case Action.DoubleDown:
                     double_down();
                     break;
+                case Action.EndGame:
+                    Console.Clear();
+                    Console.WriteLine("Peace bro");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("What?");
             }
@@ -92,7 +98,7 @@ namespace test {
         private void printHands(bool displayDealer = false) {
             if (displayDealer) {
                 //  TODO: not implemented
-                Console.WriteLine("Dealer's Hand: {0}", dealer.ToDealerString());
+                Console.WriteLine("Dealer's Hand: {0}", dealer.ToString());
             } else {
                 Console.WriteLine("Dealer's Hand: {0}", dealer.ToString());
             }
@@ -105,8 +111,8 @@ namespace test {
         }
 
         public void Play() {
-            player = new BlackjackHand(shoe);
-            dealer = new BlackjackHand(shoe);
+            player = new PlayerHand(shoe);
+            dealer = new DealerHand(shoe);
 
             turn = 1;
             playerSplit = false;
@@ -122,10 +128,14 @@ namespace test {
 
         private WinLoss checkWinLoss() {
             // TODO: verify accuracy?
-            if (player.IsBust || dealer.IsPerfect)
+            if (player.IsBust || dealer.IsPerfect) {
+                endTurns = true;
                 return WinLoss.Dealer;
-            if (dealer.IsBust || player.IsPerfect)
+            }
+            if (dealer.IsBust || player.IsPerfect) {
+                endTurns = true;
                 return WinLoss.Player;
+            }
             return WinLoss.NoWin;
         }
 
@@ -145,11 +155,11 @@ namespace test {
         }
 
         private void __dispDealerWin() {
-            Console.WriteLine("You lost with {0} points under the dealer's hand of {1} points. :[", player.Sum, dealer.Sum);
+            Console.WriteLine("You lost with {0} points against the dealer's hand of {1} points. :[", player.Sum, dealer.Sum);
         }
 
         private void __dispPlayerWin() {
-            Console.WriteLine("You won with {0} points over the dealer's hand of {1} points. :D", player.Sum, dealer.Sum);
+            Console.WriteLine("You won with {0} points against the dealer's hand of {1} points. :D", player.Sum, dealer.Sum);
         }
 
         private void __dispTie() {
@@ -207,18 +217,21 @@ namespace test {
 
         private Action displayMenu() {
             Console.WriteLine("What would you like to do?");
-            Console.WriteLine("1) Hit");
-            Console.WriteLine("2) Stand");
-            Console.WriteLine("3) Split");
-            Console.WriteLine("4) Double Down");
+            Console.WriteLine("1] Hit");
+            Console.WriteLine("2] Stand");
+            Console.WriteLine("3] Split");
+            Console.WriteLine("4] Double Down");
+            Console.WriteLine("0] Quit Game");
             //TODO Allow a doubling factor of 1.0 to 2.0
 
             int t = nextInt();
             if (t < 0 || t > 4) {
-                Console.WriteLine("Invalid option. Choose 1-4.");
+                Console.WriteLine("Invalid option. Choose 0-4.");
                 return displayMenu();
             } else {
                 switch (t) {
+                    case 0:
+                        return Action.EndGame;
                     case 1:
                         return Action.Hit;
                     case 2:

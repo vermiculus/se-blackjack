@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="test.BlackjackHand">
-    <Position X="6.75" Y="7.5" Width="1.5" />
+    <Position X="6.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IoAAAAIAAAAQgAACAAAgAABAAACAAAgQAAAAAAAAAAQ=</HashCode>
+      <HashCode>IoAAAAIAAAAQgAACAAAAAABAAAAAAAgAAAAAAAAAAAQ=</HashCode>
       <FileName>BlackjackHand.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="test.Card" BaseTypeListCollapsed="true">
+  <Class Name="test.Card" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="3.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAAQEgAAAAAAAACAAAAAAAAAggAAAAAA=</HashCode>
+      <HashCode>AAABAAAAAAAAAAQEgAAAAAAAACAABAAAAAAggAAAACA=</HashCode>
       <FileName>Card.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="myRank" />
       <Field Name="mySuite" />
+      <Field Name="myRank" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -27,7 +27,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAAAgAEAAgAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAAAAAAAgAEAAgAAAQAAAAAAAAAAAQAAAAAAAA=</HashCode>
       <FileName>Deck.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -36,19 +36,12 @@
   </Class>
   <Class Name="test.Game" Collapsed="true">
     <Position X="9.25" Y="0.5" Width="1.5" />
-    <NestedTypes>
-      <Enum Name="test.Game.WinLoss" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Game.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAQAkACAAAAAgIBgARACARAABhAABABggAQAAAAIEA=</HashCode>
+      <HashCode>AAAQAkACAAAAAgIBgARACIRAABhAABABggAQAAAAIEA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="test.Hand">
+  <Class Name="test.Hand" Collapsed="true">
     <Position X="6.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAgAEAAgQAIQAgACIAAAAAAABAAAAAAA=</HashCode>
@@ -70,6 +63,20 @@
     <ShowAsCollectionAssociation>
       <Field Name="decks" />
     </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="test.PlayerHand">
+    <Position X="9.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAgAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>PlayerHand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="test.DealerHand">
+    <Position X="9.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DealerHand.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Enum Name="test.Suit">
     <Position X="0.75" Y="4.5" Width="1.5" />

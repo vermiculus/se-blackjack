@@ -48,6 +48,7 @@ namespace test
         {
             Card r = cards[index];
             this.cards.Remove(r);
+            r.Replace();
             return r;
         }
 

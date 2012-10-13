@@ -44,7 +44,7 @@ namespace test
             return r;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return cards.Count + " " + cards.ToString();
         }

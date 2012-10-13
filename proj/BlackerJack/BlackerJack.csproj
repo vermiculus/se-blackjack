@@ -56,8 +56,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BlackjackHand.cs" />
+    <Compile Include="DealerHand.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="PlayerHand.cs" />
     <Compile Include="Rank.cs" />
     <Compile Include="Shoe.cs" />
     <Compile Include="Suit.cs" />
