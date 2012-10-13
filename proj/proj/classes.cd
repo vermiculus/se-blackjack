@@ -48,7 +48,7 @@
   <Class Name="test.Game">
     <Position X="9.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAkACAAAAAAIAAARACIAAAABAAAABgAAQAAAAIEA=</HashCode>
+      <HashCode>AAAAAkACAAAAAAICAARACIAAAABAAAABgAAQAAAAIEA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>

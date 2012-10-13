@@ -51,6 +51,7 @@ namespace test {
             dealer = new DealerHand(shoe);
 
             turn = 1;
+            getBet();
             printHands();
 
             // TODO: incorrect [from old source -- dunno what this means or why it's incorrect]
@@ -107,11 +108,9 @@ namespace test {
         private void __dispDealerWin() {
             Console.WriteLine("\n     You lost with {0} points against the dealer's hand of {1} points. :C", player.Sum, dealer.Sum);
         }
-
         private void __dispPlayerWin() {
             Console.WriteLine("\n     You won with {0} points against the dealer's hand of {1} points. :D", player.Sum, dealer.Sum);
         }
-
         private void __dispTie() {
             Console.WriteLine("\n     You tied the dealer with {0} points! :O", player.Sum);
         }
@@ -123,6 +122,9 @@ namespace test {
                 printHands();
                 Console.WriteLine();
                 WinLoss w = checkWinLoss();
+                if (player.Sum == dealer.Sum) {
+                    w = WinLoss.Tie;
+                }
                 switch (w) {
                     case WinLoss.NoWin: // TODO: There has to be a better way to do this
                         if (player.Sum > dealer.Sum) {
@@ -143,6 +145,8 @@ namespace test {
                     default:
                         throw new ArgumentException("What the fuck happened? I didn't get a valid WinLoss out of checkWinLoss()");
                 }
+
+                player.doBet(w);
 
                 endTurns = false;
 
@@ -187,6 +191,28 @@ namespace test {
                     default:
                         throw new ArgumentOutOfRangeException("Wha happun?");
                 };
+            }
+        }
+        public void getBet() {
+            Console.Clear();
+            Console.WriteLine("\n How much would you like to bet on this game?");
+            string input = Console.ReadLine();
+            uint bet;
+            if (!UInt32.TryParse(input, out bet)) {
+                Console.WriteLine("\n Invalid. Please enter a number that's bigger than twenty.");
+                Console.ReadKey(true);
+                getBet();
+            } else if (bet > player.Cash) {
+                Console.WriteLine("\n Nice try. Bet only what you can pay up!! \n\n dirty stink...");
+                Console.ReadKey(true);
+                getBet();
+            } else if (bet < 20) {
+                Console.WriteLine("\n Stop wasting my time! \n\n poop head...");
+                Console.ReadKey(true);
+                getBet();
+            } else {
+                player.Bet = bet;
+                player.Cash -= bet;
             }
         }
     }

@@ -15,7 +15,7 @@ namespace test {
         /// Returns a String representation of this DealerHand where only the Top card is visible
         /// </summary>
         public override string ToString() {
-            return this.ToRevealingString();// return String.Format("{0} [{1}{2}]", cards.Count, cards[0].ToString(), cards.Count > 1 ? "..." : "");
+            return String.Format("{0} [{1}{2}]", cards.Count, cards[0].ToString(), cards.Count > 1 ? "..." : "");
         }
 
         /// <summary>

@@ -10,7 +10,9 @@ namespace test {
 
         public uint Cash {
             get { return myCash; }
+            set { myCash = value; }
         }
+
         private bool hasSplit;
 
         /// <summary>
@@ -42,6 +44,7 @@ namespace test {
         /// <remarks>Note that the SplitHand has its own separate bet.</remarks>
         public uint Bet {
             get { return myBet; }
+            set { myBet = value; }
         }
 
         /// <summary>
@@ -53,7 +56,9 @@ namespace test {
             }
         }
 
-        public PlayerHand(Shoe shoe) : base(shoe, 2) { }
+        public PlayerHand(Shoe shoe, uint cash = 500) : base(shoe, 2) {
+            this.myCash = cash;
+        }
 
         public PlayerHand Split() {
             // TODO: Does the split need to be only on two cards?
