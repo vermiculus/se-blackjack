@@ -9,10 +9,17 @@ namespace test {
     /// </summary>
     class Game {
         public static uint NUM_SHOES = 1;
+        public static uint MIN_BET = 20;
 
         private Shoe shoe;
         PlayerHand player;
         DealerHand dealer;
+
+        public bool GameOver {
+            get {
+                return player.Cash < MIN_BET;
+            }
+        }
 
         uint turn;
 
@@ -20,6 +27,10 @@ namespace test {
 
         public Game() {
             shoe = new Shoe(NUM_SHOES);
+            player = new PlayerHand(shoe);
+            dealer = new DealerHand(shoe);
+            player.PutCardsBack();
+            dealer.PutCardsBack();
         }
 
         public void shuffleShoe() {
@@ -38,6 +49,7 @@ namespace test {
         }
 
         private void printHands() {
+            Console.WriteLine("\n Cash: {0,4:N0}  Bet: {1,3:N0}\n", player.Cash, player.Bet);
             if (endTurns) {
                 Console.WriteLine("  Dealer's Hand: {0}", dealer.ToRevealingString());
             } else {
@@ -47,12 +59,13 @@ namespace test {
         }
 
         public void Play() {
-            player = new PlayerHand(shoe);
-            dealer = new DealerHand(shoe);
-
             turn = 1;
             getBet();
-            printHands();
+
+            player.Draw(2);
+            dealer.Draw(2);
+
+            //printHands();
 
             // TODO: incorrect [from old source -- dunno what this means or why it's incorrect]
             BlackjackAction a;
@@ -62,7 +75,6 @@ namespace test {
                     case BlackjackAction.Stand:
                         while (dealer.doTurn()) ;
                         endTurns = true;
-                        printHands();
                         break;
                     case BlackjackAction.Split:
                         if (!player.CanSplit) {
@@ -77,7 +89,9 @@ namespace test {
                         player.doTurn(BlackjackAction.DoubleDown);
                         while (dealer.doTurn()) ;
                         endTurns = true;
-                        printHands();
+                        break;
+                    case BlackjackAction.EndGame:
+                        quit();
                         break;
                     default:
                         player.doTurn(a);
@@ -90,19 +104,26 @@ namespace test {
 
         private WinLoss checkWinLoss() {
             // TODO: verify accuracy?
-            if ((player.IsBust && dealer.IsBust) || (player.IsPerfect && dealer.IsPerfect)) {
+            WinLoss ret = WinLoss.NoWin;
+            if (player.IsBust && dealer.IsBust) {// TODO: this case || (player.IsPerfect && dealer.IsPerfect)) {
                 endTurns = true;
-                return WinLoss.Tie;
+                if (player.Sum < dealer.Sum) {
+                    ret = WinLoss.Player;
+                } else if (player.Sum > dealer.Sum)	{
+                    ret = WinLoss.Dealer;
+                } else {
+                    ret = WinLoss.Tie;
+                }
             }
             if (player.IsBust || dealer.IsPerfect) {
                 endTurns = true;
-                return WinLoss.Dealer;
+                ret = WinLoss.Dealer;
             }
             if (dealer.IsBust || player.IsPerfect) {
                 endTurns = true;
-                return WinLoss.Player;
+                ret = WinLoss.Player;
             }
-            return WinLoss.NoWin;
+            return ret;
         }
 
         private void __dispDealerWin() {
@@ -129,8 +150,10 @@ namespace test {
                     case WinLoss.NoWin: // TODO: There has to be a better way to do this
                         if (player.Sum > dealer.Sum) {
                             __dispPlayerWin();
+                            w = WinLoss.Player; // TODO: Fix the checkWinLoss method to account for this.
                         } else {
                             __dispDealerWin();
+                            w = WinLoss.Dealer;
                         }
                         break;
                     case WinLoss.Dealer:
@@ -157,7 +180,6 @@ namespace test {
 
         private BlackjackAction displayMenu() {
             Console.Clear();
-            Console.WriteLine();
             printHands();
             Console.WriteLine("\n\n     What would you like to do?\n");
             Console.WriteLine(" [1] Hit");
@@ -167,7 +189,7 @@ namespace test {
             Console.WriteLine(" [0] Quit Game");
             //TODO: Allow a doubling factor of 1.0 to 2.0 [what did I mean by this? - from old code]
 
-            ConsoleKeyInfo k = Console.ReadKey(true); //nextInt();
+            ConsoleKeyInfo k = Console.ReadKey(true);
             if (!Char.IsDigit(k.KeyChar)) {
                 Console.WriteLine("  Invalid option. Choose 0-4.");
                 return displayMenu();
@@ -195,7 +217,8 @@ namespace test {
         }
         public void getBet() {
             Console.Clear();
-            Console.WriteLine("\n How much would you like to bet on this game?");
+            Console.WriteLine("\n Cash: {0,4:N0}\n", player.Cash);
+            Console.Write("\n How much would you like to bet on this game? (0 to quit)\n ");
             string input = Console.ReadLine();
             uint bet;
             if (!UInt32.TryParse(input, out bet)) {
@@ -206,14 +229,22 @@ namespace test {
                 Console.WriteLine("\n Nice try. Bet only what you can pay up!! \n\n dirty stink...");
                 Console.ReadKey(true);
                 getBet();
-            } else if (bet < 20) {
-                Console.WriteLine("\n Stop wasting my time! \n\n poop head...");
+            } else if (bet == 0) {
+                quit();
+            } else if (bet < MIN_BET) {
+                Console.WriteLine("\n Stop wasting my time! Bet at least {0}. \n\n poop head...", MIN_BET);
                 Console.ReadKey(true);
                 getBet();
             } else {
                 player.Bet = bet;
                 player.Cash -= bet;
             }
+        }
+        private static void quit() {
+            Console.Clear();
+            Console.Write("\n Peace bro");
+            Console.ReadKey(true);
+            Environment.Exit(0);
         }
     }
 }

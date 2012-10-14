@@ -87,10 +87,8 @@ namespace test {
         }
 
         public override bool doTurn(BlackjackAction c) {
-            //if (hasDoubledDown) // TODO: Is this functionality required anymore?
+            //if (hasDoubledDown) // TODO: Is this functionality required anymore? At any rate, it should be moved to Game. The menu should have to be displayed.
             //    c = BlackjackAction.DoubleDown;
-            //else
-            //    c = displayMenu();
 
             switch (c) {
                 case BlackjackAction.Hit:
@@ -116,10 +114,7 @@ namespace test {
                     }
                     break;
                 case BlackjackAction.EndGame:
-                    Console.Clear();
-                    Console.Write("\n Peace bro");
-                    Console.ReadKey(true);
-                    Environment.Exit(0);
+                    // also taken care of in Game - this is a high level action.
                     return true;
                 case BlackjackAction.None:
                     throw new InvalidOperationException("'None' is not an acceptable action for this class.");

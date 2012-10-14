@@ -9,6 +9,11 @@
   </Class>
   <Class Name="test.Card" BaseTypeListCollapsed="true">
     <Position X="3.75" Y="0.5" Width="1.75" />
+    <AssociationLine Name="mySuite" Type="test.Suit">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.11" Y="0.185" />
+      </MemberNameLabel>
+    </AssociationLine>
     <AssociationLine Name="myRank" Type="test.Rank" FixedFromPoint="true">
       <Path>
         <Point X="5.5" Y="1.938" />
@@ -54,6 +59,13 @@
   </Class>
   <Class Name="test.Hand">
     <Position X="6.75" Y="4.5" Width="2.25" />
+    <AssociationLine Name="cards" Type="test.Card" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="4.719" />
+        <Point X="4.625" Y="4.719" />
+        <Point X="4.625" Y="3.209" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAgAECAgQAIQAgAAIAAAAAAABAAAAAAA=</HashCode>
       <FileName>Hand.cs</FileName>
