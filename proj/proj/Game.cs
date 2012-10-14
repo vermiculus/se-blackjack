@@ -1,27 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace test {
     /// <summary>
     /// Contains program logic for playing multiple games of Blackjack on the console
     /// </summary>
     class Game {
+
+        public enum GameState {
+            CasinoOwner,
+            CardCounter,
+            Rich,
+            Over,
+            Under,
+            Even,
+            Broke
+        }
+
         public static uint NUM_SHOES = 1;
         public static uint MIN_BET = 20;
+
+        private bool playAgain;
+
+        internal GameState State {
+            get {
+                if (player.Cash > PlayerHand.DEFAULT_CASH * 1000) {
+                    return GameState.CasinoOwner;
+                } else if (player.Cash > PlayerHand.DEFAULT_CASH * 100) {
+                    return GameState.CardCounter;
+                } else if (player.Cash > PlayerHand.DEFAULT_CASH * 10) {
+                    return GameState.Rich;
+                } else if (player.Cash > PlayerHand.DEFAULT_CASH) {
+                    return GameState.Over;
+                } else if (player.Cash == 0) {
+                    return GameState.Broke;
+                } else if (player.Cash == PlayerHand.DEFAULT_CASH) {
+                    return GameState.Even;
+                } else {
+                    return GameState.Under;
+                }
+            }
+        }
+
+        public bool ContinuePlay {
+            get { return playAgain; }
+        }
+
+        
 
         private Shoe shoe;
         PlayerHand player;
         DealerHand dealer;
 
         public bool GameOver {
-            get {
-                return player.Cash < MIN_BET;
-            }
+            get { return player.Cash < MIN_BET; }
         }
-
-        uint turn;
 
         private bool endTurns;
 
@@ -31,6 +66,7 @@ namespace test {
             dealer = new DealerHand(shoe);
             player.PutCardsBack();
             dealer.PutCardsBack();
+            playAgain = true;
         }
 
         public void shuffleShoe() {
@@ -59,18 +95,19 @@ namespace test {
         }
 
         public void Play() {
-            turn = 1;
-            getBet();
+            if (!getBet()) return;
 
             player.Draw(2);
             dealer.Draw(2);
 
-            //printHands();
-
             // TODO: incorrect [from old source -- dunno what this means or why it's incorrect]
             BlackjackAction a;
-            while (checkWinLoss() == WinLoss.NoWin && !endTurns) {
-                a = displayMenu();
+            while (checkWinLoss() == WinLoss.NoWin && !endTurns && playAgain) {
+                if (player.Sum < 21) {
+                    a = displayMenu();
+                } else {
+                    a = BlackjackAction.Stand;
+                }
                 switch (a) {
                     case BlackjackAction.Stand:
                         while (dealer.doTurn()) ;
@@ -91,7 +128,7 @@ namespace test {
                         endTurns = true;
                         break;
                     case BlackjackAction.EndGame:
-                        quit();
+                        playAgain = false;
                         break;
                     default:
                         player.doTurn(a);
@@ -105,21 +142,19 @@ namespace test {
         private WinLoss checkWinLoss() {
             // TODO: verify accuracy?
             WinLoss ret = WinLoss.NoWin;
-            if (player.IsBust && dealer.IsBust) {// TODO: this case || (player.IsPerfect && dealer.IsPerfect)) {
+            if (player.IsBust && dealer.IsBust || player.IsBlackjack && dealer.IsBlackjack) {
                 endTurns = true;
                 if (player.Sum < dealer.Sum) {
                     ret = WinLoss.Player;
-                } else if (player.Sum > dealer.Sum)	{
+                } else if (player.Sum > dealer.Sum) {
                     ret = WinLoss.Dealer;
                 } else {
-                    ret = WinLoss.Tie;
+                    ret = WinLoss.Push;
                 }
-            }
-            if (player.IsBust || dealer.IsPerfect) {
+            } else if (player.IsBust || dealer.IsBlackjack) {
                 endTurns = true;
                 ret = WinLoss.Dealer;
-            }
-            if (dealer.IsBust || player.IsPerfect) {
+            } else if (dealer.IsBust || player.IsBlackjack) {
                 endTurns = true;
                 ret = WinLoss.Player;
             }
@@ -139,12 +174,12 @@ namespace test {
         private void end() {
             if (endTurns) {
                 Console.Clear();
-                Console.WriteLine();
+                Console.WriteLine("");
                 printHands();
-                Console.WriteLine();
+                Console.WriteLine("");
                 WinLoss w = checkWinLoss();
                 if (player.Sum == dealer.Sum) {
-                    w = WinLoss.Tie;
+                    w = WinLoss.Push;
                 }
                 switch (w) {
                     case WinLoss.NoWin: // TODO: There has to be a better way to do this
@@ -162,7 +197,7 @@ namespace test {
                     case WinLoss.Player:
                         __dispPlayerWin();
                         break;
-                    case WinLoss.Tie:
+                    case WinLoss.Push:
                         __dispTie();
                         break;
                     default:
@@ -192,6 +227,7 @@ namespace test {
             ConsoleKeyInfo k = Console.ReadKey(true);
             if (!Char.IsDigit(k.KeyChar)) {
                 Console.WriteLine("  Invalid option. Choose 0-4.");
+
                 return displayMenu();
             }
             int t = Int32.Parse("" + k.KeyChar);
@@ -215,7 +251,7 @@ namespace test {
                 };
             }
         }
-        public void getBet() {
+        public bool getBet() {
             Console.Clear();
             Console.WriteLine("\n Cash: {0,4:N0}\n", player.Cash);
             Console.Write("\n How much would you like to bet on this game? (0 to quit)\n ");
@@ -230,21 +266,15 @@ namespace test {
                 Console.ReadKey(true);
                 getBet();
             } else if (bet == 0) {
-                quit();
+                playAgain = false;
             } else if (bet < MIN_BET) {
                 Console.WriteLine("\n Stop wasting my time! Bet at least {0}. \n\n poop head...", MIN_BET);
                 Console.ReadKey(true);
                 getBet();
             } else {
-                player.Bet = bet;
-                player.Cash -= bet;
+                player.makeBet(bet);
             }
-        }
-        private static void quit() {
-            Console.Clear();
-            Console.Write("\n Peace bro");
-            Console.ReadKey(true);
-            Environment.Exit(0);
+            return playAgain;
         }
     }
 }

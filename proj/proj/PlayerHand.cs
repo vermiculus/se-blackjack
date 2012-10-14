@@ -7,10 +7,10 @@ namespace test {
     class PlayerHand : BlackjackHand {
         private uint myBet;
         private uint myCash;
+        public const int DEFAULT_CASH = 500;
 
         public uint Cash {
             get { return myCash; }
-            set { myCash = value; }
         }
 
         private bool hasSplit;
@@ -56,7 +56,7 @@ namespace test {
             }
         }
 
-        public PlayerHand(Shoe shoe, uint cash = 500) : base(shoe, 2) {
+        public PlayerHand(Shoe shoe, uint cash = DEFAULT_CASH) : base(shoe, 2) {
             this.myCash = cash;
         }
 
@@ -140,7 +140,7 @@ namespace test {
                     myCash += Bet * 2;
                     myBet = 0;
                     break;
-                case WinLoss.Tie:
+                case WinLoss.Push:
                     myCash += Bet;
                     myBet = 0;
                     break;
@@ -159,6 +159,24 @@ namespace test {
                     return base.Sum + psplit.Sum;
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets this hand's bet and decreases cash accordingly
+        /// </summary>
+        /// <param name="bet"></param>
+        public void makeBet(uint bet) {
+            myBet = bet;
+            myCash -= myBet;
+        }
+
+        /// <summary>
+        /// Undos the work done by makeBet and places a different bet.
+        /// </summary>
+        /// <param name="bet"></param>
+        public void remakeBet(uint bet) {
+            myCash += myBet;
+            makeBet(bet);
         }
     }
 }

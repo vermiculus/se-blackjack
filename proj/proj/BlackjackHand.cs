@@ -54,11 +54,13 @@ namespace test {
         }
 
         /// <summary>
-        /// True if Sum == 21
+        /// True if the hand is a combination of the Ace of Spades and some Jack
         /// </summary>
-        public bool IsPerfect {
+        public bool IsBlackjack {
             get {
-                return this.Sum == 21;
+                return Count == 2 && (   (this[0].Rank == Rank.Ace && this[0].Suit == Suit.Spades) && (this[1].Rank == Rank.Jack && (this[1].Suit == Suit.Spades || this[1].Suit == Suit.Clubs))
+                                      || (this[1].Rank == Rank.Ace && this[1].Suit == Suit.Spades) && (this[0].Rank == Rank.Jack && (this[0].Suit == Suit.Spades || this[0].Suit == Suit.Clubs))
+                                     );
             }
         }
 

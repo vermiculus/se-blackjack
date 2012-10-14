@@ -3,7 +3,7 @@
   <Class Name="test.BlackjackHand">
     <Position X="6.75" Y="8.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>IIAQAAAAAAEAgAAAAAAAAABAAAAAAAgAAAAAAAAAAAQ=</HashCode>
+      <HashCode>IAQQAAAAAAEAgAAAAAAAAABAAAAAAAgAAAAAAAAAAAQ=</HashCode>
       <FileName>BlackjackHand.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -52,8 +52,15 @@
   </Class>
   <Class Name="test.Game">
     <Position X="9.25" Y="0.5" Width="2.5" />
+    <NestedTypes>
+      <Enum Name="test.Game.GameState" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Game.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAkACAAAAAAICAARACIAAAABAAAABgAAQAAAAIEA=</HashCode>
+      <HashCode>AAAEgkACAAAAAAACAARACIAAAABAAAABgAARBAACIEA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -97,14 +104,14 @@
     <Position X="0.75" Y="7.5" Width="2" />
     <AssociationLine Name="psplit" Type="test.PlayerHand" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="1" Y="12.328" />
-        <Point X="1" Y="12.703" />
-        <Point X="2.5" Y="12.703" />
-        <Point X="2.5" Y="12.328" />
+        <Point X="1" Y="12.905" />
+        <Point X="1" Y="13.155" />
+        <Point X="2.5" Y="13.155" />
+        <Point X="2.5" Y="12.905" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAIQAAQAAAGQAgAGAAAgAAAAAACAAhAQQBAAAAAAAAQ=</HashCode>
+      <HashCode>AAIQAAQAAAWQAgAGAAIgAAAAAACAAhQQQBAAAAAAAAQ=</HashCode>
       <FileName>PlayerHand.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

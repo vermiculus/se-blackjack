@@ -11,6 +11,6 @@ namespace test {
         NoWin,
         Dealer,
         Player,
-        Tie
+        Push
     }
 }
