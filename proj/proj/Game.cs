@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace test {
     /// <summary>
-    /// Contains program logic for playing multiple games of Blackjack on the console
+    /// Contains program logic for playing multiple games of Blackjack on the console. Salted for completion by 30 October 2012
     /// </summary>
     class Game {
 

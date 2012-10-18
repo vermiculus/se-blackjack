@@ -86,9 +86,20 @@ namespace test {
             }
         }
 
-        public override bool doTurn(BlackjackAction c) {
+        /// <summary>
+        /// Performs a given turn
+        /// </summary>
+        /// <param name="c">The action that the player chose</param>
+        /// <param name="onSplit">If the move is for the second hand in a split, set this to true. Otherwise, the default is false.</param>
+        /// <returns>Returns false if the game should continue, true if the game should end.</returns>
+        //TODO: the whole returning thing makes no sense. See below.
+        // If the player chose to end the game, we should totally not be going into this method just to realize they chose that. We should end it there, in Game.
+        public override bool doTurn(BlackjackAction c, bool onSplit = false) {
             //if (hasDoubledDown) // TODO: Is this functionality required anymore? At any rate, it should be moved to Game. The menu should have to be displayed.
             //    c = BlackjackAction.DoubleDown;
+            if (onSplit) {
+                return psplit.doTurn(c);
+            }
 
             switch (c) {
                 case BlackjackAction.Hit:
@@ -123,6 +134,7 @@ namespace test {
             }
             return false;
         }
+
         public override void PutCardsBack() {
             if (psplit != null) {
                 psplit.DiscardAll();

@@ -97,6 +97,7 @@ namespace test {
         /// <summary>
         /// Places the card back in the deck from which it was drawn.
         /// </summary>
+        /// <!--This method is slated for refactoring per issue #3-->
         public void Replace() {
             this.parentDeck.ReplaceCard(this);
         }
