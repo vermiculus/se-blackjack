@@ -9,7 +9,7 @@ namespace test {
         /// Creates a Dealer Hand associated with the specified shoe
         /// </summary>
         /// <param name="shoe">the Shoe to associate with</param>
-        public DealerHand(Shoe shoe) : base(shoe) { }
+        public DealerHand(CardSource source, CardSource discard) : base(source, discard) { }
 
         /// <summary>
         /// Returns a String representation of this DealerHand where only the Top card is visible
@@ -21,23 +21,11 @@ namespace test {
         /// <summary>
         /// Completes one turn of a Dealer according to appropriate logic. The only valid BlackjackAction is None.
         /// </summary>
-        public override bool doTurn(BlackjackAction action = BlackjackAction.None) {
-            switch (action) {
-                case BlackjackAction.Hit:
-                case BlackjackAction.Stand:
-                case BlackjackAction.Split:
-                case BlackjackAction.DoubleDown:
-                case BlackjackAction.EndGame:
-                    throw new InvalidOperationException("Invalid action. Only acceptable action is Action.None.");
-                case BlackjackAction.None:
-                    // TODO: verify
-                    if (Sum < 17 || (NumberOfAces > 0 && Sum <= 17)) {
-                        Draw();
-                        return true;
-                    }
-                    break;
-                default:
-                    break;
+        public bool doTurn() {
+            // TODO: verify
+            if (Sum < 17 || (NumberOfAces > 0 && Sum <= 17)) {
+                Draw();
+                return true;
             }
             return false;
         }

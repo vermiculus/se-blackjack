@@ -8,17 +8,6 @@ namespace test {
     /// Extends a normal Hand and adds functionality specific to the game Blackjack
     /// </summary>
     abstract class BlackjackHand : Hand {
-        /*private bool isHard;
-
-        public bool IsHard {
-            get { return isHard; }
-        }*/
-
-        /// <summary>
-        /// Creates a new Blackjack Hand from the specified Deck
-        /// </summary>
-        /// <remarks>As its superclass Hand, the given Deck is put in a Shoe for operations.</remarks>
-        public BlackjackHand(Deck d, uint size = 2) : this(new Shoe(d), size) { }
 
         /// <summary>
         /// Creates a new Blackjack Hand from the specified Shoe
@@ -26,7 +15,7 @@ namespace test {
         /// <param name="s">The parent Shoe this Hand si to be associated with</param>
         /// <param name="size">The size of this hand, defaulting to two. If this hand is split, set this to zero.</param>
         // TODO: Find a better way to handle splits when it comes to the constructor. Splitting functionality should be strictly limited to the PlayerHand.
-        public BlackjackHand(Shoe s, uint size = 2) : base(s, size) { }
+        public BlackjackHand(CardSource source, CardSource discard) : base(source, discard) { }
 
         /// <summary>
         /// The highest possible sum for the hand without busting.
@@ -126,11 +115,6 @@ namespace test {
             }
         }
 
-        /// <summary>
-        /// Does appropriate logic for a turn
-        /// </summary>
-        /// <param name="action">Action to do, defaulting to None</param>
-        public abstract bool doTurn(BlackjackAction action = BlackjackAction.None);
         /// <summary>
         /// Places all cards this object is responsible for back in their respective decks
         /// </summary>

@@ -30,11 +30,6 @@ namespace test {
         Split,
 
         /// <summary>
-        /// The bet is doubled and the player stands.
-        /// </summary>
-        DoubleDown,
-
-        /// <summary>
         /// The player has chosen to end the game.
         /// </summary>
         EndGame,

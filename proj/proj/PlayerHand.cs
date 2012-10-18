@@ -56,13 +56,14 @@ namespace test {
             }
         }
 
-        public PlayerHand(Shoe shoe, uint cash = DEFAULT_CASH) : base(shoe, 2) {
+        public PlayerHand(CardSource source, CardSource discard, uint cash = DEFAULT_CASH)
+            : base(source, discard) {
             this.myCash = cash;
         }
 
         public PlayerHand Split() {
             // TODO: Does the split need to be only on two cards?
-            PlayerHand r = new PlayerHand(ParentShoe);
+            PlayerHand r = new PlayerHand(Source, Discard1);
             r.DiscardAll();
             r.cards.Add(this.Discard(0));
             return r;
@@ -94,7 +95,7 @@ namespace test {
         /// <returns>Returns false if the game should continue, true if the game should end.</returns>
         //TODO: the whole returning thing makes no sense. See below.
         // If the player chose to end the game, we should totally not be going into this method just to realize they chose that. We should end it there, in Game.
-        public override bool doTurn(BlackjackAction c, bool onSplit = false) {
+        public bool doTurn(BlackjackAction c, bool onSplit = false) {
             //if (hasDoubledDown) // TODO: Is this functionality required anymore? At any rate, it should be moved to Game. The menu should have to be displayed.
             //    c = BlackjackAction.DoubleDown;
             if (onSplit) {
@@ -115,13 +116,6 @@ namespace test {
                     if (Count == 2 && !hasSplit && CanSplit) {
                         psplit = Split();
                         hasSplit = true;
-                    }
-                    break;
-                case BlackjackAction.DoubleDown:
-                    if (Count == 2) {
-                        Draw(); // TODO: really? does the player actually draw?
-                        myBet *= 2;
-                        hasDoubledDown = true;
                     }
                     break;
                 case BlackjackAction.EndGame:

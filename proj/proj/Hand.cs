@@ -9,37 +9,39 @@ namespace test {
     /// </summary>
     class Hand {
         /// <summary>
-        /// The shoe this Hand is associated with
+        /// The source this Hand draws from
         /// </summary>
-        private Shoe myParent;
+        private CardSource source;
+
+        public CardSource Source {
+            get { return source; }
+        }
+
+        /// <summary>
+        /// The shoe this Hand discards to
+        /// </summary>
+        private CardSource discard;
+
+        public CardSource Discard1 {
+            get { return discard; }
+        }
+
         /// <summary>
         /// The collection of Cards that make up this Hand
         /// </summary>
         protected List<Card> cards;
 
         /// <summary>
-        /// The shoe this Hand is associated with
-        /// </summary>
-        public Shoe ParentShoe {
-            get {
-                return myParent;
-            }
-        }
-
-        /// <summary>
-        /// Creates a new Hand from a single Deck of a specifies size
-        /// </summary>
-        /// <remarks>As the Hand is associated with a Shoe (not a Deck), a new Shoe is created containing only this Deck.</remarks>
-        /// <param name="size">The size of the new Hand</param>
-        public Hand(Deck deck, uint size) : this(new Shoe(deck), size) { }
-        /// <summary>
         /// Creates a new Hand from a Shoe of a specifies size
         /// </summary>
         /// <param name="size">The size of the new Hand</param>
-        public Hand(Shoe shoe, uint size) {
-            this.myParent = shoe;
+        public Hand(CardSource source, CardSource discard = null) {
+            if (discard == null) {
+                discard = source;
+            }
             this.cards = new List<Card>();
-            this.Draw(size);
+            this.source = source;
+            this.discard = discard;
         }
 
         /// <summary>
@@ -48,20 +50,19 @@ namespace test {
         /// <param name="size">The number of cards to draw, defaulting to one</param>
         public void Draw(uint size = 1) {
             for (int i = 0; i < size; i++) {
-                cards.Add(ParentShoe.Draw());
+                cards.Add(source.Draw());
             }
         }
 
         /// <summary>
-        /// Places the specified card back into its respective deck
+        /// Places the specified card back into its respective CardSource
         /// </summary>
         /// <param name="card">The card to replace</param>
         /// <returns>True if the discard was successful (the card was in the Hand and was removed), false otherwise.</returns>
         public bool Discard(Card card) {
             if (cards.Contains(card)) {
                 card.Replace();
-                this.cards.Remove(card);
-                return true;
+                return cards.Remove(card);
             }
             return false;
         }
@@ -70,7 +71,7 @@ namespace test {
         /// Places the card at the specified index back into its respective deck
         /// </summary>
         /// <param name="index">The index of the card to discard</param>
-        public Card Discard(uint index) {
+        public Card Discard(uint index = 0) {
             Card r = cards[(int)index];
             this.cards.Remove(r);
             r.Replace();
@@ -78,12 +79,12 @@ namespace test {
         }
 
         /// <summary>
-        /// Discards all cards in the Hand
+        /// Iteratively discards all cards in the Hand
         /// </summary>
         public List<Card> DiscardAll() {
             List<Card> r = new List<Card>(cards);
             while (cards.Count > 0) {
-                Discard(0);
+                Discard();
             }
             return r;
         }

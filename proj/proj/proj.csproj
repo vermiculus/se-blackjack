@@ -46,16 +46,15 @@
     <Compile Include="BlackjackHand.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="BlackjackAction.cs" />
+    <Compile Include="CardSource.cs" />
     <Compile Include="WinLoss.cs" />
     <Compile Include="DealerHand.cs" />
-    <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="PlayerHand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rank.cs" />
-    <Compile Include="Shoe.cs" />
     <Compile Include="Suit.cs" />
   </ItemGroup>
   <ItemGroup>

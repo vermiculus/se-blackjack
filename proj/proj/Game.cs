@@ -19,7 +19,7 @@ namespace test {
             Broke
         }
 
-        public static uint NUM_SHOES = 1;
+        public static uint NUM_DECKS = 1;
         public static uint MIN_BET = 20;
 
         private bool playAgain;
@@ -50,7 +50,8 @@ namespace test {
 
         
 
-        private Shoe shoe;
+        private CardSource source;
+        private CardSource discard;
         PlayerHand player;
         DealerHand dealer;
 
@@ -61,25 +62,26 @@ namespace test {
         private bool endTurns;
 
         public Game() {
-            shoe = new Shoe(NUM_SHOES);
-            player = new PlayerHand(shoe);
-            dealer = new DealerHand(shoe);
+            source = new CardSource(NUM_DECKS);
+            discard = new CardSource(0);
+            player = new PlayerHand(source, discard);
+            dealer = new DealerHand(source, discard);
             player.PutCardsBack();
             dealer.PutCardsBack();
             playAgain = true;
         }
 
         public void shuffleShoe() {
-            double frac = (double)shoe.CardCount / (shoe.DeckCount * 52);
+            double frac = (double)source.Count / (source.DeckCount * 52);
             if (frac > .75)
                 return;
             if (frac <= .25) {
-                shoe = new Shoe(5);
+                source = new CardSource(5);
             } else {
                 if (((new Random()).NextDouble() > ((int)(100 - 100 * frac))))
                 // TODO: figure out what I was on and get some more
                 {
-                    shoe = new Shoe(5);
+                    source = new CardSource(5);
                 }
             }
         }
@@ -121,11 +123,6 @@ namespace test {
                             player.doTurn(BlackjackAction.Split);
                             dealer.doTurn();
                         }
-                        break;
-                    case BlackjackAction.DoubleDown:
-                        player.doTurn(BlackjackAction.DoubleDown);
-                        while (dealer.doTurn()) ;
-                        endTurns = true;
                         break;
                     case BlackjackAction.EndGame:
                         playAgain = false;
@@ -220,19 +217,18 @@ namespace test {
             Console.WriteLine(" [1] Hit");
             Console.WriteLine(" [2] Stand");
             Console.WriteLine(" [3] Split");
-            Console.WriteLine(" [4] Double Down");
             Console.WriteLine(" [0] Quit Game");
             //TODO: Allow a doubling factor of 1.0 to 2.0 [what did I mean by this? - from old code]
 
             ConsoleKeyInfo k = Console.ReadKey(true);
             if (!Char.IsDigit(k.KeyChar)) {
-                Console.WriteLine("  Invalid option. Choose 0-4.");
+                Console.WriteLine("  Invalid option. Choose 0-3.");
 
                 return displayMenu();
             }
             int t = Int32.Parse("" + k.KeyChar);
-            if (t < 0 || t > 4) {
-                Console.WriteLine("  Invalid option. Choose 0-4.");
+            if (t < 0 || t > 3) {
+                Console.WriteLine("  Invalid option. Choose 0-3.");
                 return displayMenu();
             } else {
                 switch (t) {
@@ -244,8 +240,6 @@ namespace test {
                         return BlackjackAction.Stand;
                     case 3:
                         return BlackjackAction.Split;
-                    case 4:
-                        return BlackjackAction.DoubleDown;
                     default:
                         throw new ArgumentOutOfRangeException("Wha happun?");
                 };

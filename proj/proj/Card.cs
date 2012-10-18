@@ -17,9 +17,9 @@ namespace test {
         /// </summary>
         Rank myRank;
         /// <summary>
-        /// The deck this Card was drawn from
+        /// The CardSource this Card should be discarded to
         /// </summary>
-        Deck parentDeck;
+        CardSource discard;
 
 
         /// <summary>
@@ -47,11 +47,11 @@ namespace test {
 
         /// <param name="rank">The rank of the new Card</param>
         /// <param name="suit">The suit of the new Card</param>
-        /// <param name="momma">The Deck this Card is from</param>
-        public Card(Rank rank, Suit suit, Deck momma = null) {
+        /// <param name="discard">The CardSource this Card should discard to</param>
+        public Card(Rank rank, Suit suit, CardSource discard = null) {
             this.Rank = rank;
             this.Suit = suit;
-            parentDeck = momma;
+            this.discard = discard;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace test {
         /// </summary>
         /// <!--This method is slated for refactoring per issue #3-->
         public void Replace() {
-            this.parentDeck.ReplaceCard(this);
+            this.discard.ReplaceCard(this);
         }
     }
 }
