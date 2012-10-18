@@ -21,14 +21,7 @@ namespace test {
         public bool HasSplit {
             get { return hasSplit; }
         }
-        private bool hasDoubledDown;
 
-        /// <summary>
-        /// Returns true if this hand has doubled down
-        /// </summary>
-        public bool HasDoubledDown {
-            get { return hasDoubledDown; }
-        }
         private PlayerHand psplit;
 
         /// <summary>
@@ -56,14 +49,14 @@ namespace test {
             }
         }
 
-        public PlayerHand(CardSource source, CardSource discard, uint cash = DEFAULT_CASH)
+        public PlayerHand(CardCollection source, CardCollection discard, uint cash = DEFAULT_CASH)
             : base(source, discard) {
             this.myCash = cash;
         }
 
         public PlayerHand Split() {
             // TODO: Does the split need to be only on two cards?
-            PlayerHand r = new PlayerHand(Source, Discard1);
+            PlayerHand r = new PlayerHand(SourceCollection, DiscardCollection);
             r.DiscardAll();
             r.cards.Add(this.Discard(0));
             return r;
@@ -96,8 +89,6 @@ namespace test {
         //TODO: the whole returning thing makes no sense. See below.
         // If the player chose to end the game, we should totally not be going into this method just to realize they chose that. We should end it there, in Game.
         public bool doTurn(BlackjackAction c, bool onSplit = false) {
-            //if (hasDoubledDown) // TODO: Is this functionality required anymore? At any rate, it should be moved to Game. The menu should have to be displayed.
-            //    c = BlackjackAction.DoubleDown;
             if (onSplit) {
                 return psplit.doTurn(c);
             }

@@ -50,8 +50,8 @@ namespace test {
 
         
 
-        private CardSource source;
-        private CardSource discard;
+        private CardCollection source;
+        private CardCollection discard;
         PlayerHand player;
         DealerHand dealer;
 
@@ -62,8 +62,8 @@ namespace test {
         private bool endTurns;
 
         public Game() {
-            source = new CardSource(NUM_DECKS);
-            discard = new CardSource(0);
+            source = new CardCollection(NUM_DECKS);
+            discard = new CardCollection(0);
             player = new PlayerHand(source, discard);
             dealer = new DealerHand(source, discard);
             player.PutCardsBack();
@@ -76,12 +76,12 @@ namespace test {
             if (frac > .75)
                 return;
             if (frac <= .25) {
-                source = new CardSource(5);
+                source = new CardCollection(5);
             } else {
                 if (((new Random()).NextDouble() > ((int)(100 - 100 * frac))))
                 // TODO: figure out what I was on and get some more
                 {
-                    source = new CardSource(5);
+                    source = new CardCollection(5);
                 }
             }
         }

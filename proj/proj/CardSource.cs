@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 
 namespace test {
-    class CardSource {
+    class CardCollection {
         /// <summary>
         /// The collection Cards that make up the Shoe
         /// </summary>
         protected List<Card> cards;
+
+        private uint original_deck_size;
+
         public uint Count {
             get { return (uint)cards.Count; }
         }
@@ -28,27 +31,16 @@ namespace test {
         }
 
         /// <summary>
-        /// Places the given card back in this Deck
-        /// </summary>
-        /// <param name="c">The card to replace</param>
-        public void ReplaceCard(Card c) {
-            if (!cards.Contains(c)) {
-                cards.Add(c);
-            }
-        }
-        private uint original_deck_size;
-
-        /// <summary>
         /// Creates a Shoe containing the specified number of Decks
         /// </summary>
         /// <param name="count">The number of Decks to create</param>
-        public CardSource(uint deckCount = 0) {
+        public CardCollection(uint deckCount = 0) {
             original_deck_size = deckCount;
             cards = new List<Card>();
             for (int i = 0; i < deckCount; i++) {
                 foreach (Suit s in Enum.GetValues(typeof(Suit))) {
                     foreach (Rank r in Enum.GetValues(typeof(Rank))) {
-                        cards.Add(new Card(r, s, this));
+                        cards.Add(new Card(r, s));
                     }
                 }
             }
@@ -59,6 +51,24 @@ namespace test {
         /// </summary>
         public uint DeckCount {
             get { return original_deck_size; }
+        }
+
+        internal bool add(Card c) {
+            if (count(c) < original_deck_size) {
+                cards.Add(c);
+                return true;
+            }
+            return false;
+        }
+
+        private uint count(Card c) {
+            uint sum = 0;
+            foreach (Card card in cards) {
+                if (c.Equals(card)) {
+                    sum++;
+                }
+            }
+            return sum;
         }
     }
 }

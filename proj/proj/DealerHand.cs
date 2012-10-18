@@ -9,7 +9,7 @@ namespace test {
         /// Creates a Dealer Hand associated with the specified shoe
         /// </summary>
         /// <param name="shoe">the Shoe to associate with</param>
-        public DealerHand(CardSource source, CardSource discard) : base(source, discard) { }
+        public DealerHand(CardCollection source, CardCollection discard) : base(source, discard) { }
 
         /// <summary>
         /// Returns a String representation of this DealerHand where only the Top card is visible

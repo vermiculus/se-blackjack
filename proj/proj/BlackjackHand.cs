@@ -15,7 +15,7 @@ namespace test {
         /// <param name="s">The parent Shoe this Hand si to be associated with</param>
         /// <param name="size">The size of this hand, defaulting to two. If this hand is split, set this to zero.</param>
         // TODO: Find a better way to handle splits when it comes to the constructor. Splitting functionality should be strictly limited to the PlayerHand.
-        public BlackjackHand(CardSource source, CardSource discard) : base(source, discard) { }
+        public BlackjackHand(CardCollection source, CardCollection discard) : base(source, discard) { }
 
         /// <summary>
         /// The highest possible sum for the hand without busting.

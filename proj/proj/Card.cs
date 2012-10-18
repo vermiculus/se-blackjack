@@ -16,10 +16,6 @@ namespace test {
         /// The rank of this Card
         /// </summary>
         Rank myRank;
-        /// <summary>
-        /// The CardSource this Card should be discarded to
-        /// </summary>
-        CardSource discard;
 
 
         /// <summary>
@@ -48,10 +44,9 @@ namespace test {
         /// <param name="rank">The rank of the new Card</param>
         /// <param name="suit">The suit of the new Card</param>
         /// <param name="discard">The CardSource this Card should discard to</param>
-        public Card(Rank rank, Suit suit, CardSource discard = null) {
+        public Card(Rank rank, Suit suit) {
             this.Rank = rank;
             this.Suit = suit;
-            this.discard = discard;
         }
 
         /// <summary>
@@ -92,14 +87,6 @@ namespace test {
 
         public override int GetHashCode() {
             return (int)Rank * 10 + (int)Suit;
-        }
-
-        /// <summary>
-        /// Places the card back in the deck from which it was drawn.
-        /// </summary>
-        /// <!--This method is slated for refactoring per issue #3-->
-        public void Replace() {
-            this.discard.ReplaceCard(this);
         }
     }
 }

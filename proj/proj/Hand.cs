@@ -11,18 +11,18 @@ namespace test {
         /// <summary>
         /// The source this Hand draws from
         /// </summary>
-        private CardSource source;
+        private CardCollection source;
 
-        public CardSource Source {
+        public CardCollection SourceCollection {
             get { return source; }
         }
 
         /// <summary>
         /// The shoe this Hand discards to
         /// </summary>
-        private CardSource discard;
+        private CardCollection discard;
 
-        public CardSource Discard1 {
+        public CardCollection DiscardCollection {
             get { return discard; }
         }
 
@@ -35,7 +35,7 @@ namespace test {
         /// Creates a new Hand from a Shoe of a specifies size
         /// </summary>
         /// <param name="size">The size of the new Hand</param>
-        public Hand(CardSource source, CardSource discard = null) {
+        public Hand(CardCollection source, CardCollection discard = null) {
             if (discard == null) {
                 discard = source;
             }
@@ -59,12 +59,11 @@ namespace test {
         /// </summary>
         /// <param name="card">The card to replace</param>
         /// <returns>True if the discard was successful (the card was in the Hand and was removed), false otherwise.</returns>
-        public bool Discard(Card card) {
+        public Card Discard(Card card) {
             if (cards.Contains(card)) {
-                card.Replace();
-                return cards.Remove(card);
+                return Discard((uint)cards.IndexOf(card));
             }
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -73,9 +72,12 @@ namespace test {
         /// <param name="index">The index of the card to discard</param>
         public Card Discard(uint index = 0) {
             Card r = cards[(int)index];
-            this.cards.Remove(r);
-            r.Replace();
-            return r;
+            if (this.discard.add(r)) {
+                this.cards.Remove(r);
+                return r;
+            } else {
+                throw new InvalidOperationException("The CardCollection you are trying to replace this Card in already has its full capacity of this Card.");
+            }
         }
 
         /// <summary>
