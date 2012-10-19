@@ -33,13 +33,5 @@ namespace test {
         /// The player has chosen to end the game.
         /// </summary>
         EndGame,
-
-        /// <summary>
-        /// No particular action is necessary.
-        /// </summary>
-        /// <remarks>
-        /// Only the dealer should use this action.
-        /// </remarks>
-        None
     }
 }

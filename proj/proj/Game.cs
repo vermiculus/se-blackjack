@@ -20,7 +20,7 @@ namespace test {
         }
 
         public static uint NUM_DECKS = 1;
-        public static uint MIN_BET = 20;
+        public static uint MIN_BET = 1;
 
         private bool playAgain;
 
@@ -63,7 +63,7 @@ namespace test {
 
         public Game() {
             source = new CardCollection(NUM_DECKS);
-            discard = new CardCollection(0);
+            discard = new CardCollection(NUM_DECKS, false);
             player = new PlayerHand(source, discard);
             dealer = new DealerHand(source, discard);
             player.PutCardsBack();
@@ -102,38 +102,104 @@ namespace test {
             player.Draw(2);
             dealer.Draw(2);
 
-            // TODO: incorrect [from old source -- dunno what this means or why it's incorrect]
-            BlackjackAction a;
-            while (checkWinLoss() == WinLoss.NoWin && !endTurns && playAgain) {
-                if (player.Sum < 21) {
-                    a = displayMenu();
-                } else {
-                    a = BlackjackAction.Stand;
-                }
-                switch (a) {
-                    case BlackjackAction.Stand:
-                        while (dealer.doTurn()) ;
-                        endTurns = true;
-                        break;
-                    case BlackjackAction.Split:
-                        if (!player.CanSplit) {
-                            Console.WriteLine("  You can't split now!");
-                            Console.ReadKey(true);
+            BlackjackAction a, b;
+            while (checkWinLoss() == WinLoss.NoWin && playAgain) {
+                bool again;
+                if (!player.HasSplit) {
+                    do {
+                        again = false;
+                        if (player.Sum < 21) {
+                            a = displayMenu();
                         } else {
-                            player.doTurn(BlackjackAction.Split);
-                            dealer.doTurn();
+                            a = BlackjackAction.Stand;
                         }
-                        break;
-                    case BlackjackAction.EndGame:
-                        playAgain = false;
-                        break;
-                    default:
-                        player.doTurn(a);
-                        dealer.doTurn();
-                        break;
+                        switch (a) {
+                            case BlackjackAction.Hit:
+                                player.doTurn(a);
+                                dealer.doTurn();
+                                break;
+                            case BlackjackAction.Stand:
+                                while (dealer.doTurn()) ;
+                                endTurns = true;
+                                break;
+                            case BlackjackAction.Split:
+                                if (!player.CanSplit || player.HasSplit) {
+                                    Console.WriteLine("  You can't split now!");
+                                    Console.ReadKey(true);
+                                    again = true;
+                                } else {
+                                    player.doTurn(BlackjackAction.Split);
+                                    dealer.doTurn();
+                                }
+                                break;
+                            case BlackjackAction.EndGame:
+                                playAgain = false;
+                                break;
+                        }
+                        if (endTurns) {
+                            end();
+                        }
+                    } while (again);
+                } else {
+                    do {
+                        if (player.Sum < 21) {
+                            a = displayMenu(0);
+                        } else {
+                            a = BlackjackAction.Stand;
+                        }
+                        again = false;
+                        switch (a) {
+                            case BlackjackAction.Hit:
+                                player.doTurn(a);
+                                dealer.doTurn();
+                                break;
+                            case BlackjackAction.Stand:
+                                while (dealer.doTurn()) ;
+                                endTurns = true;
+                                break;
+                            case BlackjackAction.Split:
+                                Console.WriteLine("  You can't split now!");
+                                Console.ReadKey(true);
+                                again = true;
+                                break;
+                            case BlackjackAction.EndGame:
+                                playAgain = false;
+                                break;
+                        }
+                        if (endTurns) {
+                            end();
+                        }
+
+                        if (player.Sum < 21) {
+                            b = displayMenu(1);
+                        } else {
+                            b = BlackjackAction.Stand;
+                        }
+                        switch (b) {
+                            case BlackjackAction.Hit:
+                                player.doTurn(b);
+                                dealer.doTurn();
+                                break;
+                            case BlackjackAction.Stand:
+                                while (dealer.doTurn()) ;
+                                endTurns = true;
+                                break;
+                            case BlackjackAction.Split:
+                                Console.WriteLine("  You can't split now!");
+                                Console.ReadKey(true);
+                                again = true;
+                                break;
+                            case BlackjackAction.EndGame:
+                                playAgain = false;
+                                break;
+                        }
+                        if (endTurns) {
+                            end();
+                        }
+                    } while (again);
                 }
             }
-            end();
+            endTurns = false;
         }
 
         private WinLoss checkWinLoss() {
@@ -169,51 +235,47 @@ namespace test {
         }
 
         private void end() {
-            if (endTurns) {
-                Console.Clear();
-                Console.WriteLine("");
-                printHands();
-                Console.WriteLine("");
-                WinLoss w = checkWinLoss();
-                if (player.Sum == dealer.Sum) {
-                    w = WinLoss.Push;
-                }
-                switch (w) {
-                    case WinLoss.NoWin: // TODO: There has to be a better way to do this
-                        if (player.Sum > dealer.Sum) {
-                            __dispPlayerWin();
-                            w = WinLoss.Player; // TODO: Fix the checkWinLoss method to account for this.
-                        } else {
-                            __dispDealerWin();
-                            w = WinLoss.Dealer;
-                        }
-                        break;
-                    case WinLoss.Dealer:
-                        __dispDealerWin();
-                        break;
-                    case WinLoss.Player:
-                        __dispPlayerWin();
-                        break;
-                    case WinLoss.Push:
-                        __dispTie();
-                        break;
-                    default:
-                        throw new ArgumentException("What the fuck happened? I didn't get a valid WinLoss out of checkWinLoss()");
-                }
-
-                player.doBet(w);
-
-                endTurns = false;
-
-                player.PutCardsBack();
-                dealer.PutCardsBack();
+            Console.Clear();
+            Console.WriteLine("");
+            printHands();
+            Console.WriteLine("");
+            WinLoss w = checkWinLoss();
+            if (player.Sum == dealer.Sum) {
+                w = WinLoss.Push;
             }
+            switch (w) {
+                case WinLoss.NoWin: // TODO: There has to be a better way to do this
+                    if (player.Sum > dealer.Sum) {
+                        __dispPlayerWin();
+                        w = WinLoss.Player; // TODO: Fix the checkWinLoss method to account for this.
+                    } else {
+                        __dispDealerWin();
+                        w = WinLoss.Dealer;
+                    }
+                    break;
+                case WinLoss.Dealer:
+                    __dispDealerWin();
+                    break;
+                case WinLoss.Player:
+                    __dispPlayerWin();
+                    break;
+                case WinLoss.Push:
+                    __dispTie();
+                    break;
+                default:
+                    throw new ArgumentException("What the fuck happened? I didn't get a valid WinLoss out of checkWinLoss()");
+            }
+
+            player.doBet(w);
+
+            player.PutCardsBack();
+            dealer.PutCardsBack();
         }
 
-        private BlackjackAction displayMenu() {
+        private BlackjackAction displayMenu(int handidx = -1) {
             Console.Clear();
             printHands();
-            Console.WriteLine("\n\n     What would you like to do?\n");
+            Console.WriteLine("\n\n     What would you like to do? {0}\n", handidx < 0 ? "" : handidx == 0 ? "(Hand 1)" : "(Hand 2)");
             Console.WriteLine(" [1] Hit");
             Console.WriteLine(" [2] Stand");
             Console.WriteLine(" [3] Split");

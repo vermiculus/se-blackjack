@@ -79,14 +79,14 @@
     <Position X="0.5" Y="3.75" Width="2" />
     <AssociationLine Name="cards" Type="test.Card" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="2.5" Y="3.844" />
-        <Point X="2.875" Y="3.844" />
+        <Point X="2.5" Y="3.856" />
+        <Point X="2.875" Y="3.856" />
         <Point X="2.875" Y="2.514" />
         <Point X="3.75" Y="2.514" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAAAgAABAgAAAUAAAAAAAAQAAAAAAACAAA=</HashCode>
+      <HashCode>AABAAAAAAAAAAgAARAgQAAUAAAAAAAAQAAAAAAACAAA=</HashCode>
       <FileName>CardSource.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>

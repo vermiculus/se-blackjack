@@ -50,6 +50,9 @@ namespace test {
         /// <param name="size">The number of cards to draw, defaulting to one</param>
         public void Draw(uint size = 1) {
             for (int i = 0; i < size; i++) {
+                if (source.IsEmpty) {
+                    discard.Refill(source);
+                }
                 cards.Add(source.Draw());
             }
         }

@@ -34,15 +34,18 @@ namespace test {
         /// Creates a Shoe containing the specified number of Decks
         /// </summary>
         /// <param name="count">The number of Decks to create</param>
-        public CardCollection(uint deckCount = 0) {
+        public CardCollection(uint deckCount = 0, bool makeCards = true) {
             original_deck_size = deckCount;
             cards = new List<Card>();
-            for (int i = 0; i < deckCount; i++) {
-                foreach (Suit s in Enum.GetValues(typeof(Suit))) {
-                    foreach (Rank r in Enum.GetValues(typeof(Rank))) {
-                        cards.Add(new Card(r, s));
+            if (makeCards) {
+                for (int i = 0; i < deckCount; i++) {
+                    foreach (Suit s in Enum.GetValues(typeof(Suit))) {
+                        foreach (Rank r in Enum.GetValues(typeof(Rank))) {
+                            cards.Add(new Card(r, s));
+                        }
                     }
                 }
+                Sort();
             }
         }
 
@@ -69,6 +72,15 @@ namespace test {
                 }
             }
             return sum;
+        }
+
+        public void Sort() {
+            cards.Sort();
+        }
+
+        internal void Refill(CardCollection source) {
+            source.cards.InsertRange(0, cards);
+            cards.Clear();
         }
     }
 }

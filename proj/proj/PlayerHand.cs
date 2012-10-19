@@ -112,8 +112,6 @@ namespace test {
                 case BlackjackAction.EndGame:
                     // also taken care of in Game - this is a high level action.
                     return true;
-                case BlackjackAction.None:
-                    throw new InvalidOperationException("'None' is not an acceptable action for this class.");
                 default:
                     throw new ArgumentOutOfRangeException("What?");
             }
