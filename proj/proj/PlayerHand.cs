@@ -5,6 +5,10 @@ using System.Text;
 
 namespace test {
     class PlayerHand : BlackjackHand {
+
+        /// <summary>
+        /// Denotes which hand the player is currently making moves for.
+        /// </summary>
         private enum ActiveHand {
             Normal,
             Split
@@ -60,12 +64,11 @@ namespace test {
             this.myCash = cash;
         }
 
-        public PlayerHand Split() {
-            // TODO: Does the split need to be only on two cards?
-            PlayerHand r = new PlayerHand(SourceCollection, DiscardCollection);
-            r.DiscardAll();
-            r.cards.Add(this.Discard(0));
-            return r;
+        public void Split() {
+            psplit = new PlayerHand(SourceCollection, DiscardCollection);
+            psplit.cards.Add(this.Discard(0));
+            psplit.psplit = this;
+            hasSplit = true;
         }
 
         public override string ToString() {
@@ -111,7 +114,7 @@ namespace test {
                     break;
                 case BlackjackAction.Split:
                     if (Count == 2 && !hasSplit && CanSplit) {
-                        psplit = Split();
+                        Split();
                         hasSplit = true;
                     }
                     break;
@@ -172,49 +175,96 @@ namespace test {
         /// Determines and executes the player's choice of turns (Console version)
         /// </summary>
         /// <param name="dealerFaceUpCard">Displayed to the player</param>
-        internal void makeTurns(Card dealerFaceUpCard) {
-            if (CanSplit) {
-                
+        internal void makeTurns(Card dealerFaceUpCard, Action onquit) {
+            // Sets up a small internal function
+            Action<PlayerHand> printHands = (activehand) => {
+                Console.WriteLine("\n Cash: {0,4:N0}  Bet: {1,3:N0}\n", Cash, Bet);
+                Console.WriteLine("  Dealer's Hand: {0}", dealerFaceUpCard);
+                Console.WriteLine("      Your Hand: {0}", activehand);
+            };
+
+            Action<PlayerHand> doMoves = (p) =>
+            {
+                bool again = true;
+                while (again) {
+                    if (p.Sum >= 21) {
+                        again = false;
+                    } else {
+                        Console.Clear();
+                        printHands(p);
+                        p.displayMenu();
+                        BlackjackAction c;
+                        switch (c = p.getChoice()) {
+                            case BlackjackAction.Hit:
+                                p.Draw();
+                                break;
+                            case BlackjackAction.Split:
+                                p.Split();
+                                break;
+                            case BlackjackAction.Stand:
+                                again = false;
+                                break;
+                            case BlackjackAction.EndGame:
+                                onquit();
+                                again = false;
+                                break;
+                            default:
+                                throw new InvalidOperationException(String.Format("Unable to act on BlackjackAction {0} (numeric {1}).", c, (int)c));
+                        }
+                    }
+                }
+            };
+
+            doMoves(this);
+            if (HasSplit) {
+                doMoves(psplit);
             }
-            Console.WriteLine("\n Cash: {0,4:N0}  Bet: {1,3:N0}\n", Cash, Bet);
-            Console.WriteLine("  Dealer's Hand: {0}", dealerFaceUpCard);
-            Console.WriteLine("      Your Hand: {0}", this);
         }
 
-        private BlackjackAction displayMenu(ActiveHand a = ActiveHand.Normal) {
-            Console.Clear();
-            printHands();
-            Console.WriteLine("\n\n     What would you like to do? {0}\n", HasSplit ? "" : a == ActiveHand.Normal ? "(Hand 1)" : "(Hand 2)");
+        private void displayMenu(ActiveHand a = ActiveHand.Normal) {
+            Console.WriteLine("\n\n"+
+                              "     What would you like to do?{0}\n", !HasSplit ? "" 
+                                                                               : a == ActiveHand.Normal ? " (Hand 1)" 
+                                                                                                        : " (Hand 2)");
             Console.WriteLine(" [1] Hit");
             Console.WriteLine(" [2] Stand");
-            Console.WriteLine(" [3] Split");
+            if (CanSplit) {
+                Console.WriteLine(" [3] Split");
+            }
             Console.WriteLine(" [0] Quit Game");
-            //TODO: Allow a doubling factor of 1.0 to 2.0 [what did I mean by this? - from old code]
+        }
 
+        /// <summary>
+        /// Waits for a keystroke from the user and returns the appropriate BlackjackAction.
+        /// This function will continue until the user has input a valid choice.
+        /// </summary>
+        /// <returns></returns>
+        private BlackjackAction getChoice() {
             ConsoleKeyInfo k = Console.ReadKey(true);
-            if (!Char.IsDigit(k.KeyChar)) {
-                Console.WriteLine("  Invalid option. Choose 0-3.");
+            int choice = -1;
 
-                return displayMenu();
+            // This one is a little complicated, so let me explain:
+            // Try to parse the key the user just pressed as an integer. If you're successful, put the result in 'choice' and return 'true'.
+            // (If it is unsuccessul, short-circuiting will prevent the predicate from evaluating)
+            // Then, make sure their choice was a positive number.
+            // If they can split, allow that choice (menu item 3).
+            // Otherwise, disallow it.
+            // In other words, if the user can split, they should be able to select 'split' - but not otherwise.
+            while (!Int32.TryParse(k.KeyChar.ToString(), out choice) || choice < 0 || choice > (CanSplit ? 3 : 2)) {
+                k = Console.ReadKey(true);
             }
-            int t = Int32.Parse("" + k.KeyChar);
-            if (t < 0 || t > 3) {
-                Console.WriteLine("  Invalid option. Choose 0-3.");
-                return displayMenu();
-            } else {
-                switch (t) {
-                    case 0:
-                        return BlackjackAction.EndGame;
-                    case 1:
-                        return BlackjackAction.Hit;
-                    case 2:
-                        return BlackjackAction.Stand;
-                    case 3:
-                        return BlackjackAction.Split;
-                    default:
-                        throw new ArgumentOutOfRangeException("Wha happun?");
-                };
-            }
+            switch (choice) {
+                case 0:
+                    return BlackjackAction.EndGame;
+                case 1:
+                    return BlackjackAction.Hit;
+                case 2:
+                    return BlackjackAction.Stand;
+                case 3:
+                    return BlackjackAction.Split;
+                default:
+                    throw new ArgumentOutOfRangeException(String.Format("The user pressed an unrecognized key and the error checking failed to recognize: {0}", k));
+            };
         }
     }
 }

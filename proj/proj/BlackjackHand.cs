@@ -45,10 +45,10 @@ namespace test {
         /// <summary>
         /// True if the hand is a combination of the Ace of Spades and some Jack
         /// </summary>
-        public bool IsBlackjack {
+        public bool IsBlackjack { // SRS 1.3 2.3.2
             get {
-                return Count == 2 && (   (this[0].Rank == Rank.Ace && this[0].Suit == Suit.Spades) && (this[1].Rank == Rank.Jack && (this[1].Suit == Suit.Spades || this[1].Suit == Suit.Clubs))
-                                      || (this[1].Rank == Rank.Ace && this[1].Suit == Suit.Spades) && (this[0].Rank == Rank.Jack && (this[0].Suit == Suit.Spades || this[0].Suit == Suit.Clubs))
+                return Count == 2 && (   this[0].Rank == Rank.Ace && this[1].IsFaceCard
+                                      || this[1].Rank == Rank.Ace && this[0].IsFaceCard
                                      );
             }
         }

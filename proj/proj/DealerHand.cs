@@ -21,13 +21,16 @@ namespace test {
         /// <summary>
         /// Completes one turn of a Dealer according to appropriate logic. The only valid BlackjackAction is None.
         /// </summary>
-        public bool doTurn() {
+        public void doTurn() {
             // TODO: verify
-            if (Sum < 17 || (NumberOfAces > 0 && Sum <= 17)) {
-                Draw();
-                return true;
+            bool again = true;
+            while (again) {
+                if (Sum < 17 || (NumberOfAces > 0 && Sum <= 17)) {
+                    Draw();
+                } else {
+                    again = false;
+                }
             }
-            return false;
         }
 
         /// <summary>

@@ -88,5 +88,11 @@ namespace test {
         public override int GetHashCode() {
             return (int)Rank * 10 + (int)Suit;
         }
+
+        public bool IsFaceCard {
+            get {
+                return Rank == test.Rank.Jack || Rank == test.Rank.Queen || Rank == test.Rank.King;
+            }
+        }
     }
 }
