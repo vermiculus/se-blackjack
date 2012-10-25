@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Blackjack {
     class Program {
-        static void Main(string[] args) {
+        static void MainConsole(string[] args) {
             Game g = new Game();
             while (!g.GameOver && g.ContinuePlay) {
                 g.Play();

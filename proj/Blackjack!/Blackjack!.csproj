@@ -8,7 +8,7 @@
     <ProjectGuid>{80C817D9-DC21-4B13-8D18-9BEC5FBB8C82}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blackjack_</RootNamespace>
+    <RootNamespace>Blackjack</RootNamespace>
     <AssemblyName>Blackjack!</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -63,6 +64,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Blackjack\BlackjackAction.cs" />
+    <Compile Include="Blackjack\BlackjackHand.cs" />
+    <Compile Include="Blackjack\Card.cs" />
+    <Compile Include="Blackjack\CardSource.cs" />
+    <Compile Include="Blackjack\DealerHand.cs" />
+    <Compile Include="Blackjack\Game.cs" />
+    <Compile Include="Blackjack\Hand.cs" />
+    <Compile Include="Blackjack\PlayerHand.cs" />
+    <Compile Include="Blackjack\Program.cs" />
+    <Compile Include="Blackjack\Rank.cs" />
+    <Compile Include="Blackjack\Suit.cs" />
+    <Compile Include="Blackjack\WinLoss.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -86,6 +99,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Blackjack\classes.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -93,80 +107,74 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\proj\proj.csproj">
-      <Project>{98EE833F-AC4F-4850-BD61-ED2F4F5862DA}</Project>
-      <Name>proj</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="cards_png\b1fh.png" />
-    <Resource Include="cards_png\b1fv.png" />
-    <Resource Include="cards_png\b1pb.png" />
-    <Resource Include="cards_png\b1pl.png" />
-    <Resource Include="cards_png\b1pr.png" />
-    <Resource Include="cards_png\b1pt.png" />
-    <Resource Include="cards_png\b2fh.png" />
-    <Resource Include="cards_png\b2fv.png" />
-    <Resource Include="cards_png\b2pb.png" />
-    <Resource Include="cards_png\b2pl.png" />
-    <Resource Include="cards_png\b2pr.png" />
-    <Resource Include="cards_png\b2pt.png" />
-    <Resource Include="cards_png\c1.png" />
-    <Resource Include="cards_png\c10.png" />
-    <Resource Include="cards_png\c2.png" />
-    <Resource Include="cards_png\c3.png" />
-    <Resource Include="cards_png\c4.png" />
-    <Resource Include="cards_png\c5.png" />
-    <Resource Include="cards_png\c6.png" />
-    <Resource Include="cards_png\c7.png" />
-    <Resource Include="cards_png\c8.png" />
-    <Resource Include="cards_png\c9.png" />
-    <Resource Include="cards_png\cj.png" />
-    <Resource Include="cards_png\ck.png" />
-    <Resource Include="cards_png\cq.png" />
-    <Resource Include="cards_png\d1.png" />
-    <Resource Include="cards_png\d10.png" />
-    <Resource Include="cards_png\d2.png" />
-    <Resource Include="cards_png\d3.png" />
-    <Resource Include="cards_png\d4.png" />
-    <Resource Include="cards_png\d5.png" />
-    <Resource Include="cards_png\d6.png" />
-    <Resource Include="cards_png\d7.png" />
-    <Resource Include="cards_png\d8.png" />
-    <Resource Include="cards_png\d9.png" />
-    <Resource Include="cards_png\dj.png" />
-    <Resource Include="cards_png\dk.png" />
-    <Resource Include="cards_png\dq.png" />
-    <Resource Include="cards_png\ec.png" />
-    <Resource Include="cards_png\h1.png" />
-    <Resource Include="cards_png\h10.png" />
-    <Resource Include="cards_png\h2.png" />
-    <Resource Include="cards_png\h3.png" />
-    <Resource Include="cards_png\h4.png" />
-    <Resource Include="cards_png\h5.png" />
-    <Resource Include="cards_png\h6.png" />
-    <Resource Include="cards_png\h7.png" />
-    <Resource Include="cards_png\h8.png" />
-    <Resource Include="cards_png\h9.png" />
-    <Resource Include="cards_png\hj.png" />
-    <Resource Include="cards_png\hk.png" />
-    <Resource Include="cards_png\hq.png" />
-    <Content Include="cards_png\index.html" />
-    <Resource Include="cards_png\jb.png" />
-    <Resource Include="cards_png\jr.png" />
-    <Resource Include="cards_png\s1.png" />
-    <Resource Include="cards_png\s10.png" />
-    <Resource Include="cards_png\s2.png" />
-    <Resource Include="cards_png\s3.png" />
-    <Resource Include="cards_png\s4.png" />
-    <Resource Include="cards_png\s5.png" />
-    <Resource Include="cards_png\s6.png" />
-    <Resource Include="cards_png\s7.png" />
-    <Resource Include="cards_png\s8.png" />
-    <Resource Include="cards_png\s9.png" />
-    <Resource Include="cards_png\sj.png" />
-    <Resource Include="cards_png\sk.png" />
-    <Resource Include="cards_png\sq.png" />
+    <Resource Include="Properties\cards_png\b1fh.png" />
+    <Resource Include="Properties\cards_png\b1fv.png" />
+    <Resource Include="Properties\cards_png\b1pb.png" />
+    <Resource Include="Properties\cards_png\b1pl.png" />
+    <Resource Include="Properties\cards_png\b1pr.png" />
+    <Resource Include="Properties\cards_png\b1pt.png" />
+    <Resource Include="Properties\cards_png\b2fh.png" />
+    <Resource Include="Properties\cards_png\b2fv.png" />
+    <Resource Include="Properties\cards_png\b2pb.png" />
+    <Resource Include="Properties\cards_png\b2pl.png" />
+    <Resource Include="Properties\cards_png\b2pr.png" />
+    <Resource Include="Properties\cards_png\b2pt.png" />
+    <Resource Include="Properties\cards_png\c1.png" />
+    <Resource Include="Properties\cards_png\c10.png" />
+    <Resource Include="Properties\cards_png\c2.png" />
+    <Resource Include="Properties\cards_png\c3.png" />
+    <Resource Include="Properties\cards_png\c4.png" />
+    <Resource Include="Properties\cards_png\c5.png" />
+    <Resource Include="Properties\cards_png\c6.png" />
+    <Resource Include="Properties\cards_png\c7.png" />
+    <Resource Include="Properties\cards_png\c8.png" />
+    <Resource Include="Properties\cards_png\c9.png" />
+    <Resource Include="Properties\cards_png\cj.png" />
+    <Resource Include="Properties\cards_png\ck.png" />
+    <Resource Include="Properties\cards_png\cq.png" />
+    <Resource Include="Properties\cards_png\d1.png" />
+    <Resource Include="Properties\cards_png\d10.png" />
+    <Resource Include="Properties\cards_png\d2.png" />
+    <Resource Include="Properties\cards_png\d3.png" />
+    <Resource Include="Properties\cards_png\d4.png" />
+    <Resource Include="Properties\cards_png\d5.png" />
+    <Resource Include="Properties\cards_png\d6.png" />
+    <Resource Include="Properties\cards_png\d7.png" />
+    <Resource Include="Properties\cards_png\d8.png" />
+    <Resource Include="Properties\cards_png\d9.png" />
+    <Resource Include="Properties\cards_png\dj.png" />
+    <Resource Include="Properties\cards_png\dk.png" />
+    <Resource Include="Properties\cards_png\dq.png" />
+    <Resource Include="Properties\cards_png\ec.png" />
+    <Resource Include="Properties\cards_png\h1.png" />
+    <Resource Include="Properties\cards_png\h10.png" />
+    <Resource Include="Properties\cards_png\h2.png" />
+    <Resource Include="Properties\cards_png\h3.png" />
+    <Resource Include="Properties\cards_png\h4.png" />
+    <Resource Include="Properties\cards_png\h5.png" />
+    <Resource Include="Properties\cards_png\h6.png" />
+    <Resource Include="Properties\cards_png\h7.png" />
+    <Resource Include="Properties\cards_png\h8.png" />
+    <Resource Include="Properties\cards_png\h9.png" />
+    <Resource Include="Properties\cards_png\hj.png" />
+    <Resource Include="Properties\cards_png\hk.png" />
+    <Resource Include="Properties\cards_png\hq.png" />
+    <Content Include="Properties\cards_png\index.html" />
+    <Resource Include="Properties\cards_png\jb.png" />
+    <Resource Include="Properties\cards_png\jr.png" />
+    <Resource Include="Properties\cards_png\s1.png" />
+    <Resource Include="Properties\cards_png\s10.png" />
+    <Resource Include="Properties\cards_png\s2.png" />
+    <Resource Include="Properties\cards_png\s3.png" />
+    <Resource Include="Properties\cards_png\s4.png" />
+    <Resource Include="Properties\cards_png\s5.png" />
+    <Resource Include="Properties\cards_png\s6.png" />
+    <Resource Include="Properties\cards_png\s7.png" />
+    <Resource Include="Properties\cards_png\s8.png" />
+    <Resource Include="Properties\cards_png\s9.png" />
+    <Resource Include="Properties\cards_png\sj.png" />
+    <Resource Include="Properties\cards_png\sk.png" />
+    <Resource Include="Properties\cards_png\sq.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
