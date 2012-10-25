@@ -22,6 +22,24 @@ namespace test {
         public static uint NUM_DECKS = 1;
         public static uint MIN_BET = 1;
 
+        private uint num_wins;
+        private uint num_losses;
+        private uint largest_win;
+        private uint largest_loss;
+
+        public uint NumWins {
+            get { return num_wins; }
+        }
+        public uint NumLosses {
+            get { return num_losses; }
+        }
+        public uint LargestWin {
+            get { return largest_win; }
+        }
+        public uint LargestLoss {
+            get { return largest_loss; }
+        }
+
         private bool playAgain;
 
         internal GameState State {
@@ -64,6 +82,12 @@ namespace test {
             discard = new CardCollection(NUM_DECKS, false);
             player = new PlayerHand(source, discard);
             dealer = new DealerHand(source, discard);
+
+            num_wins = 0;
+            num_losses = 0;
+            largest_win = UInt32.MinValue;
+            largest_loss = UInt32.MinValue;
+
             playAgain = true;
         }
 
@@ -152,6 +176,25 @@ namespace test {
                     break;
                 default:
                     throw new ArgumentException("What the fuck happened? I didn't get a valid WinLoss out of checkWinLoss()");
+            }
+
+            switch (w) {
+                case WinLoss.Dealer:
+                    num_losses++;
+                    if (player.Bet > largest_loss) {
+                        largest_loss = player.Bet;
+                    }
+                    break;
+                case WinLoss.Player:
+                    num_wins++;
+                    if (player.Bet > largest_win) {
+                        largest_win = player.Bet;
+                    }
+                    break;
+                case WinLoss.Push:
+                    break;
+                default:
+                    break;
             }
 
             player.doBet(w);

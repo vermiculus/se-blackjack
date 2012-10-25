@@ -61,6 +61,11 @@ namespace test {
                     break;
             }
 
+            Console.WriteLine("\n\n");
+            Console.WriteLine(" Wins:Losses => {0}:{1}", g.NumWins, g.NumLosses);
+            Console.WriteLine(" Largest win => {0}", g.LargestWin);
+            Console.WriteLine(" Largest loss => {0}", g.LargestLoss);
+
             Console.ReadKey(true);
         }
     }
