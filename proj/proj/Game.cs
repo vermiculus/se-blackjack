@@ -48,7 +48,7 @@ namespace test {
             get { return playAgain; }
         }
 
-        
+
 
         private CardCollection source;
         private CardCollection discard;
@@ -66,24 +66,7 @@ namespace test {
             discard = new CardCollection(NUM_DECKS, false);
             player = new PlayerHand(source, discard);
             dealer = new DealerHand(source, discard);
-            player.PutCardsBack();
-            dealer.PutCardsBack();
             playAgain = true;
-        }
-
-        public void shuffleShoe() {
-            double frac = (double)source.Count / (source.DeckCount * 52);
-            if (frac > .75)
-                return;
-            if (frac <= .25) {
-                source = new CardCollection(5);
-            } else {
-                if (((new Random()).NextDouble() > ((int)(100 - 100 * frac))))
-                // TODO: figure out what I was on and get some more
-                {
-                    source = new CardCollection(5);
-                }
-            }
         }
 
         private void printHands() {
@@ -103,6 +86,9 @@ namespace test {
             dealer.Draw(2);
 
             BlackjackAction a, b;
+
+            player.makeTurns();
+
             while (checkWinLoss() == WinLoss.NoWin && playAgain) {
                 bool again;
                 if (!player.HasSplit) {
@@ -272,41 +258,7 @@ namespace test {
             dealer.PutCardsBack();
         }
 
-        private BlackjackAction displayMenu(int handidx = -1) {
-            Console.Clear();
-            printHands();
-            Console.WriteLine("\n\n     What would you like to do? {0}\n", handidx < 0 ? "" : handidx == 0 ? "(Hand 1)" : "(Hand 2)");
-            Console.WriteLine(" [1] Hit");
-            Console.WriteLine(" [2] Stand");
-            Console.WriteLine(" [3] Split");
-            Console.WriteLine(" [0] Quit Game");
-            //TODO: Allow a doubling factor of 1.0 to 2.0 [what did I mean by this? - from old code]
 
-            ConsoleKeyInfo k = Console.ReadKey(true);
-            if (!Char.IsDigit(k.KeyChar)) {
-                Console.WriteLine("  Invalid option. Choose 0-3.");
-
-                return displayMenu();
-            }
-            int t = Int32.Parse("" + k.KeyChar);
-            if (t < 0 || t > 3) {
-                Console.WriteLine("  Invalid option. Choose 0-3.");
-                return displayMenu();
-            } else {
-                switch (t) {
-                    case 0:
-                        return BlackjackAction.EndGame;
-                    case 1:
-                        return BlackjackAction.Hit;
-                    case 2:
-                        return BlackjackAction.Stand;
-                    case 3:
-                        return BlackjackAction.Split;
-                    default:
-                        throw new ArgumentOutOfRangeException("Wha happun?");
-                };
-            }
-        }
         public bool getBet() {
             Console.Clear();
             Console.WriteLine("\n Cash: {0,4:N0}\n", player.Cash);

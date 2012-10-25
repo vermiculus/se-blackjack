@@ -20,5 +20,9 @@ namespace Blackjack_ {
         public MainWindow() {
             InitializeComponent();
         }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e) {
+            this.Close();
+        }
     }
 }

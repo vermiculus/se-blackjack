@@ -67,14 +67,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PlayerHand.xaml">
+    <Page Include="Player.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerHand.xaml.cs">
-      <DependentUpon>PlayerHand.xaml</DependentUpon>
+    <Compile Include="Player.xaml.cs">
+      <DependentUpon>Player.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -104,6 +104,76 @@
       <Project>{98EE833F-AC4F-4850-BD61-ED2F4F5862DA}</Project>
       <Name>proj</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="cards_png\b1fh.png" />
+    <Resource Include="cards_png\b1fv.png" />
+    <Resource Include="cards_png\b1pb.png" />
+    <Resource Include="cards_png\b1pl.png" />
+    <Resource Include="cards_png\b1pr.png" />
+    <Resource Include="cards_png\b1pt.png" />
+    <Resource Include="cards_png\b2fh.png" />
+    <Resource Include="cards_png\b2fv.png" />
+    <Resource Include="cards_png\b2pb.png" />
+    <Resource Include="cards_png\b2pl.png" />
+    <Resource Include="cards_png\b2pr.png" />
+    <Resource Include="cards_png\b2pt.png" />
+    <Resource Include="cards_png\c1.png" />
+    <Resource Include="cards_png\c10.png" />
+    <Resource Include="cards_png\c2.png" />
+    <Resource Include="cards_png\c3.png" />
+    <Resource Include="cards_png\c4.png" />
+    <Resource Include="cards_png\c5.png" />
+    <Resource Include="cards_png\c6.png" />
+    <Resource Include="cards_png\c7.png" />
+    <Resource Include="cards_png\c8.png" />
+    <Resource Include="cards_png\c9.png" />
+    <Resource Include="cards_png\cj.png" />
+    <Resource Include="cards_png\ck.png" />
+    <Resource Include="cards_png\cq.png" />
+    <Resource Include="cards_png\d1.png" />
+    <Resource Include="cards_png\d10.png" />
+    <Resource Include="cards_png\d2.png" />
+    <Resource Include="cards_png\d3.png" />
+    <Resource Include="cards_png\d4.png" />
+    <Resource Include="cards_png\d5.png" />
+    <Resource Include="cards_png\d6.png" />
+    <Resource Include="cards_png\d7.png" />
+    <Resource Include="cards_png\d8.png" />
+    <Resource Include="cards_png\d9.png" />
+    <Resource Include="cards_png\dj.png" />
+    <Resource Include="cards_png\dk.png" />
+    <Resource Include="cards_png\dq.png" />
+    <Resource Include="cards_png\ec.png" />
+    <Resource Include="cards_png\h1.png" />
+    <Resource Include="cards_png\h10.png" />
+    <Resource Include="cards_png\h2.png" />
+    <Resource Include="cards_png\h3.png" />
+    <Resource Include="cards_png\h4.png" />
+    <Resource Include="cards_png\h5.png" />
+    <Resource Include="cards_png\h6.png" />
+    <Resource Include="cards_png\h7.png" />
+    <Resource Include="cards_png\h8.png" />
+    <Resource Include="cards_png\h9.png" />
+    <Resource Include="cards_png\hj.png" />
+    <Resource Include="cards_png\hk.png" />
+    <Resource Include="cards_png\hq.png" />
+    <Content Include="cards_png\index.html" />
+    <Resource Include="cards_png\jb.png" />
+    <Resource Include="cards_png\jr.png" />
+    <Resource Include="cards_png\s1.png" />
+    <Resource Include="cards_png\s10.png" />
+    <Resource Include="cards_png\s2.png" />
+    <Resource Include="cards_png\s3.png" />
+    <Resource Include="cards_png\s4.png" />
+    <Resource Include="cards_png\s5.png" />
+    <Resource Include="cards_png\s6.png" />
+    <Resource Include="cards_png\s7.png" />
+    <Resource Include="cards_png\s8.png" />
+    <Resource Include="cards_png\s9.png" />
+    <Resource Include="cards_png\sj.png" />
+    <Resource Include="cards_png\sk.png" />
+    <Resource Include="cards_png\sq.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

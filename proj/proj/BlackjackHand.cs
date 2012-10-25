@@ -85,7 +85,7 @@ namespace test {
         /// </summary>
         /// <param name="c">A Card to determine the point value of</param>
         /// <returns>the point value of the passed Card</returns>
-        private static uint cardValue(Card c) {
+        public static uint cardValue(Card c) {
             switch (c.Rank) {
                 case Rank.Ace:
                     return 11;

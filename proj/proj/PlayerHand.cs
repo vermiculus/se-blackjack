@@ -5,6 +5,11 @@ using System.Text;
 
 namespace test {
     class PlayerHand : BlackjackHand {
+        private enum ActiveHand {
+            Normal,
+            Split
+        }
+
         private uint myBet;
         private uint myCash;
         public const int DEFAULT_CASH = 500;
@@ -45,7 +50,8 @@ namespace test {
         /// </summary>
         public bool CanSplit {
             get {
-                return this.Count == 2 && this.cards[0].Rank == this.cards[1].Rank;
+                return this.Count == 2 && this.cards[0].Rank == this.cards[1].Rank && !HasSplit && Cash >= Bet;
+                // return this.Count == 2 && cardValue(this.cards[0]) == cardValue(this.cards[1]) && !HasSplit && Cash >= Bet;
             }
         }
 
@@ -144,18 +150,6 @@ namespace test {
             }
         }
 
-        // TODO: When the hand has been split on two aces, the aces do not 'buckle down' if necessary.
-        // Adding 'new' tells the compiler that I know this property in the base class is being hidden.
-        public new uint Sum {
-            get {
-                if (psplit == null) {
-                    return base.Sum;
-                } else {
-                    return base.Sum + psplit.Sum;
-                }
-            }
-        }
-
         /// <summary>
         /// Sets this hand's bet and decreases cash accordingly
         /// </summary>
@@ -172,6 +166,55 @@ namespace test {
         public void remakeBet(uint bet) {
             myCash += myBet;
             makeBet(bet);
+        }
+
+        /// <summary>
+        /// Determines and executes the player's choice of turns (Console version)
+        /// </summary>
+        /// <param name="dealerFaceUpCard">Displayed to the player</param>
+        internal void makeTurns(Card dealerFaceUpCard) {
+            if (CanSplit) {
+                
+            }
+            Console.WriteLine("\n Cash: {0,4:N0}  Bet: {1,3:N0}\n", Cash, Bet);
+            Console.WriteLine("  Dealer's Hand: {0}", dealerFaceUpCard);
+            Console.WriteLine("      Your Hand: {0}", this);
+        }
+
+        private BlackjackAction displayMenu(ActiveHand a = ActiveHand.Normal) {
+            Console.Clear();
+            printHands();
+            Console.WriteLine("\n\n     What would you like to do? {0}\n", HasSplit ? "" : a == ActiveHand.Normal ? "(Hand 1)" : "(Hand 2)");
+            Console.WriteLine(" [1] Hit");
+            Console.WriteLine(" [2] Stand");
+            Console.WriteLine(" [3] Split");
+            Console.WriteLine(" [0] Quit Game");
+            //TODO: Allow a doubling factor of 1.0 to 2.0 [what did I mean by this? - from old code]
+
+            ConsoleKeyInfo k = Console.ReadKey(true);
+            if (!Char.IsDigit(k.KeyChar)) {
+                Console.WriteLine("  Invalid option. Choose 0-3.");
+
+                return displayMenu();
+            }
+            int t = Int32.Parse("" + k.KeyChar);
+            if (t < 0 || t > 3) {
+                Console.WriteLine("  Invalid option. Choose 0-3.");
+                return displayMenu();
+            } else {
+                switch (t) {
+                    case 0:
+                        return BlackjackAction.EndGame;
+                    case 1:
+                        return BlackjackAction.Hit;
+                    case 2:
+                        return BlackjackAction.Stand;
+                    case 3:
+                        return BlackjackAction.Split;
+                    default:
+                        throw new ArgumentOutOfRangeException("Wha happun?");
+                };
+            }
         }
     }
 }

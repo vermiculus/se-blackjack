@@ -38,9 +38,9 @@ namespace test {
             original_deck_size = deckCount;
             cards = new List<Card>();
             if (makeCards) {
-                for (int i = 0; i < deckCount; i++) {
-                    foreach (Suit s in Enum.GetValues(typeof(Suit))) {
-                        foreach (Rank r in Enum.GetValues(typeof(Rank))) {
+                for (int i = 0; i < deckCount; i++) { // for each deck,
+                    foreach (Suit s in Enum.GetValues(typeof(Suit))) { // for each possible Suit
+                        foreach (Rank r in Enum.GetValues(typeof(Rank))) { // for each possible Rank
                             cards.Add(new Card(r, s));
                         }
                     }
@@ -78,8 +78,12 @@ namespace test {
             cards.Sort();
         }
 
-        internal void Refill(CardCollection source) {
-            source.cards.InsertRange(0, cards);
+        /// <summary>
+        /// Refill some other CardCollection with the cards from this CardCollection
+        /// </summary>
+        /// <param name="destination"></param>
+        internal void Refill(CardCollection destination) {
+            destination.cards.InsertRange(0, cards);
             cards.Clear();
         }
     }
