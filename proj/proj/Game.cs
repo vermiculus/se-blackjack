@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define TESTING_MODE
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
@@ -7,8 +9,9 @@ namespace Blackjack {
     /// <summary>
     /// Contains program logic for playing multiple games of Blackjack on the console. Salted for completion by 30 October 2012 with a dash of peppermint
     /// </summary>
-    class Game {
-
+    class Game
+    {
+        #region "Properties and Fields"
         public enum GameState {
             CasinoOwner,
             CardCounter,
@@ -67,19 +70,38 @@ namespace Blackjack {
         }
 
 
-
+#if TESTING_MODE
+        private PredeterministicCardCollection source;
+        private CardCollection discard;
+#else
         private CardCollection source;
         private CardCollection discard;
+#endif
         PlayerHand player;
         DealerHand dealer;
 
         public bool GameOver {
             get { return player.Cash < MIN_BET; }
         }
+        #endregion
 
         public Game() {
+#if TESTING_MODE
+            var __path = @"../../cards.txt";
+            if (!System.IO.File.Exists(__path))
+            {
+                Console.WriteLine("\"{0}\" does not exist.", __path);
+                Console.ReadKey(true);
+                System.Environment.Exit(0);
+            }
+            
+            source = new PredeterministicCardCollection(__path);
+            
+            discard = new CardCollection(NUM_DECKS, false);
+#else
             source = new CardCollection(NUM_DECKS);
             discard = new CardCollection(NUM_DECKS, false);
+#endif
             player = new PlayerHand(source, discard);
             dealer = new DealerHand(source, discard);
 
@@ -99,9 +121,18 @@ namespace Blackjack {
                 return;
             }
 
-            //player.Draw(2);
-            player.giveCards(new Card(Rank.Five, Suit.Diamonds), new Card(Rank.Five, Suit.Clubs));
-            dealer.Draw(2);
+            try
+            {
+                player.Draw(2);
+                dealer.Draw(2);
+            }
+            catch (OutOfCardsException e)
+            {
+                Console.Clear();
+                Console.WriteLine("\n For some reason, the system ran out of cards: \"{0}\"", e.Message);
+                Console.ReadKey(true);
+                Environment.Exit(0);
+            }
 
 
             player.makeTurns(dealer.Top, quitGame);
@@ -155,7 +186,7 @@ namespace Blackjack {
 
             WinLoss w = checkWinLoss();
             if (player.Sum == dealer.Sum) {
-                w = WinLoss.Push;
+                w = WinLoss.Push; // TODO: this can lead to a blackjack losing against normal 21 i think
             }
             switch (w) {
                 case WinLoss.NoWin: // TODO: There has to be a better way to do this
@@ -201,8 +232,13 @@ namespace Blackjack {
 
             player.doBet(w);
 
+#if TESTING_MODE
+            player = new PlayerHand(source, discard, player.Cash);
+            dealer = new DealerHand(source, discard);
+#else
             player.PutCardsBack();
             dealer.PutCardsBack();
+#endif
         }
 
         public bool getBet() {
