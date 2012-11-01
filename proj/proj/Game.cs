@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Blackjack {
     /// <summary>
-    /// Contains program logic for playing multiple games of Blackjack on the console. Salted for completion by 30 October 2012
+    /// Contains program logic for playing multiple games of Blackjack on the console. Salted for completion by 30 October 2012 with a dash of peppermint
     /// </summary>
     class Game {
 
@@ -99,8 +99,10 @@ namespace Blackjack {
                 return;
             }
 
-            player.Draw(2);
+            //player.Draw(2);
+            player.giveCards(new Card(Rank.Five, Suit.Diamonds), new Card(Rank.Five, Suit.Clubs));
             dealer.Draw(2);
+
 
             player.makeTurns(dealer.Top, quitGame);
             if (ContinuePlay) {

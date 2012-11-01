@@ -119,5 +119,21 @@ namespace Blackjack {
         /// Places all cards this object is responsible for back in their respective decks
         /// </summary>
         public abstract void PutCardsBack(); // TODO: make this method name not suck
+
+        internal void giveCards(Card a, Card b)
+        {
+            Draw();
+            while (!this[0].Equals(a))
+            {
+                Discard(0);
+                Draw();
+            }
+            Draw();
+            while (!this[1].Equals(b))
+            {
+                Discard(1);
+                Draw();
+            }
+        }
     }
 }

@@ -73,20 +73,10 @@ namespace Blackjack {
 
         public override string ToString() {
             List<string> s1 = new List<string>();
-            List<string> s2 = new List<string>();
             foreach (Card c in cards) {
                 s1.Add(c.ToString());
             }
-            if (psplit != null) {
-                foreach (Card c in psplit.cards) {
-                    s2.Add(c.ToString());
-                }
-            }
-            if (psplit == null) {
-                return String.Format("{0} (sum:{2}) [{1}]", cards.Count, String.Join<string>(", ", s1.ToArray()), Sum);
-            } else {
-                return String.Format("{0} (sum:{2}) [[{1}],[{3}]]", cards.Count, String.Join<string>(", ", s1.ToArray()), Sum, String.Join<string>(", ", s2.ToArray()));
-            }
+            return String.Format("{0} (sum:{2}) [{1}]", cards.Count, String.Join<string>(", ", s1.ToArray()), Sum);
         }
 
         /// <summary>
