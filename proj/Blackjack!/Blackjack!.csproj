@@ -56,9 +56,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GameServant.cs" />
+    <Compile Include="GetUserName.xaml.cs">
+      <DependentUpon>GetUserName.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI Sketch.xaml.cs">
       <DependentUpon>UI Sketch.xaml</DependentUpon>
     </Compile>
+    <Page Include="GetUserName.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

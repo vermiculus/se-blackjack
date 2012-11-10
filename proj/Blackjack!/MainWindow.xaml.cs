@@ -29,6 +29,8 @@ namespace Blackjack {
 
             comboBox1.ItemsSource = Enum.GetValues(typeof(Rank));
             comboBox2.ItemsSource = Enum.GetValues(typeof(Suit));
+            (new UI_Sketch()).Show();
+            this.Close();
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e) {

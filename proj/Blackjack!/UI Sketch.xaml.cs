@@ -18,9 +18,30 @@ namespace Blackjack
     /// </summary>
     public partial class UI_Sketch : Window
     {
+        GameServant game;
         public UI_Sketch()
         {
             InitializeComponent();
+            game = new GameServant();
+            //game = FindResource("game") as GameServant;
+            //(new GetUserName(ref game)).ShowDialog();
+            game.PlayerName = "Sean";
+            this.DataContext = game;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            switch (game.ActiveHand)
+            {
+                case GameServant.ActiveHandPotentials.Normal:
+                    game.ActiveHand = GameServant.ActiveHandPotentials.Split;
+                    break;
+                case GameServant.ActiveHandPotentials.Split:
+                    game.ActiveHand = GameServant.ActiveHandPotentials.Normal;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

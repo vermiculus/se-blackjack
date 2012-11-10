@@ -151,53 +151,60 @@ namespace Blackjack {
                         throw new InvalidOperationException("What?");
                 }
             }
+            reset();
         }
 
-        private WinLoss checkWinLoss() {
+        private void reset()
+        {
+#if TESTING_MODE
+            player = new PlayerHand(source, discard, player.Cash);
+            dealer = new DealerHand(source, discard);
+#else
+            player.PutCardsBack();
+            dealer.PutCardsBack();
+#endif
+        }
+
+        private WinLoss checkWinLoss(bool onSplit = false) {
             // TODO: verify accuracy?
+            PlayerHand p = onSplit ? player.SplitHand : player;
             WinLoss ret = WinLoss.NoWin;
-            if (player.IsBust && dealer.IsBust || player.IsBlackjack && dealer.IsBlackjack) {
-                if (player.Sum < dealer.Sum) {
+            if (p.IsBlackjack && dealer.IsBlackjack)
+            {
+                ret = WinLoss.Push;
+            } else if (p.IsBust && dealer.IsBust) {
+                if (p.Sum < dealer.Sum) {
                     ret = WinLoss.Player;
-                } else if (player.Sum > dealer.Sum) {
+                } else if (p.Sum > dealer.Sum) {
                     ret = WinLoss.Dealer;
                 } else {
                     ret = WinLoss.Push;
                 }
-            } else if (player.IsBust || dealer.IsBlackjack) {
+            } else if (p.IsBust || dealer.IsBlackjack) {
                 ret = WinLoss.Dealer;
-            } else if (dealer.IsBust || player.IsBlackjack) {
+            } else if (dealer.IsBust || p.IsBlackjack) {
                 ret = WinLoss.Player;
             }
             return ret;
         }
 
-        private void end() {
+        private void end(bool onSplit = false) {
             Action dispDW = () => Console.WriteLine("\n     You lost! :C");
             Action dispPW = () => Console.WriteLine("\n     You won! :D");
 
+            PlayerHand p = onSplit ? player.SplitHand : player;
+
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine(" Cash: {0,4:N0}  Bet: {1,3:N0}\n", player.Cash, player.Bet);
+            Console.WriteLine(" Cash: {0,4:N0}  Bet: {1,3:N0}\n", player.Cash, p.Bet);
             Console.WriteLine("  Dealer's Hand: {0}", dealer.ToRevealingString());
-            //Console.WriteLine("  Dealer's Hand: {0}", dealer.Top);
-            Console.WriteLine("      Your Hand: {0}", player.ToString());
+            Console.WriteLine("      Your Hand: {0}", p.ToString());
             Console.WriteLine();
 
-            WinLoss w = checkWinLoss();
-            if (player.Sum == dealer.Sum) {
-                w = WinLoss.Push; // TODO: this can lead to a blackjack losing against normal 21 i think
-            }
+            WinLoss w = checkWinLoss(onSplit);
             switch (w) {
-                case WinLoss.NoWin: // TODO: There has to be a better way to do this
-                    if (player.Sum > dealer.Sum) {
-                        dispPW();
-                        w = WinLoss.Player;
-                    } else {
-                        dispDW();
-                        w = WinLoss.Dealer;
-                    }
-                    break;
+                case WinLoss.NoWin:
+                    throw new Exception("How did I get here? I should only enter 'end' at the end of a game, but WinLoss.NoWin is reserved for the continuation of a game!");
                 case WinLoss.Dealer:
                     dispDW();
                     break;
@@ -208,7 +215,7 @@ namespace Blackjack {
                     Console.WriteLine("\n     You tied the dealer with {0} points! :O", player.Sum);
                     break;
                 default:
-                    throw new ArgumentException("What the fuck happened? I didn't get a valid WinLoss out of checkWinLoss()");
+                    throw new ArgumentException("What happened? I didn't get a valid WinLoss out of checkWinLoss()");
             }
 
             switch (w) {
@@ -230,15 +237,7 @@ namespace Blackjack {
                     break;
             }
 
-            player.doBet(w);
-
-#if TESTING_MODE
-            player = new PlayerHand(source, discard, player.Cash);
-            dealer = new DealerHand(source, discard);
-#else
-            player.PutCardsBack();
-            dealer.PutCardsBack();
-#endif
+            p.doBet(w);
         }
 
         public bool getBet() {
