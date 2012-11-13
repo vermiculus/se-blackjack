@@ -7,7 +7,7 @@ namespace Blackjack {
     /// <summary>
     /// Represents a standard playing card
     /// </summary>
-    class Card : IComparable<Card> {
+    public class Card : IComparable<Card> {
         /// <summary>
         /// The suit of this Card
         /// </summary>

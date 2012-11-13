@@ -56,25 +56,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GameServant.cs" />
-    <Compile Include="GetUserName.xaml.cs">
-      <DependentUpon>GetUserName.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI Sketch.xaml.cs">
-      <DependentUpon>UI Sketch.xaml</DependentUpon>
-    </Compile>
-    <Page Include="GetUserName.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Blackjack\BlackjackAction.cs" />
     <Compile Include="Blackjack\BlackjackHand.cs" />
     <Compile Include="Blackjack\Card.cs" />
@@ -87,6 +68,32 @@
     <Compile Include="Blackjack\Rank.cs" />
     <Compile Include="Blackjack\Suit.cs" />
     <Compile Include="Blackjack\WinLoss.cs" />
+    <Compile Include="CardStack.xaml.cs">
+      <DependentUpon>CardStack.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GameServant.cs" />
+    <Compile Include="GetUserName.xaml.cs">
+      <DependentUpon>GetUserName.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI Sketch.xaml.cs">
+      <DependentUpon>UI Sketch.xaml</DependentUpon>
+    </Compile>
+    <Page Include="CardStack.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GetUserName.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -174,6 +181,7 @@
     <Resource Include="Properties\cards_png\hj.png" />
     <Resource Include="Properties\cards_png\hk.png" />
     <Resource Include="Properties\cards_png\hq.png" />
+    <Resource Include="Blackjack\cards.txt" />
     <Content Include="Properties\cards_png\index.html" />
     <Resource Include="Properties\cards_png\jb.png" />
     <Resource Include="Properties\cards_png\jr.png" />

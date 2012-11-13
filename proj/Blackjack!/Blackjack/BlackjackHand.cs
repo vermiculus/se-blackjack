@@ -23,7 +23,7 @@ namespace Blackjack {
         /// </summary>
         public uint Sum {
             get {
-                uint s = sumCards(cards);
+                uint s = sumCards(Cards);
                 uint n = NumberOfAces;
                 while (s > 21 && n > 0) {
                     s -= 10;
@@ -59,7 +59,7 @@ namespace Blackjack {
         public uint NumberOfAces {
             get {
                 uint r = 0;
-                foreach (Card c in cards) {
+                foreach (Card c in Cards) {
                     if (c.Rank == Rank.Ace) {
                         r++;
                     }
@@ -119,5 +119,21 @@ namespace Blackjack {
         /// Places all cards this object is responsible for back in their respective decks
         /// </summary>
         public abstract void PutCardsBack(); // TODO: make this method name not suck
+
+        internal void giveCards(Card a, Card b)
+        {
+            Draw();
+            while (!this[0].Equals(a))
+            {
+                Discard(0);
+                Draw();
+            }
+            Draw();
+            while (!this[1].Equals(b))
+            {
+                Discard(1);
+                Draw();
+            }
+        }
     }
 }

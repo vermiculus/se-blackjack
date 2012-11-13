@@ -1,14 +1,17 @@
-﻿using System;
+﻿//#define TESTING_MODE
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 
 namespace Blackjack {
     /// <summary>
-    /// Contains program logic for playing multiple games of Blackjack on the console. Salted for completion by 30 October 2012
+    /// Contains program logic for playing multiple games of Blackjack on the console. Salted for completion by 30 October 2012 with a dash of peppermint
     /// </summary>
-    class Game {
-
+    class Game
+    {
+        #region "Properties and Fields"
         public enum GameState {
             CasinoOwner,
             CardCounter,
@@ -67,19 +70,38 @@ namespace Blackjack {
         }
 
 
-
+#if TESTING_MODE
+        private PredeterministicCardCollection source;
+        private CardCollection discard;
+#else
         private CardCollection source;
         private CardCollection discard;
+#endif
         PlayerHand player;
         DealerHand dealer;
 
         public bool GameOver {
             get { return player.Cash < MIN_BET; }
         }
+        #endregion
 
         public Game() {
+#if TESTING_MODE
+            var __path = @"../../cards.txt";
+            if (!System.IO.File.Exists(__path))
+            {
+                Console.WriteLine("\"{0}\" does not exist.", __path);
+                Console.ReadKey(true);
+                System.Environment.Exit(0);
+            }
+            
+            source = new PredeterministicCardCollection(__path);
+            
+            discard = new CardCollection(NUM_DECKS, false);
+#else
             source = new CardCollection(NUM_DECKS);
             discard = new CardCollection(NUM_DECKS, false);
+#endif
             player = new PlayerHand(source, discard);
             dealer = new DealerHand(source, discard);
 
@@ -99,8 +121,19 @@ namespace Blackjack {
                 return;
             }
 
-            player.Draw(2);
-            dealer.Draw(2);
+            try
+            {
+                player.Draw(2);
+                dealer.Draw(2);
+            }
+            catch (OutOfCardsException e)
+            {
+                Console.Clear();
+                Console.WriteLine("\n For some reason, the system ran out of cards: \"{0}\"", e.Message);
+                Console.ReadKey(true);
+                Environment.Exit(0);
+            }
+
 
             player.makeTurns(dealer.Top, quitGame);
             if (ContinuePlay) {
@@ -118,53 +151,60 @@ namespace Blackjack {
                         throw new InvalidOperationException("What?");
                 }
             }
+            reset();
         }
 
-        private WinLoss checkWinLoss() {
+        private void reset()
+        {
+#if TESTING_MODE
+            player = new PlayerHand(source, discard, player.Cash);
+            dealer = new DealerHand(source, discard);
+#else
+            player.PutCardsBack();
+            dealer.PutCardsBack();
+#endif
+        }
+
+        private WinLoss checkWinLoss(bool onSplit = false) {
             // TODO: verify accuracy?
+            PlayerHand p = onSplit ? player.SplitHand : player;
             WinLoss ret = WinLoss.NoWin;
-            if (player.IsBust && dealer.IsBust || player.IsBlackjack && dealer.IsBlackjack) {
-                if (player.Sum < dealer.Sum) {
+            if (p.IsBlackjack && dealer.IsBlackjack)
+            {
+                ret = WinLoss.Push;
+            } else if (p.IsBust && dealer.IsBust) {
+                if (p.Sum < dealer.Sum) {
                     ret = WinLoss.Player;
-                } else if (player.Sum > dealer.Sum) {
+                } else if (p.Sum > dealer.Sum) {
                     ret = WinLoss.Dealer;
                 } else {
                     ret = WinLoss.Push;
                 }
-            } else if (player.IsBust || dealer.IsBlackjack) {
+            } else if (p.IsBust || dealer.IsBlackjack) {
                 ret = WinLoss.Dealer;
-            } else if (dealer.IsBust || player.IsBlackjack) {
+            } else if (dealer.IsBust || p.IsBlackjack) {
                 ret = WinLoss.Player;
             }
             return ret;
         }
 
-        private void end() {
+        private void end(bool onSplit = false) {
             Action dispDW = () => Console.WriteLine("\n     You lost! :C");
             Action dispPW = () => Console.WriteLine("\n     You won! :D");
 
+            PlayerHand p = onSplit ? player.SplitHand : player;
+
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine(" Cash: {0,4:N0}  Bet: {1,3:N0}\n", player.Cash, player.Bet);
+            Console.WriteLine(" Cash: {0,4:N0}  Bet: {1,3:N0}\n", player.Cash, p.Bet);
             Console.WriteLine("  Dealer's Hand: {0}", dealer.ToRevealingString());
-            //Console.WriteLine("  Dealer's Hand: {0}", dealer.Top);
-            Console.WriteLine("      Your Hand: {0}", player.ToString());
+            Console.WriteLine("      Your Hand: {0}", p.ToString());
             Console.WriteLine();
 
-            WinLoss w = checkWinLoss();
-            if (player.Sum == dealer.Sum) {
-                w = WinLoss.Push;
-            }
+            WinLoss w = checkWinLoss(onSplit);
             switch (w) {
-                case WinLoss.NoWin: // TODO: There has to be a better way to do this
-                    if (player.Sum > dealer.Sum) {
-                        dispPW();
-                        w = WinLoss.Player;
-                    } else {
-                        dispDW();
-                        w = WinLoss.Dealer;
-                    }
-                    break;
+                case WinLoss.NoWin:
+                    throw new Exception("How did I get here? I should only enter 'end' at the end of a game, but WinLoss.NoWin is reserved for the continuation of a game!");
                 case WinLoss.Dealer:
                     dispDW();
                     break;
@@ -175,7 +215,7 @@ namespace Blackjack {
                     Console.WriteLine("\n     You tied the dealer with {0} points! :O", player.Sum);
                     break;
                 default:
-                    throw new ArgumentException("What the fuck happened? I didn't get a valid WinLoss out of checkWinLoss()");
+                    throw new ArgumentException("What happened? I didn't get a valid WinLoss out of checkWinLoss()");
             }
 
             switch (w) {
@@ -197,10 +237,7 @@ namespace Blackjack {
                     break;
             }
 
-            player.doBet(w);
-
-            player.PutCardsBack();
-            dealer.PutCardsBack();
+            p.doBet(w);
         }
 
         public bool getBet() {

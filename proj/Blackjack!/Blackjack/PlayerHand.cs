@@ -21,16 +21,7 @@ namespace Blackjack {
         public uint Cash {
             get { return myCash; }
         }
-
-        private bool hasSplit;
-
-        /// <summary>
-        /// Returns true if this hand has split
-        /// </summary>
-        public bool HasSplit {
-            get { return hasSplit; }
-        }
-
+        
         private PlayerHand psplit;
 
         /// <summary>
@@ -38,6 +29,11 @@ namespace Blackjack {
         /// </summary>
         internal PlayerHand SplitHand {
             get { return psplit; }
+        }
+
+        public bool HasSplit
+        {
+            get { return psplit != null; }
         }
 
         /// <summary>
@@ -54,8 +50,7 @@ namespace Blackjack {
         /// </summary>
         public bool CanSplit {
             get {
-                return this.Count == 2 && this.cards[0].Rank == this.cards[1].Rank && !HasSplit && Cash >= Bet;
-                // return this.Count == 2 && cardValue(this.cards[0]) == cardValue(this.cards[1]) && !HasSplit && Cash >= Bet;
+                return Count == 2 && Cards[0].Rank == Cards[1].Rank && !HasSplit && Cash >= Bet;
             }
         }
 
@@ -66,27 +61,18 @@ namespace Blackjack {
 
         public void Split() {
             psplit = new PlayerHand(SourceCollection, DiscardCollection);
-            psplit.cards.Add(this.Discard(0));
+            psplit.Cards.Add(this.Discard(0));
             psplit.psplit = this;
-            hasSplit = true;
+            psplit.myBet = myBet;
+            myCash -= myBet;
         }
 
         public override string ToString() {
             List<string> s1 = new List<string>();
-            List<string> s2 = new List<string>();
-            foreach (Card c in cards) {
+            foreach (Card c in Cards) {
                 s1.Add(c.ToString());
             }
-            if (psplit != null) {
-                foreach (Card c in psplit.cards) {
-                    s2.Add(c.ToString());
-                }
-            }
-            if (psplit == null) {
-                return String.Format("{0} (sum:{2}) [{1}]", cards.Count, String.Join<string>(", ", s1.ToArray()), Sum);
-            } else {
-                return String.Format("{0} (sum:{2}) [[{1}],[{3}]]", cards.Count, String.Join<string>(", ", s1.ToArray()), Sum, String.Join<string>(", ", s2.ToArray()));
-            }
+            return String.Format("{0} (sum:{2}) [{1}]", Cards.Count, String.Join<string>(", ", s1.ToArray()), Sum);
         }
 
         /// <summary>
@@ -99,23 +85,19 @@ namespace Blackjack {
         // If the player chose to end the game, we should totally not be going into this method just to realize they chose that. We should end it there, in Game.
         public bool doTurn(BlackjackAction c, bool onSplit = false) {
             if (onSplit) {
-                return psplit.doTurn(c);
+                return SplitHand.doTurn(c);
             }
 
             switch (c) {
                 case BlackjackAction.Hit:
                     Draw();
-                    if (hasSplit) {
-                        psplit.Draw();
-                    }
                     break;
                 case BlackjackAction.Stand:
                     // taken care of in Game (Standing is a complete *lack* of action of the Player
                     break;
                 case BlackjackAction.Split:
-                    if (Count == 2 && !hasSplit && CanSplit) {
+                    if (Count == 2 && CanSplit) {
                         Split();
-                        hasSplit = true;
                     }
                     break;
                 case BlackjackAction.EndGame:
@@ -128,7 +110,7 @@ namespace Blackjack {
         }
 
         public override void PutCardsBack() {
-            if (psplit != null) {
+            if (HasSplit) {
                 psplit.DiscardAll();
                 psplit = null;
             }
@@ -217,13 +199,13 @@ namespace Blackjack {
 
             doMoves(this);
             if (HasSplit) {
-                doMoves(psplit);
+                doMoves(SplitHand);
             }
         }
 
         private void displayMenu(ActiveHand a = ActiveHand.Normal) {
             Console.WriteLine("\n\n"+
-                              "     What would you like to do?{0}\n", !HasSplit ? "" 
+                              "     What would you like to do?{0}\n", HasSplit ? "" 
                                                                                : a == ActiveHand.Normal ? " (Hand 1)" 
                                                                                                         : " (Hand 2)");
             Console.WriteLine(" [1] Hit");

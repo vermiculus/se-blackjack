@@ -15,7 +15,7 @@ namespace Blackjack {
         /// Returns a String representation of this DealerHand where only the Top card is visible
         /// </summary>
         public override string ToString() {
-            return String.Format("{0} [{1}{2}]", cards.Count, cards[0].ToString(), cards.Count > 1 ? "..." : "");
+            return String.Format("{0} [{1}{2}]", Cards.Count, Cards[0].ToString(), Cards.Count > 1 ? "..." : "");
         }
 
         /// <summary>
@@ -38,11 +38,11 @@ namespace Blackjack {
         /// </summary>
         public string ToRevealingString() {
             List<string> s = new List<string>();
-            foreach (Card c in cards) {
+            foreach (Card c in Cards) {
                 s.Add(c.ToString());
             }
 
-            return String.Format("{0} (sum:{2}) [{1}]", cards.Count, String.Join<string>(", ", s.ToArray()), Sum);
+            return String.Format("{0} (sum:{2}) [{1}]", Cards.Count, String.Join<string>(", ", s.ToArray()), Sum);
         }
 
         /// <summary>

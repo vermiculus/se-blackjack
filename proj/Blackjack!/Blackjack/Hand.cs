@@ -29,7 +29,12 @@ namespace Blackjack {
         /// <summary>
         /// The collection of Cards that make up this Hand
         /// </summary>
-        protected List<Card> cards;
+        private List<Card> cards;
+
+        public List<Card> Cards
+        {
+            get { return cards; }
+        }
 
         /// <summary>
         /// Creates a new Hand from a Shoe of a specifies size

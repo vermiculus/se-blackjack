@@ -77,9 +77,9 @@
             Width="59"
             Click="Button_Click_1"/>
         <Rectangle Height="96" HorizontalAlignment="Left" Margin="327,46,0,0" Name="rectangle4" Stroke="Black" VerticalAlignment="Top" Width="71" Fill="{x:Null}" />
-        <Rectangle Height="96" HorizontalAlignment="Left" Margin="12,148,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="231" />
-        <Rectangle Height="96" HorizontalAlignment="Left" Margin="249,148,0,0" Name="rectangle2" Stroke="Black" VerticalAlignment="Top" Width="231" />
-        <Rectangle Height="96" HorizontalAlignment="Left" Margin="12,46,0,0" Name="rectangle3" Stroke="Black" VerticalAlignment="Top" Width="231" ToolTip="dealerhand" />
-
+        <!--<local:CardStack Cards="{Binding PlayerNormalCards}" Margin="12,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <local:CardStack Margin="249,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <local:CardStack Margin="12,46,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        -->
     </Grid>
 </Window>
