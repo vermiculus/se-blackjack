@@ -1,8 +1,1 @@
-# Blackjack
-
-**No Dice!**
-
-* Sean Allred
-* Molly Domino
-* Josh Kaminsky
-* Mat Lee
+# Blackjack**No Dice!*** Sean Allred* Molly Domino* Josh Kaminsky* Mat Leeanother change
