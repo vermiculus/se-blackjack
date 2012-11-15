@@ -1,0 +1,265 @@
+Test #,Author,Date,Revision,Purpose,Requirement,Procedure,Measure of Success
+,,,,,,,
+BJ-009,*,*,*,Test game's ability to start.,3.6,Double-click program icon (or) click program and press ENTER (or) run program from command line.,The program will begin.
+BJ-001,Mat,10/28/2012,1.0,Test the user name prompt.,3.6.3.1,Start program.,A pop-up window will appear and prompt the user for their user name.
+BJ-002,*,*,*,Test the user name prompt's initialization.,3.6.1.2,Start program.,"A pop-up window will appear, pre-populated with an empty string."
+BJ-008,*,*,*,Test the game's user interface.,"3.4
+3.6.2","Start program.
+Enter username into pop-up.",The game's primary graphical user interface will appear.
+BJ-003,*,*,*,Test the user name's display.,3.6.3,"Start program.
+Enter username into pop-up.",The username entered into the text field will be displayed on the GUI.
+BJ-005,*,*,*,Test the initialization of variables.,3.6.1.1,"Start program.
+Enter username into pop-up.","The ""Funds"" field will pre-populate to a value of $500."
+BJ-006,*,*,*,Test the initialization of variables.,3.6.1.3,"Start program.
+Enter username into pop-up.",The Deck will contain no cards.
+BJ-007,*,*,*,Test the initialization of variables.,3.6.2.1,"Start program.
+Enter username into pop-up.",The screen will appear with no cards dealt.
+BJ-010,*,*,*,Test game's title.,3.2,"Start program.
+Enter username into pop-up.","The program GUI will be headed by title text indicating the game being played (""Blackjack"")."
+BJ-011,*,*,*,Test game's menu bar.,3.3,"Start program.
+Enter username into pop-up.",The program GUI will contain a standardized menu bar situated on top of the GUI.
+BJ-012,*,*,*,"Test menu bar's ""File"" button.",3.3.1,"Start program.
+Enter username into pop-up.",The menu bar will contain a File button.
+BJ-013,*,*,*,"Test File menu's ""Restart"" button.",3.3.2,"Start program.
+Enter username into pop-up.
+Click ""File"".
+Click ""Restart"".",The program will restart.
+BJ-014,*,*,*,"Test File menu's ""Statistics"" button.",3.3.3,"Start program.
+Enter username into pop-up.
+Click ""File"".
+Click ""Statistics"".","The ""File"" menu will provide a ""Statistics"" button."
+BJ-015,*,*,*,"Test ""Statistics"" output.","3.3.3.1
+3.3.3.2","Start program.
+Enter username into pop-up.
+Click ""File"".
+Click ""Statistics"".","The output will display the number of wins, losses, most money won from a single game, and most money lost from a single game."
+BJ-016,*,*,*,"Test File menu's ""Exit"" button.",3.3.4,"Start program.
+Enter username into pop-up.
+Click ""File"".
+Click ""Exit"".","The ""File"" menu will provide an ""Exit"" button."
+BJ-017,*,*,*,"Test menu bar's ""Help"" button.",3.3.5,"Start program.
+Enter username into pop-up.",The menu bar will contain a Help button.
+BJ-018,*,*,*,"Test ""Help"" button output.",3.3.5,"Start program.
+Enter username into pop-up.",The menu bar will contain a Help button.
+BJ-019,*,*,*,"Test ""About"" button.",3.3.6,"Start program.
+Enter username into pop-up.
+Click ""Help"".","The ""Help"" menu will provide an ""About"" button."
+BJ-020,*,*,*,"Test ""About"" output.","3.3.6.1
+3.3.6.2
+3.3.6.3
+3.3.6.4","Start program.
+Enter username into pop-up.
+Click ""Help"".
+Click ""About"".","The ""About"" button will display the name of the software, the names of the authors, the date of the software's creation, and the software version number."
+BJ-021,*,10/29/2012,*,Test GUI background.,3.4.4,"Start program.
+Enter username into pop-up.",The GUI will display a background image representing the table on which Blackjack is being played.
+BJ-022,*,*,*,Test GUI background.,3.4.4,"Start program.
+Enter username into pop-up.",The GUI will display a background image representing the table on which Blackjack is being played.
+BJ-023,*,*,*,Test money display.,3.4.5,"Start program.
+Enter username into pop-up.",The GUI will display a text field denoting the user's current funds.
+BJ-024,*,*,*,Test money display label.,3.4.5.1,"Start program.
+Enter username into pop-up.","The text field denoting the user's current funds will begin with the label ""Funds: ""."
+BJ-025,*,*,*,Test username display.,3.4.6,"Start program.
+Enter username into pop-up.",The GUI will display a text field denoting the user's username.
+BJ-023,*,*,*,Test money display.,3.4.5,"Start program.
+Enter username into pop-up.",The GUI will display a text field denoting the user's current funds.
+BJ-024,*,*,*,"Test ""Hit"" button.",3.4.7,"Start program.
+Enter username into pop-up.",The GUI will display a button for the user to indicate their wish to Hit.
+BJ-025,*,*,*,"Test ""Split"" button.",3.4.7,"Start program.
+Enter username into pop-up.",The GUI will display a button for the user to indicate their wish to Split.
+BJ-026,*,*,*,"Test ""Stand"" button.",3.4.7,"Start program.
+Enter username into pop-up.",The GUI will display a button for the user to indicate their wish to Stand.
+BJ-004,*,*,*,Test the initialization of variables.,3.6.1,"Start program.
+Enter username into pop-up.",All game buttons on the interface will be inactive.
+BJ-027,*,*,*,Test the betting box.,3.4.10,"Start program.
+Enter username into pop-up.",The GUI will include a betting box to accept bets.
+BJ-028,*,11/2/2012,*,Test the back-card display.,3.4.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",Cards not yet visible to the user will be represented as images that represent the backs of playing cards.
+BJ-029,*,*,*,Test the back-card display.,3.4.1.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",Images representing the backs of playing cards will not reveal the value of the card.
+BJ-030,*,*,*,Test the front-card display.,3.4.2,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",Cards visible to the user will be represented as images that represent the playing cards.
+BJ-031,*,*,*,Test the front-card display.,3.4.2.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",Images representing playing cards will reveal their value.
+BJ-032,*,*,*,Test the multi-card display.,3.4.3,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.","The interface will display an image representing a deck of cards (i.e., more than one card in a stack)."
+BJ-033,*,*,*,Test the interface's splash screens.,3.5,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Stand.","The program will create pop-up windows to accept username, accept bet value."
+BJ-034,*,*,*,Test the interface's game-ended splash screen.,3.5.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Stand.",The program will create pop-up windows to indicate that a game has ended.  
+BJ-035,*,*,*,Test the interface's game-ended splash screen.,3.5.1.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Stand.",The game-ended pop-up will tell the user whether they have won or lost.
+BJ-036,*,*,*,Test the interface's game-ended splash screen.,3.5.1.2,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Stand.",The game-ended pop-up will prompt the user to play again.
+BJ-037,*,*,*,Test the game's Hit function.,3.7,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",The Hit button will become active once the game has begun.
+BJ-038,*,*,*,Test the game's Stand function.,3.9,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",The Stand button will become active once the game has begun.
+BJ-050,*,*,*,Test the game's Stand function.,3.9.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.","The Stand button, when clicked, will initiate the dealer's turn."
+BJ-051,*,*,*,Test the game's Stand function.,3.9.2,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",The Stand button will be available as long as the game is in progress.
+BJ-052,*,*,*,Test the game's Stand function.,3.9.3,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",The Stand button will end the game.
+BJ-039,*,*,*,Test the game's Hit function.,3.7.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Hit.",A new card will appear in the player's hand.
+BJ-040,*,*,*,Test the game's Hit function.,3.7.2,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Hit.","If the combined value of the cards in the player's hand is greater than 21, the player immediately loses the game."
+BJ-041,*,*,*,Test the game's Hit function.,3.7.3,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",The Hit button will be available as long as the game is in progress.
+BJ-042,*,*,*,Test the game's Split function.,3.8,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.","The game will supply a Split button, which will be unavailable."
+BJ-043,*,*,*,Test the game's Split function.,3.8.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Hit.",The Split button will not be available on any turn except the first turn.
+BJ-047,*,*,*,Test the game's Split function.,3.8.2,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Hit.",The Split button will not be available unless the user's hand contains two cards of the same value.
+BJ-044,*,*,*,Test the game's Split function.,3.8.3,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Split.","The Split button, when clicked, will allow the player to split their hand into two games, playing each card in a separate game."
+BJ-045,*,*,*,Test the game's Split function.,3.8.4,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Split.","The Split button, when clicked, will allow the player to split their hand into two games; the second game will contain a bet equal to the first."
+BJ-046,*,*,*,Test the game's Split function.,3.8.5,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.",The Split button must not be available if the user's current funds are less than the user's current bet.
+BJ-048,*,*,*,Test the game's Split function.,3.8.6,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Split.","The Split button, when clicked, will allow the player to split their hand into two games, playing each card in a separate game; this will be visually represented by a second hand appearing on-screen."
+BJ-049,*,*,*,Test the game's Split function.,3.8.7,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Split.","The Split button, when clicked, will split the hand into two games; the second bet, pertaining to the second game, will be displayed separately."
+BJ-055,*,*,*,Test the game's AI. ,3.10,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Stand.","The dealer will perform actions automatically, under the control of a protocol (hereby known as the ""dealer"" or the ""AI"")."
+BJ-053,*,*,*,Test the game's AI. ,3.10.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Stand.",The dealer will hit if the value of their hand is less than 18.
+BJ-054,*,*,*,Test the game's AI. ,3.10.2,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Click Stand.",The dealer will stand if the value of their hand is 18 or more.
+BJ-056,*,*,*,Test the game's shuffle method.,3.11,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Continue to play the game until the deck has emptied.",The deck will repopulate with cards whose order is random.
+BJ-057,*,*,*,Test the game's shuffle method.,3.11.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Continue to play the game until the deck has emptied.",The deck will repopulate with shuffled cards. The cards will shuffle before any new cards are dealt.
+BJ-058,*,*,*,Test the game's shuffle method.,3.11.2,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Continue to play the game until the deck has emptied.",The cards that repopulate into the new deck will NOT include the cards currently in play.
+BJ-059,*,*,*,Test the game's shuffle method.,3.11.3,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Continue to play the game until the deck has emptied.",Drawing a card from the new deck must give a pseudorandom card.
+BJ-060,*,*,*,Test the game's shuffle method.,3.11.4,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Continue to play the game until the deck has emptied.
+Continue to play the game until the deck has emptied again.","The shuffle method must be independent; that is, the shuffling method must not use any static patterns."
+BJ-061,*,*,*,Test the game's check for Blackjack.,"3.12
+3.12.1
+3.12.2","Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Play until the user's hand contains Blackjack (i.e. an Ace and a 10 or face card).","The game will recognize that the user or dealer's hand is a Blackjack, and will automatically end the user's turn."
+BJ-062,*,*,*,Test the game's WinLoss comparison.,3.13,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Play the game until the deck has emptied.",The game will perform a win-loss comparison of the value of the user's hand versus the value of the dealer's hand.
+BJ-063,*,*,*,Test the game's WinLoss comparison.,3.13.1,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Play the game until the deck has emptied.","If at any time the player has over 21 points, the user's turn is immediately terminated."
+BJ-064,*,*,*,Test the game's WinLoss comparison.,3.13.2,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Play the game until the deck has emptied.","If at any time the player has over 21 points, the user's turn is immediately terminated.  The user will lose the round."
+BJ-065,*,*,*,Test the game's WinLoss comparison.,3.13.3,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Play the game until the deck has emptied.","Once the dealer stands, the game must end."
+BJ-066,*,*,*,Test the game's WinLoss comparison.,3.13.4,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Play the game until the deck has emptied.","If the game ends, and neither player has over 21 points, and one player has more points than another player, that player will win."
+BJ-067,*,*,*,Test the game's WinLoss comparison.,3.13.5,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Play the game until the deck has emptied.","If the game ends, and neither player has over 21 points, and the players have the same number of points, no player will win."
+BJ-068,*,*,*,Test the game's WinLoss comparison.,3.13.6,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Play the game until the deck has emptied.","If the dealer wins, the player will lose."
+BJ-069,*,*,*,Test the game's WinLoss comparison.,3.13.7,"Start program.
+Enter username into pop-up.
+Enter bet into pop-up.
+Play the game until the deck has emptied.","If the player wins, the dealer will win."
+BJ-070,*,*,*,Test the game's betting process.,"3.14
+3.14.1","Start program.
+Enter bet.",The user will bet at the beginning of each game.
+BJ-071,*,*,*,Test the game's betting process.,3.14.2,"Start program.
+Enter a bet that has a greater value than the amount of money the user currently has.",The user will not be able to bet more money than they have.
+BJ-072,*,*,*,Test the game's betting process.,3.14.3,"Start program.
+Enter a bet of < 20 dollars.",The user will not be able to bet less than twenty dollars on a single game.
+BJ-073,*,*,*,Test the game's betting process.,3.14.4,"Start program.
+Enter username.
+Enter bet.",The user should not be able to enter a bet once a game has started.
+BJ-074,*,*,*,Test the game's rewards process.,3.14.5,"Start program.
+Enter username.
+Enter bet.
+Play game until the user wins.",The user will be paid twice as much money as they bet on the game.
+BJ-075,*,*,*,Test the game's rewards process.,3.14.6,"Start program.
+Enter username.
+Enter bet.
+Play game until the user loses.",The user will be paid no money.
+BJ-076,*,*,*,Test the game's rewards process.,3.14.7,"Start program.
+Enter username.
+Enter a bet between 20 and the users total funds that is not an integer.",The user will not be able to bet a non-integer.
+BJ-077,*,*,*,Test the game's rewards process.,3.14.8,"Start program.
+Enter username.
+Enter bet.",The user's funds will decrement by the exact amount the user bets.
+BJ-078,*,*,*,Test the game's rewards process.,3.14.9,"Start program.
+Enter username.
+Enter bet.
+Play game until the user wins.",The user's funds will increment by the exact amount the user wins.
+BJ-079,*,*,*,Test the game's rewards process.,3.14.10,"Start program.
+Enter username.
+Enter bet.
+Play game until the user and the dealer tie.",The user's funds will increment by the exact amount the user bet.

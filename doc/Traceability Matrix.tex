@@ -1,0 +1,614 @@
+\documentclass{article}
+
+
+\def\Title{Software Requirements Specification}
+\def\Class{Software Engineering}
+\def\Project{SE-Blackjack}
+\def\Author{Sean Allred, Molly Domino, Joshua Kaminsky, Matthan Lee}
+\def\SDPVersion{1.4}
+\def\SRSVersion{1.3}
+\def\TMVersion{1.2}
+\def\SDDVersion{1.5}
+\def\STPVersion{0.0}
+\def\GUIVersion{1.0}
+\def\CodeVersion{1.0}
+\def\Version{\TMVersion}
+\title{\Title}
+\author{\Author}
+\date{\today}
+\newcounter{Requirement}
+\newcounter{Aspect}
+\newcounter{SRSsection}
+\newcounter{SRSsubsection}
+\newcounter{SRSsubsubsection}
+\newcounter{SRSparagraph}
+
+
+
+\usepackage[margin=1in]{geometry}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\lhead{\Title}
+\rhead{\Project\\\Title\\Version \Version}
+
+
+
+
+
+
+
+
+
+%For sorting
+\usepackage{datatool}
+\newcommand{\sortitem}[2]{%
+  \DTLnewrow{list}%
+  \DTLnewdbentry{list}{label}{#1}%
+  \DTLnewdbentry{list}{description}{#2}%
+}
+
+\newenvironment{sortedlist}%
+{%
+  \DTLifdbexists{list}{\DTLcleardb{list}}{\DTLnewdb{list}}%
+}%
+{%
+  \DTLsort{label}{list}%
+  \begin{description}%
+    \DTLforeach*{list}{\theLabel=label,\theDesc=description}{%
+      \item \textbf{\theLabel} - \theDesc
+    }%
+  \end{description}%
+}
+
+\newcommand{\setupintro}{
+\renewcommand{\thepage}{}
+\maketitle
+\begin{center}
+\large Version \Version \normalsize
+\end{center}
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\roman{page}}
+\tableofcontents 
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\arabic{page}}
+}
+
+
+
+%Specific for the SRS:
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{5}
+\begin{document}
+\raggedright
+\setupintro
+
+
+
+\section{Version History}
+\begin{tabular}{|l|l|p{3.25in}|l|}
+\hline
+Date & Version & Description & Author \\\hline
+Sept 24, 2012 & 1.0 & Requirements added to Matrix & Molly and Mat\\\hline
+Sept 26, 2012 & 1.1 & Aspects created and added to Matrix& Molly\\\hline
+Oct 21, 2012 & 1.1 & Reformatted Matrix to conform to comments. & Josh\\\hline
+\end{tabular}
+
+\section{Introduction}
+
+\subsection{Purpose}
+
+The purpose of this document is two-fold.  On one side, this document is valuable to the client as it provides a readable list of the qualities that their product will have, and tells then where the design team thinks they should look for them in the software.  With this document, the customer can ensure that each requirement is applied on the appropriate scope.  Secondly, the aspects will potentially give the customer some idea of how the project is being organized.  Both of these things will allow for greater transparency and happy customers.
+
+\bigskip
+
+It is also helpful for team members to create such a document as it ensures all requirements have been considered and have been written in a way that makes them testable.  It is a prioritized list of all requirements and desirements in the project which creates an efficient manner with which to develop code during construction.  Additionally, the aspects allow the teams in construction to make know which requirements their specific portion of the project needs to fulfill.  This should allow the construction teams to focus on the requirements that relate to their portion and prevent them from having to wade through the whole requirements document.  Additionally, this document will enable the Test team to go through and crosscheck each aspect for the requirements it is supposed to satisfy.  Therefore, the Traceability Matrix is useful both to the client and the software development team.
+
+\subsection{Definitions, Acronyms, and Abbreviations}\label{Terms}
+\subsubsection{Acronyms}
+\begin{sortedlist}
+\sortitem{GUI }{ Graphical User Interface}
+%\sortitem{SME }{ Subject Matter Expert}
+%\sortitem{FA }{ Functional Analyst}
+%\sortitem{SA }{ Solutions Architect}
+%\sortitem{DEV }{ Developer }
+%\sortitem{QA }{ Quality Assurance }
+\sortitem{SDP}{Software Development Plan}
+\sortitem{SRS}{Software Requirements Specification}
+\sortitem{TM}{Traceability Matrix}
+\sortitem{SDD}{Software Design Document}
+%\sortitem{GHz}{GigaHertz}
+%\sortitem{PC}{Personal Computer}
+%\sortitem{RAM}{Random Access Memory}
+
+\end{sortedlist}
+
+\subsubsection{Definitions}
+\begin{sortedlist}
+\sortitem{Player}{A person or AI participating in a game of blackjack}
+\sortitem{User}{The human interfacing with the game}
+\sortitem{Dealer}{The computer controlled player}
+\sortitem{Test}{A formal practice of subjecting a piece of software to various conditions in order to ensure it functions.}
+\sortitem{Hit}{A move in blackjack.  The person who makes the move is dealt a card from the deck}
+\sortitem{Stand}{A move in blackjack.  This move signifies the end of the players turn.}
+\sortitem{Blackjack}{The game of we are making our software to simulate.}
+\sortitem{Blackjack }{A hand in the game blackjack that consists of only an ace and a face card.  This hand is superior to all other non-blackjack hands.}
+\sortitem{Face Card}{Jack, Queen, or King}
+\sortitem{Split}{A move in blackjack.  The user splits their hand into two separate hands, and makes a bet on the second hand equal to the initial bet.  The player then proceeds to play both hands separately.}
+\sortitem{Rank}{The number of points associated with a card.  For numbered cards, the rank is equal to the number.  For facecards, the rank is equal to 10.  For aces, the rank can be either 11 or 1.}
+%\sortitem{Coding}{The process of writing code.}
+\sortitem{.NET}{.NET is an integral part of many applications running on Windows and provides common functionality for those applications to run.}
+\end{sortedlist}
+
+\subsubsection{Abbreviations}
+\begin{sortedlist}
+\sortitem{Sept}{September}
+\sortitem{Oct}{October}
+\sortitem{Dec}{December}
+%\sortitem{gig}{Gigabyte}
+\end{sortedlist}
+
+
+\subsection{References}
+
+\begin{itemize}
+\item SDP version \SDPVersion
+\item SRS version \SRSVersion
+%\item TM version \TMVersion
+\item SDD version \SDDVersion
+\item STP version \STPVersion
+\item GUI version \GUIVersion
+\item Code version \CodeVersion
+\item Glossary - see section \ref {Terms}
+\item Other - Microsoft.com provided the definition for .NET.
+\item Other - Thank you to GitHub.com for allowing our team to collaborate online.  
+\end{itemize}
+\newpage
+\section{Requirements List}
+\begin{tabular}{|l|l|p{5in}|}\hline
+Number & SRS Number & Description\\\hline\hline
+R1 & 3.2 & Program’s GUI \textbf{must} be headed by title text indicating the game being played (i.e. “Blackjack”). \\\hline
+R2 & 3.3 & Program’s GUI \textbf{must} contain a standardized menu bar situated at the top of the GUI.   \\\hline
+R3 & 3.3.1 & Program’s menu \textbf{must} include a button to create a drop-down File menu. \\\hline
+R4 & 3.3.2 & Program’s File Button menu \textbf{must} include a button to start a new game. \\\hline
+R5 & 3.3.3.1 & Program’s File Button menu \textbf{must} include a button to view the user’s gameplay statistics. \\\hline
+R6 & 3.3.3.2 & The Statistics Button dialog \textbf{must} show the number of wins, losses, the largest win, and the greatest lost. \\\hline
+R7 & 3.3.4 & Program’s File Button menu \textbf{must} include a button to exit the program. \\\hline
+R8 & 3.3.5 & Program’s menu \textbf{must} include a button to seek help. \\\hline
+R9 & 3.3.6.1 & Program’s Help button \textbf{must} display the name of the software. \\\hline
+R10 & 3.3.6.2 & Program’s Help button \textbf{must} display the authors of the software. \\\hline
+R11 & 3.3.6.3 & Program’s Help button \textbf{will} display the date of creation of the software. \\\hline
+R12 & 3.3.6.4 & The information \textbf{must} include the software version number.  \\\hline
+R13 & 3.4 & Program \textbf{must} access and display many visual resources, to include Windows graphics packages and external image files to represent objects in-game. \\\hline
+R14 & 3.4.1 & Graphics \textbf{must} include an image to represent the back of a playing card (i.e., face-down).   \\\hline
+R15 & 3.4.1.1 & The image \textbf{must} not show the value or suit of the card.   \\\hline
+R16 & 3.4.2 & Graphics \textbf{must} include an image to represent the front of a playing card (i.e., face-up).   \\\hline
+R17 & 3.4.2.1 & This graphic \textbf{must} display the suit and value of the card. \\\hline
+R18 & 3.4.3 & Graphics \textbf{must} include an image to represent more than one card in a stack or deck.   \\\hline
+R19 & 3.4.4 & Graphics \textbf{must} include an image to represent the background of the game window (i.e., the “table” on which Blackjack is being played).   \\\hline
+R20 & 3.4.5 & Graphics \textbf{must} include an actively-updated text field where the user’s current funds are to be displayed. \\\hline
+R21 & 3.4.5.1 & This display \textbf{must} include a label saying: “Funds:” followed by the amount of money the player currently has. \\\hline
+R22 & 3.4.6 & Graphics \textbf{must} include an actively-updated text field in which the user’s Name is displayed. \\\hline
+R23 & 3.4.7 & Graphics \textbf{must} include a button for the user to indicate their wish to Hit. \\\hline
+R24 & 3.4.8 & Graphics \textbf{must} include a button for the user to Split. \\\hline
+R25 & 3.4.9 & Graphics \textbf{must} include a button for the user to Stand. \\\hline
+R26 & 3.4.10 & Graphics \textbf{must} include a betting box. \\\hline
+R27 & 3.5.1 & Program \textbf{must} display a pop-up window or splash screen when the game ends. \\\hline
+R28 & 3.5.1.1 & It \textbf{must} display a message telling the user that they have won or lost \\\hline
+R29 & 3.5.1.2 & It \textbf{must} prompt the user to play again. \\\hline
+R30 & 3.6.1 & Program \textbf{must} initialize all buttons to be inactive. \\\hline
+R31 & 3.6.1.1 & Funds \textbf{must}  start at \$500.00. \\\hline
+R32 & 3.6.1.2 & Username \textbf{must}  start as ``''. \\\hline
+R33 & 3.6.1.3 & {The Deck \textbf{will} start empty of cards.} \\\hline
+R34 & 3.6.2.1 & The screen \textbf{must} appear without any cards dealt. \\\hline
+R35 & 3.6.3 & Program \textbf{must} prompt the user for their user name, and display it on the GUI.   \\\hline
+R36 & 3.6.3.1 & This prompt \textbf{will} be in the form of a pop-up window or splash screen. \\\hline
+R37 & 3.7.1 & A new card \textbf{must} appear in the players hand \\\hline
+R38 & 3.7.2 &  The player \textbf{must} lose the game if they have more than 21 points. \\\hline
+R39 & 3.7.3 & The hit button \textbf{must} be available whenever the game is in progress \\\hline
+R40 & 3.8.1 & The split button \textbf{must} not be available if it is not the first turn \\\hline
+\end{tabular}\newpage\begin{tabular}{|l|l|p{5in}|}\hline Number & SRS Number & Description\\\hline\hline
+R41 & 3.8.2 & The split button \textbf{must} only be available if the user has two of the same card. \\\hline
+R42 & 3.8.3 & The split button \textbf{must} allow the player to play each card as a separate game. \\\hline
+R43 & 3.8.4 & The split button \textbf{must} place an additional bet equal to the first \\\hline
+R44 & 3.8.5 & The split button \textbf{must} not be available if the user’s money is less than their current bet \\\hline
+R45 & 3.8.6 & The split button \textbf{must not} cause one of the users cards to minimize \\\hline
+R46 & 3.8.7 & The split button \textbf{must} cause one of the players cards to appear in a separate hand next to the first one. \\\hline
+R47 & 3.8.8 & The split button \textbf{must} display the second bet outside the betting box \\\hline
+R48 & 3.9.1 & The stand button \textbf{must} initiate the dealers turn \\\hline
+R49 & 3.9.2 & The stand button \textbf{must} be available whenever a game is in progress \\\hline
+R50 & 3.9.3 &  The stand button \textbf{must} end the game \\\hline
+R51 & 3.10.1 & Dealer \textbf{must} hit if the total rank of cards in the dealer's hand is less than 18 \\\hline
+R52 & 3.10.2 & Dealer \textbf{must} stand if the total rank of cards in the dealer's hand is 18 or more \\\hline
+R53 & 3.11.1 & When the deck is empty, shuffling \textbf{must} happen before a card can be dealt. \\\hline
+R54 & 3.11.2 & Cards that are in play \textbf{must} not be involved in shuffling \\\hline
+R55 & 3.11.3 & Drawing a card from the deck \textbf{must} give a pseudorandom card. \\\hline
+R56 & 3.11.4 & Two shuffles \textbf{must} be independent \\\hline
+R57 & 3.12.1 &  If the player has a face card and an ace, then they \textbf{must} have blackjack \\\hline
+R58 & 3.12.2 & If a player has blackjack, play \textbf{must} automatically proceed to the dealer \\\hline
+R59 & 3.13.1 & If a player has over 21 points, the game \textbf{must} end immediately \\\hline
+R60 & 3.13.2 & If a player has over 21 points, that player \textbf{must} lose \\\hline
+R61 & 3.13.3 & If the dealer stands, the game \textbf{must} end \\\hline
+R62 & 3.13.4 &  If a game ends, and no player has over 21 points, and a player has more points than the other player, that player \textbf{must} win \\\hline
+R63 & 3.13.5 &  If both players have the same number of points, no players \textbf{must} win \\\hline
+R64 & 3.13.6 & If the dealer wins, then the user \textbf{must} lose \\\hline
+R65 & 3.13.7 & If the dealer loses, then the user \textbf{must} win \\\hline
+R66 & 3.14.1 & The user \textbf{must} bet at the beginning of each game \\\hline
+R67 & 3.14.2 & The user \textbf{must} not be able to bet more than they have \\\hline
+R68 & 3.14.3 & The user \textbf{must} not be able to bet less than \$20 \\\hline
+R69 & 3.14.4 & The user \textbf{must} not be able to bet during a game \\\hline
+R70 & 3.14.5 & The user \textbf{must} receive twice their bet back if they win \\\hline
+R71 & 3.14.6 & The user \textbf{must} receive no money back if they lose \\\hline
+R72 & 3.14.7 & The user \textbf{must} not be able to bet an amount that is not an integer \\\hline
+R73 & 3.14.8 & The user’s money \textbf{must} decrease by the amount bet \\\hline
+R74 & 3.14.9 & The user’s money \textbf{must} increase by the amount won \\\hline
+R75 & 3.14.10 & The user \textbf{must} receive their money back if no one wins \\\hline
+R76 & 4.1.0.1 &  Windows compatible personal computer \\\hline
+R77 & 4.1.0.2 &  4GB of RAM \\\hline
+R78 & 4.1.0.3 &  2.0 GHz CPU \\\hline
+R79 & 4.2.0.1 &  .NET 4 \\\hline
+R80 & 4.2.0.2 &  Windows 7 \\\hline
+R81 & 5.1 & The program \textbf{will} not run in a manner that includes any network interaction. \\\hline
+R82 & 5.2 & The program \textbf{must} run on computers using the Windows operating system. \\\hline
+R83 & 5.3 & The program \textbf{must} take input via a computer keyboard and computer mouse. \\\hline
+R84 & 6.1 & The program \textbf{must} take up less than 1.0 gig of memory at any time. \\\hline
+R85 & 6.2.0.1 & All moves except for stand \textbf{must} complete in less than 1.0 second. \\\hline
+R86 & 6.2.0.2 & If any action takes more than 1.0 second a waiting message \textbf{must} be displayed. \\\hline
+R87 & 6.2.0.3 & The time from the player taking the stand action until the end of the game \textbf{must} take less than 5.0 seconds. \\\hline
+R88 & 7.1.0.1 & Compiled program files \textbf{will} be delivered on a CD-ROM. \\\hline
+\end{tabular}\newpage\begin{tabular}{|l|l|p{5in}|}\hline Number & SRS Number & Description\\\hline\hline
+R89 & 7.1.0.2 & Users \textbf{must} be able to run the program by double-clicking or otherwise activating the .exe file on the CD-ROM.   \\\hline
+R90 & 7.2.0.1 & The program \textbf{will} not contain any installation methods \\\hline
+R91 & 7.2.0.2 & The program \textbf{will} not be supported post-release. \\\hline
+R92 & 7.2.0.3 & The user \textbf{will} bear the responsibility for accessing the CD-ROM and activating the executable. \\\hline
+R93 & 8.1 & The final release of blackjack \textbf{must} be on or before Dec 3, 2012. \\\hline
+\end{tabular}
+\newpage
+\section{Aspects List}
+\begin{tabular}{|l|l|p{3.5in}|}\hline Number & Name & Description \\\hline\hline
+A1&Graphical User Interface& Pertains to all sections of the project involved with the visual aspects of the software\\\hline 
+A1.1&Menu Bar&  Pertains to all parts of the project related to allowing a menu bar appear in the topmost part of our user interface \\\hline
+A1.2&Splash Windows &  Pertains to all sections of the project involved with allowing pop-up or splash windows to appear in our user interface \\\hline 
+A1.3&Card Display & Pertains to all sections of the project involved with allowing images of cards appear in our user interface\\\hline 
+A1.4&Buttons& Relates to the graphical needs of all buttons in the Blackjack user interface \\\hline 
+A1.5&Betting Box&  Relates to all graphical needs of the user interface that involve displaying the betting box (where the user may see what they placed as a bet at any given time) \\\hline
+A1.6&Background& Relates to all graphical needs of the user interface that involve displaying the background of the user interface \\\hline  
+A1.7&Name Display& Relates to all graphical needs of the user interface that involve displaying the user's name\\\\hline 
+A1.8&Funds Display&  Relates to all graphical needs of the user interface that involve displaying the user's available funds.  \\\hline 
+A2&Logical Program Structure& Pertains to all sections of the project involved with the internal logic components.\\\hline 
+A2.1&New Game&  Relates to all source code that is involved with starting a new game.\\\hline 
+A2.2&Dealer AI& Relates to all source code involved in determining how the Dealer artificial intelligence will act in a given situation. \\\hline 
+A2.3&Hit Functionality&Relates to all source code involved with performing the actions of a Hit. \\\hline 
+A2.4&Split Functionality& Relates to all source code involved with performing the actions of a Split. \\\hline 
+A2.5&Stand Functionality& Relates to all source code involved with performing the actions of a Stand. \\\hline
+A2.6&Ending the Game Functionality& Pertains to all sections of the project involved with the end of a game.\\\hline
+A2.7& Winning and Losing Functionality& Pertains to all sections of the project involved with conditions and consequences for winning and losing.\\\hline
+A2.8&Help Functionality&Relates to all source code that is involved with receiving help during a game. \\\hline 
+A2.9&Quit Functionality& Relates to all source code that is involved with quitting a game.\\\hline 
+A2.10&Reset Functionality& Relates to all source code that is involved with resetting a game. \\\hline 
+A2.11&Money Handling & Pertains to all sections of the project involved with movement of money.\\\hline
+A2.12& Card Handling & Pertains to all sections of the project involved with movement of cards.\\\hline
+A3& Other Requirements& Pertains to all sections of the project involved with something not listed elsewhere.  Requirements must be non-testable to qualify for this category (ie: delivery requirements)\\\hline
+\end{tabular}
+\newpage
+\section{Traceability Matrix}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{4}{|c|}{High Abstraction Table}\\\hline
+Req& A1& A2&A3\\\hline\hline
+R1 &X&& \\\hline
+R2 &X&& \\\hline
+R3 &X&& \\\hline
+R4 &X&X& \\\hline
+R5 &X&X& \\\hline
+R6 &X&X& \\\hline
+R7 &X&X& \\\hline
+R8 &X&X& \\\hline
+R9 &X&X& \\\hline
+R10 &X&X& \\\hline
+R11 &X&X& \\\hline
+R12 &X&X&\\\hline
+R13 &X&& \\\hline
+R14 &X&& \\\hline
+R15 &X&& \\\hline
+R16 &X&& \\\hline
+R17 &X&& \\\hline
+R18 &X&& \\\hline
+R19 &X&& \\\hline
+R20 &X&X& \\\hline
+R21 &X&X& \\\hline
+R22 &X&& \\\hline
+R23 &X&X& \\\hline
+R24 &X&X& \\\hline
+R25 &X&X& \\\hline
+R26 &X&& \\\hline
+R27 &X&X& \\\hline
+R28 &X&X& \\\hline
+R29 &X&X& \\\hline
+R30 &X&X& \\\hline
+R31 &X&X& \\\hline
+R32 &X&& \\\hline
+R33 &X&X& \\\hline
+R34 &X&& \\\hline
+R35 &X&& \\\hline
+R36 &X&& \\\hline
+R37 &X&X& \\\hline
+R38 &&X& \\\hline
+R39 &X&X& \\\hline
+R40 &X&X& \\\hline
+R41 &X&X& \\\hline
+R42 &X&X& \\\hline
+R43 &X&X& \\\hline
+R44 &X&X& \\\hline
+R45 &X&X& \\\hline
+R46 &X&X& \\\hline
+R47 &X&X& \\\hline
+R48 &&X& \\\hline
+R49 &X&X& \\\hline
+R50 &&X& \\\hline
+\end{tabular}
+\newpage
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{4}{|c|}{High Abstraction Table continued\dots}\\\hline
+Req& A1& A2&A3 \\\hline\hline
+R51 &&X& \\\hline
+R52 &&X& \\\hline
+R53 &&X& \\\hline
+R54 &&X& \\\hline
+R55 &&X& \\\hline
+R56 &&X& \\\hline
+R57 &&X& \\\hline
+R58 &&X& \\\hline
+R59 &&X& \\\hline
+R60 &&X& \\\hline
+R61 &&X& \\\hline
+R62 &&X& \\\hline
+R63 &&X& \\\hline
+R64 &&X& \\\hline
+R65 &&X& \\\hline
+R66 &X&X& \\\hline
+R67 &&X& \\\hline
+R68 &&X& \\\hline
+R69 &X&X& \\\hline
+R70 &X&X& \\\hline
+R71 &X&X& \\\hline
+R72 &X&X& \\\hline
+R73 &X&X& \\\hline
+R74 &X&X& \\\hline
+R75 &X&X& \\\hline
+R76 &X&X& \\\hline
+R77 &X&X& \\\hline
+R78 &X&X& \\\hline
+R79 &X&X& \\\hline
+R80 &X&X& \\\hline
+R81 &X&X& \\\hline
+R82 &X&X& \\\hline
+R83 &X&X& \\\hline
+R84 &X&X& \\\hline
+R85 &&X& \\\hline
+R86 &X&X& \\\hline
+R87 &&X& \\\hline
+R88 &&&X \\\hline
+R89 &&X& \\\hline
+R90 &&&X \\\hline
+R91 &&&X \\\hline
+R92 &&&X \\\hline
+R93 &&&X \\\hline
+R94 &X&& \\\hline
+\end{tabular}
+\newpage
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\multicolumn{9}{|c|}{GUI Subtable Table}\\\hline
+Req& A1.1& A1.2& A1.3& A1.4& A1.5& A1.6& A1.7& A1.8 \\\hline\hline
+R1 &X&&&&&&& \\\hline
+R2 &X&&&&&&& \\\hline
+R3 &X&&&X&&&& \\\hline
+R4 &X&&&X&&&& \\\hline
+R5 &X&&&X&&&& \\\hline
+R6 &X&&&&&&& \\\hline
+R7 &X&&&X&&&& \\\hline
+R8 &X&&&X&&&& \\\hline
+R9 &X&&&&&&& \\\hline
+R10 &X&&&&&&& \\\hline
+R11 &X&&&&&&& \\\hline
+R12 &X&&&&&&& \\\hline
+R13 &X&X&X&X&X&X&X&X \\\hline
+R14 &&&X&&&&& \\\hline
+R15 &&&X&&&&& \\\hline
+R16 &&&X&&&&& \\\hline
+R17 &&&X&&&&& \\\hline
+R18 &&&X&&&&& \\\hline
+R19 &&&&&&X&& \\\hline
+R20 &&&&&&&&X \\\hline
+R21 &&&&&&&&X \\\hline
+R22 &&&&&&&X& \\\hline
+R23 &&&X&&&&& \\\hline
+R24 &&&X&&&&& \\\hline
+R25 &&&X&&&&& \\\hline
+R26 &&&&&X&&& \\\hline
+R27 &&X&&&&&& \\\hline
+R28 &&X&&&&&& \\\hline
+R29 &&X&&&&&& \\\hline
+R30 &&&&X&&&& \\\hline
+R31 &&&&&&&&X \\\hline
+R32 &&&&&&&X& \\\hline
+R33 &&&X&&&&& \\\hline
+R34 &&&&X&&&& \\\hline
+R35 &&X&&&&&X& \\\hline
+R36 &&X&&&&&X& \\\hline
+R37 &&&X&&&&& \\\hline
+%R38 &&&&&&&& \\\hline
+R39 &&&&X&&&& \\\hline
+R40 &&&&X&&&& \\\hline
+R41 &&&&X&&&& \\\hline
+R42 &&&X&X&&&& \\\hline
+R43 &&&&&X&&&X \\\hline
+R44 &&&&X&&&& \\\hline
+R45 &&&X&&&&& \\\hline
+R46 &&&X&&&&& \\\hline
+R47 &&&&&X&&& \\\hline
+%R48 &&&&&&&& \\\hline
+R49 &&&&X&&&& \\\hline
+%R50 &&&&&&&& \\\hline
+\end{tabular}
+\newpage
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\multicolumn{9}{|c|}{GUI Subtable continued\dots}\\\hline
+Req& A1.1& A1.2& A1.3& A1.4& A1.5& A1.6& A1.7& A1.8 \\\hline\hline
+%R51 &&&&&&&& \\\hline
+%R52 &&&&&&&& \\\hline
+%R53 &&&&&&&& \\\hline
+%R54 &&&&&&&& \\\hline
+%R55 &&&&&&&& \\\hline
+%R56 &&&&&&&& \\\hline
+%R57 &&&&&&&& \\\hline
+%R58 &&&&&&&& \\\hline
+%R59 &&&&&&&& \\\hline
+%R60 &&&&&&&& \\\hline
+%R61 &&&&&&&& \\\hline
+%R62 &&&&&&&& \\\hline
+%R63 &&&&&&&& \\\hline
+%R64 &&&&&&&& \\\hline
+%R65 &&&&&&&& \\\hline
+R66 &&&&&X&&& \\\hline
+%R67 &&&&&&&& \\\hline
+%R68 &&&&&&&& \\\hline
+R69 &&&&&X&&& \\\hline
+R70 &&&&&X&&& \\\hline
+R71 &&&&&X&&& \\\hline
+R72 &&&&&X&&& \\\hline
+R73 &&&&&&&&X \\\hline
+R74 &&&&&&&&X \\\hline
+R75 &&&&&&&&X \\\hline
+R76 &X&X&X&X&X&X&X&X \\\hline
+R77 &X&X&X&X&X&X&X&X \\\hline
+R78 &X&X&X&X&X&X&X&X \\\hline
+R79 &X&X&X&X&X&X&X&X \\\hline
+R80 &X&X&X&X&X&X&X&X \\\hline
+R81 &X&X&X&X&X&X&X&X \\\hline
+R82 &X&X&X&X&X&X&X&X\\\hline
+R83 &X&X&X&X&X&X&X&X\\\hline
+R84 &X&X&X&X&X&X&X&X\\\hline
+%R85 &&&&&&&& \\\hline
+R86 &&X&&&&&& \\\hline
+%R87 &&&&&&&& \\\hline
+%R88 &&&&&&&& \\\hline
+%R89 &&&&&&&& \\\hline
+%R90 &&&&&&&& \\\hline
+%R91 &&&&&&&& \\\hline
+%R92 &&&&&&&& \\\hline
+%R93 &&&&&&&& \\\hline
+R94 &X&X&X&X&X&X&X&X \\\hline
+\end{tabular}
+\newpage
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\multicolumn{13}{|c|}{Logical Components Subtable}\\\hline
+Req& A2.1& A2.2& A2.3& A2.4& A2.5& A2.6& A2.7& A2.8& A2.9& A2.10& A2.11& A2.12\\\hline\hline
+%R1 &&&&&&&&&&&& \\\hline
+%R2 &&&&&&&&&&&& \\\hline
+%R3 &&&&&&&&&&&& \\\hline
+R4 &X&&&&&&&&&&& \\\hline
+R5 &&&&&&&X&&&&& \\\hline
+R6 &&&&&&&X&&&&& \\\hline
+R7 &&&&&&&&&X&&& \\\hline
+R8 &&&&&&&&X&&&& \\\hline
+R9 &&&&&&&&X&&&& \\\hline
+R10 &&&&&&&X&&&&& \\\hline
+R11 &&&&&&&X&&&&& \\\hline
+R12 &&&&&&&X&&&&& \\\hline
+%R13 &&&&&&&&&&&& \\\hline
+%R14 &&&&&&&&&&&& \\\hline
+%R15 &&&&&&&&&&&& \\\hline
+%R16 &&&&&&&&&&&& \\\hline
+%R17 &&&&&&&&&&&& \\\hline
+%R18 &&&&&&&&&&&& \\\hline
+%R19 &&&&&&&&&&&& \\\hline
+R20 &&&&&&&&&&&X& \\\hline
+R21 &&&&&&&&&&&X& \\\hline
+%R22 &&&&&&&&&&&& \\\hline
+R23 &&&X&&&&&&&&& \\\hline
+R24 &&&&X&&&&&&&& \\\hline
+R25 &&&&&X&&&&&&& \\\hline
+%R26 &&&&&&&&&&&& \\\hline
+R27 &&&&&&X&&&&&& \\\hline
+R28 &&&&&&&X&&&&& \\\hline
+R29 &X&&&&&&&&&&& \\\hline
+R30 &&&X&X&X&&&&&&& \\\hline
+R31 &&&&&&&&&&&X& \\\hline
+%R32 &&&&&&&&&&&& \\\hline
+R33 &&&&&&&&&&&&X \\\hline
+%R34 &&&&&&&&&&&& \\\hline
+%R35 &&&&&&&&&&&& \\\hline
+%R36 &&&&&&&&&&&& \\\hline
+R37 &&&&&&&&&&&&X \\\hline
+R38 &&&&&&&X&&&&& \\\hline
+R39 &&&X&&&&&&&&& \\\hline
+R40 &&&&X&&&&&&&& \\\hline
+R41 &&&&X&&&&&&&& \\\hline
+R42 &&&&X&&&&&&&& \\\hline
+R43 &&&&X&&&&&&&X& \\\hline
+R44 &&&&X&&&&&&&& \\\hline
+R45 &&&&X&&&&&&&& \\\hline
+R46 &&&&X&&&&&&&& \\\hline
+R47 &&&&X&&&&&&&& \\\hline
+R48 &&&&&X&&&&&&& \\\hline
+R49 &&&&&X&&&&&&& \\\hline
+R50 &&&&&X&X&&&&&& \\\hline
+\end{tabular}
+\newpage
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\multicolumn{13}{|c|}{Logical Components Subtable continued\dots}\\\hline
+Req& A2.1& A2.2& A2.3& A2.4& A2.5& A2.6& A2.7& A2.8& A2.9& A2.10& A2.11& A2.12\\\hline\hline
+R51 &&X&&&&&&&&&& \\\hline
+R52 &&X&&&&&&&&&& \\\hline
+R53 &&&&&&&&&&&&X \\\hline
+R54 &&&&&&&&&&&&X \\\hline
+R55 &&&&&&&&&&&&X \\\hline
+R56 &&&&&&&&&&&&X \\\hline
+R57 &&&&&&X&X&&&&& \\\hline
+R58 &&&&&&X&&&&&& \\\hline
+R59 &&&&&&X&&&&&& \\\hline
+R60 &&&&&&&X&&&&& \\\hline
+R61 &&&&&&X&&&&&& \\\hline
+R62 &&&&&&X&X&&&&& \\\hline
+R63 &&&&&&&X&&&&& \\\hline
+R64 &&&&&&&X&&&&& \\\hline
+R65 &&&&&&&X&&&&& \\\hline
+R66 &&&&&&&&&&&X& \\\hline
+R67 &&&&&&&&&&&X& \\\hline
+R68 &&&&&&&&&&&X& \\\hline
+R69 &&&&&&&&&&&X& \\\hline
+R70 &&&&&&&X&&&&X& \\\hline
+R71 &&&&&&&X&&&&X& \\\hline
+R72 &&&&&&&&&&&X& \\\hline
+R73 &&&&&&&X&&&&X& \\\hline
+R74 &&&&&&&X&&&&X& \\\hline
+R75 &&&&&&&X&&&&X& \\\hline
+R76 &X&X&X&X&X&X&X&X&X&X&X&X \\\hline
+R77 &X&X&X&X&X&X&X&X&X&X&X&X\\\hline
+R78 &X&X&X&X&X&X&X&X&X&X&X&X\\\hline
+R79 &X&X&X&X&X&X&X&X&X&X&X&X\\\hline
+R80 &X&X&X&X&X&X&X&X&X&X&X&X\\\hline
+R81 &X&X&X&X&X&X&X&X&X&X&X&X\\\hline
+R82 &X&X&X&X&X&X&X&X&X&X&X&X\\\hline
+%R83 &X&X&X&X&X&X&X&X&X&X&X&X\\\hline
+R84 &X&X&X&X&X&X&X&X&X&X&X&X\\\hline
+R85 &&&X&X&&&&&&&&X \\\hline
+R86 &&X&&&X&X&X&X&X&X&X&X \\\hline
+R87 &&X&&&X&X&X&&&&X&X \\\hline
+%R88 &&&&&&&&&&&& \\\hline
+R89 &X&&&&&&&&&&& \\\hline
+%R90 &&&&&&&&&&&& \\\hline
+%R91 &&&&&&&&&&&& \\\hline
+%R92 &&&&&&&&&&&& \\\hline
+%R93 &&&&&&&&&&&& \\\hline
+%R94 &&&&&&&&&&&& \\\hline
+\end{tabular}
+\end{document}

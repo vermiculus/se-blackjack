@@ -1,0 +1,1260 @@
+\documentclass{article}
+
+
+\def\Title{System Test Plan}
+\def\Class{Software Engineering}
+\def\Project{SE-Blackjack}
+\def\Author{Sean Allred, Molly Domino, Joshua Kaminsky, Matthan Lee}
+\def\SDPVersion{1.4}
+\def\SRSVersion{1.3}
+\def\TMVersion{1.2}
+\def\SDDVersion{1.6}
+\def\STPVersion{1.3}
+\def\GUIVersion{1.1}
+\def\CodeVersion{1.0}
+\def\Version{\STPVersion}
+\title{\Title}
+\author{\Author}
+\date{\today}
+
+
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\lhead{\Title}
+\rhead{\Project\\\Title\\Version \Version}
+
+
+
+
+
+
+
+
+
+%For sorting
+\usepackage{datatool}
+\newcommand{\sortitem}[2]{%
+  \DTLnewrow{list}%
+  \DTLnewdbentry{list}{label}{#1}%
+  \DTLnewdbentry{list}{description}{#2}%
+}
+
+\newenvironment{sortedlist}%
+{%
+  \DTLifdbexists{list}{\DTLcleardb{list}}{\DTLnewdb{list}}%
+}%
+{%
+  \DTLsort{label}{list}%
+  \begin{description}%
+    \DTLforeach*{list}{\theLabel=label,\theDesc=description}{%
+      \item [\theLabel] \theDesc
+    }%
+  \end{description}%
+}
+
+\newcommand{\setupintro}{
+\renewcommand{\thepage}{}
+\maketitle
+\begin{center}
+\large Version \Version \normalsize
+\end{center}
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\roman{page}}
+\tableofcontents 
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\arabic{page}}
+}
+
+
+
+%Specific for the SRS:
+\setcounter{tocdepth}{3}
+%\setcounter{secnumdepth}{5}
+\begin{document}
+\setupintro
+
+
+
+\section{Version History}
+\begin{tabular}{|l|l|p{3.25in}|l|}
+\hline
+Date & Version & Description & Author \\\hline
+Oct 28, 2012 & 1.0 & Initial Tests added. & Mat\\\hline
+Oct 29, 2012 & 1.1 &Additional Tests added.& Mat \\\hline
+Nov 2, 2012 & 1.2 &Additional Tests added.& Mat \\\hline
+Nov 4, 2012 & 1.3 &Beginning of the Document added.& Mat, Molly, Josh \\\hline
+\end{tabular}
+
+\section{Introduction}
+
+\subsection{Purpose}
+
+The Software Test Plan serves as a complete model of the procedures for testing the software.  It includes procedural test cases to meet and verify every requirement outlined in the Software Requirements Specification and provides methods and a structure to discover, report, correct, and re-test each item.  Any requirements to be excluded from the standard testing process are outlined, as are the nonstandard procedures for ensuring those requirements are met.  This document describes test approaches (white box, black box, end-to-end, and use-case) and their use in the test plan  Lastly, this document defines the environment and tools for applying these approaches.  
+
+
+\subsection{Scope}
+
+The Software Test Plan serves as a complete model of the procedures for testing the software.  It includes procedural test cases to meet and verify every requirement outlined in the Software Requirements Specification and provides methods and a structure to discover, report, correct, and re-test each item.  Any requirements to be excluded from the standard testing process are outlined, as are the nonstandard procedures for ensuring those requirements are met.  This document describes test approaches (white box, black box, end-to-end, and use-case) and their use in the test plan  Lastly, this document defines the environment and tools for applying these approaches.  
+
+\subsection{System Overview}
+
+Team No Dice’s software product (“Blackjack”) creates a graphical user interface, through which a user plays a simulation of the card game Blackjack.  This product provides card-game methods such as splitting, hitting, and standing, a functional card-deck simulation with a randomized shuffling method, and reporting/administrative methods found in a menu bar.  
+
+\subsection{Definitions, Acronyms, and Abbreviations}\label{Terms}
+
+\subsubsection{Acronyms}
+\begin{sortedlist}
+\sortitem{GUI}{ Graphical User Interface}
+%\sortitem{SME}{ Subject Matter Expert}
+%\sortitem{FA}{ Functional Analyst}
+%\sortitem{SA}{ Solutions Architect}
+%\sortitem{DEV}{ Developer }
+%\sortitem{QA}{ Quality Assurance }
+\sortitem{SDP}{Software Development Plan}
+\sortitem{SRS}{Software Requirements Specification}
+\sortitem{TM}{Traceability Matrix}
+\sortitem{SDD}{Software Design Document}
+\sortitem{STP}{Software Test Procedure}
+\end{sortedlist}
+
+\subsubsection{Definitions}
+\begin{sortedlist}
+%\sortitem{Player}{A person or AI participating in a game of blackjack}
+%\sortitem{User}{The human interfacing with the game}
+%\sortitem{Dealer}{The computer controlled player}
+\sortitem{Test}{A formal practice of subjecting a piece of software to various conditions in order to ensure it functions.}
+\sortitem{Hit}{A move in blackjack.  The person who makes the move is dealt a card from the deck}
+\sortitem{Stand}{A move in blackjack.  This move signifies the end of the players turn.}
+\sortitem{Blackjack}{The game of we are making our software to simulate.}
+\sortitem{Blackjack }{A hand in the game blackjack that consists of only an ace and a face card.  This hand is superior to all other non-blackjack hands.}
+%\sortitem{Face Card}{Jack, Queen, or King}
+\sortitem{Split}{A move in blackjack.  The user splits their hand into two separate hands, and makes a bet on the second hand equal to the initial bet.  The player then proceeds to play both hands separately.}
+%\sortitem{Subprogram}{A modular segment of code in the main program that performs a specific task.}
+%\sortitem{Gears}{A term for a subprogram dedicated entirely to computation.}
+%\sortitem{Main Program}{See section \ref{DataDefs}}
+%\sortitem{Main Program}{See section \ref{DataDefs}}
+%\sortitem{User Subprogram}{See section \ref{DataDefs}}
+%\sortitem{Computational Class}{See section \ref{DataDefs}}
+%\sortitem{Graphical User Interface}{See section \ref{DataDefs}}
+%\sortitem{Coding}{The process of writing code.}
+\end{sortedlist}
+
+\subsubsection{Abbreviations}
+\begin{sortedlist}
+\sortitem{Oct}{October}
+\sortitem{Dec}{December}
+\sortitem{Nov}{November}
+\end{sortedlist}
+
+
+\section{Requirements to be Tested}
+
+The requirements for the Software Test Plan Outline are drawn entirely from the Software Requirements Document and revised accordingly as either document is updated.  No functional requirement will be excluded from the test procedures.  %, although certain requirements require a different procedure in order to be verified.  See Section 3 for details.
+
+\section{Testing Methods}
+Test procedures consist primarily of black box testing, starting by running the program via standard execution methods.  Output is verified almost exclusively by evaluating the graphical output of the program.
+
+\section{Test Process}
+
+In order to test our product as thoroughly as possible, Team No Dice plans on making use of validation testing and system testing methods quite heavily.  Validation testing will stem largely from this document, as it is here that procedures to test that every requirement is fulfilled in its entirety are laid out.  One member of Team No Dice who has not had much direct involvement in developing the actual code of Blackjack! will follow each procedure laid out in section 7 and thus will determine where the bugs in Blackjack! lie.  As much as system testing can be implemented in a product that is not reliant on an overarching system, the closest to system testing Team No Dice anticipates doing is to run our product on the computers our client will run it on.  Thus, since much of our validation testing is done in a manner that involves directly running our product, Team No Dice anticipates that much of the formal validation testing will be done on the computers in room 165 of Schaefer Hall.  Unit testing is currently being informally done as the code is written.  Such tests are not being documented, but as writing perfectly functional code is so rarely done in a first attempt it is most certainly being done.  
+
+\section{Reporting and Corrective Action}
+
+An excel spreadsheet has been created and posted to Team No Dice’s shared folder on Google Docs.  It notes the number of the failed test, the date it was discovered, any other notes the tester wishes to report, the date the test passes (implying the issue was resolved) and what major changes were enacted to the code so as to prevent a domino effect and thus ensure all major changes are tracked with regards to the source code of our product.  Testers will (to the best of their ability) document any bugs by filling out the first three fields, then passing this form on to the programmers so they may enact all changes as needed.  The customer is free to see this documentation on request, but until then, as the debugging of our product does not directly require the customer’s involvement, this document is seen only by the members of Team No Dice.  
+
+\section{Test Environment}
+
+Currently, any unit testing or otherwise small scale implementation of a piece of code from Blackjack! is being run on Sean’s desktop computer (an Intel based computer running Windows 8 as an operating system). When formal testing commences, Blackjack! will also start being run from the Dell computers running Windows 7 as an operating system to ensure our product functions properly in the environment the client will be running it in.  Thus, only two computers are necessary for the running of all test activities.  
+
+
+\begin{itemize}
+\item SDP version \SDPVersion
+\item SRS version \SRSVersion
+\item TM version \TMVersion
+\item STP version \STPVersion
+\item GUI version \GUIVersion
+\item Code version \CodeVersion
+\item Glossary - see section \ref {Terms}
+\item Other - Thank you to GitHub.com for allowing our team to collaborate online.  
+\end{itemize}
+\paragraph{Test Number:} BJ-009\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test game's ability to start.\\
+\textbf{Requirements:} 3.6 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Double-click program icon (or) click program and press ENTER (or) run program from command line.
+\end{enumerate}
+\textbf{Measure of Success}\\The program will begin.
+\paragraph{Test Number:} BJ-001\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the user name prompt.\\
+\textbf{Requirements:} 3.6.3.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\end{enumerate}
+\textbf{Measure of Success}\\A pop-up window will appear and prompt the user for their user name.
+\paragraph{Test Number:} BJ-002\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the user name prompt's initialization.\\
+\textbf{Requirements:} 3.6.1.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\end{enumerate}
+\textbf{Measure of Success}\\A pop-up window will appear pre-populated with an empty string.
+\paragraph{Test Number:} BJ-008\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's user interface.\\
+\textbf{Requirements:} 3.4 3.6.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The game's primary graphical user interface will appear.
+\paragraph{Test Number:} BJ-003\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the user name's display.\\
+\textbf{Requirements:} 3.6.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The username entered into the text field will be displayed on the GUI.
+\paragraph{Test Number:} BJ-005\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the initialization of variables.\\
+\textbf{Requirements:} 3.6.1.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The Funds field will pre-populate to a value of \$500.
+\paragraph{Test Number:} BJ-006\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the initialization of variables.\\
+\textbf{Requirements:} 3.6.1.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The Deck will contain no cards.
+\paragraph{Test Number:} BJ-007\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the initialization of variables.\\
+\textbf{Requirements:} 3.6.2.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The screen will appear with no cards dealt.
+\paragraph{Test Number:} BJ-010\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test game's title.\\
+\textbf{Requirements:} 3.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The program GUI will be headed by title text indicating the game being played (Blackjack).
+\paragraph{Test Number:} BJ-011\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test game's menu bar.\\
+\textbf{Requirements:} 3.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The program GUI will contain a standardized menu bar situated on top of the GUI.
+\paragraph{Test Number:} BJ-012\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test menu bar's File button.\\
+\textbf{Requirements:} 3.3.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The menu bar will contain a File button.
+\paragraph{Test Number:} BJ-013\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test File menu's Restart button.\\
+\textbf{Requirements:} 3.3.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Click File.
+\item Click Restart.
+\end{enumerate}
+\textbf{Measure of Success}\\The program will restart.
+\paragraph{Test Number:} BJ-014\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test File menu's Statistics button.\\
+\textbf{Requirements:} 3.3.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Click File.
+\item Click Statistics.
+\end{enumerate}
+\textbf{Measure of Success}\\The File menu will provide a Statistics button.
+\paragraph{Test Number:} BJ-015\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test Statistics output.\\
+\textbf{Requirements:} 3.3.3.1 3.3.3.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Click File.
+\item Click Statistics.
+\end{enumerate}
+\textbf{Measure of Success}\\The output will display the number of wins losses most money won from a single game and most money lost from a single game.
+\paragraph{Test Number:} BJ-016\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test File menu's Exit button.\\
+\textbf{Requirements:} 3.3.4 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Click File.
+\item Click Exit.
+\end{enumerate}
+\textbf{Measure of Success}\\The File menu will provide an Exit button.
+\paragraph{Test Number:} BJ-017\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test menu bar's Help button.\\
+\textbf{Requirements:} 3.3.5 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The menu bar will contain a Help button.
+\paragraph{Test Number:} BJ-018\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test Help button output.\\
+\textbf{Requirements:} 3.3.5 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The menu bar will contain a Help button.
+\paragraph{Test Number:} BJ-019\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test About button.\\
+\textbf{Requirements:} 3.3.6 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Click Help.
+\end{enumerate}
+\textbf{Measure of Success}\\The Help menu will provide an About button.
+\paragraph{Test Number:} BJ-020\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/28/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test About output.\\
+\textbf{Requirements:} 3.3.6.1 3.3.6.2 3.3.6.3 3.3.6.4 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Click Help.
+\item Click About.
+\end{enumerate}
+\textbf{Measure of Success}\\The About button will display the name of the software the names of the authors the date of the software's creation and the software version number.
+\paragraph{Test Number:} BJ-021\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test GUI background.\\
+\textbf{Requirements:} 3.4.4 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The GUI will display a background image representing the table on which Blackjack is being played.
+\paragraph{Test Number:} BJ-022\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test GUI background.\\
+\textbf{Requirements:} 3.4.4 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The GUI will display a background image representing the table on which Blackjack is being played.
+\paragraph{Test Number:} BJ-023\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test money display.\\
+\textbf{Requirements:} 3.4.5 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The GUI will display a text field denoting the user's current funds.
+\paragraph{Test Number:} BJ-024\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test money display label.\\
+\textbf{Requirements:} 3.4.5.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The text field denoting the user's current funds will begin with the label Funds: .
+\paragraph{Test Number:} BJ-025\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test username display.\\
+\textbf{Requirements:} 3.4.6 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The GUI will display a text field denoting the user's username.
+\paragraph{Test Number:} BJ-023\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test money display.\\
+\textbf{Requirements:} 3.4.5 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The GUI will display a text field denoting the user's current funds.
+\paragraph{Test Number:} BJ-024\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test Hit button.\\
+\textbf{Requirements:} 3.4.7 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The GUI will display a button for the user to indicate their wish to Hit.
+\paragraph{Test Number:} BJ-025\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test Split button.\\
+\textbf{Requirements:} 3.4.7 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The GUI will display a button for the user to indicate their wish to Split.
+\paragraph{Test Number:} BJ-026\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test Stand button.\\
+\textbf{Requirements:} 3.4.7 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The GUI will display a button for the user to indicate their wish to Stand.
+\paragraph{Test Number:} BJ-004\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the initialization of variables.\\
+\textbf{Requirements:} 3.6.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\All game buttons on the interface will be inactive.
+\paragraph{Test Number:} BJ-027\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 10/29/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the betting box.\\
+\textbf{Requirements:} 3.4.10 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The GUI will include a betting box to accept bets.
+\paragraph{Test Number:} BJ-028\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the back-card display.\\
+\textbf{Requirements:} 3.4.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\Cards not yet visible to the user will be represented as images that represent the backs of playing cards.
+\paragraph{Test Number:} BJ-029\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the back-card display.\\
+\textbf{Requirements:} 3.4.1.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\Images representing the backs of playing cards will not reveal the value of the card.
+\paragraph{Test Number:} BJ-030\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the front-card display.\\
+\textbf{Requirements:} 3.4.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\Cards visible to the user will be represented as images that represent the playing cards.
+\paragraph{Test Number:} BJ-031\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the front-card display.\\
+\textbf{Requirements:} 3.4.2.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\Images representing playing cards will reveal their value.
+\paragraph{Test Number:} BJ-032\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the multi-card display.\\
+\textbf{Requirements:} 3.4.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The interface will display an image representing a deck of cards (i.e. more than one card in a stack).
+\paragraph{Test Number:} BJ-033\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the interface's splash screens.\\
+\textbf{Requirements:} 3.5 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Stand.
+\end{enumerate}
+\textbf{Measure of Success}\\The program will create pop-up windows to accept username accept bet value.
+\paragraph{Test Number:} BJ-034\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the interface's game-ended splash screen.\\
+\textbf{Requirements:} 3.5.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Stand.
+\end{enumerate}
+\textbf{Measure of Success}\\The program will create pop-up windows to indicate that a game has ended.  
+\paragraph{Test Number:} BJ-035\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the interface's game-ended splash screen.\\
+\textbf{Requirements:} 3.5.1.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Stand.
+\end{enumerate}
+\textbf{Measure of Success}\\The game-ended pop-up will tell the user whether they have won or lost.
+\paragraph{Test Number:} BJ-036\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the interface's game-ended splash screen.\\
+\textbf{Requirements:} 3.5.1.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Stand.
+\end{enumerate}
+\textbf{Measure of Success}\\The game-ended pop-up will prompt the user to play again.
+\paragraph{Test Number:} BJ-037\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Hit function.\\
+\textbf{Requirements:} 3.7 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The Hit button will become active once the game has begun.
+\paragraph{Test Number:} BJ-038\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Stand function.\\
+\textbf{Requirements:} 3.9 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The Stand button will become active once the game has begun.
+\paragraph{Test Number:} BJ-050\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Stand function.\\
+\textbf{Requirements:} 3.9.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The Stand button when clicked will initiate the dealer's turn.
+\paragraph{Test Number:} BJ-051\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Stand function.\\
+\textbf{Requirements:} 3.9.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The Stand button will be available as long as the game is in progress.
+\paragraph{Test Number:} BJ-052\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Stand function.\\
+\textbf{Requirements:} 3.9.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The Stand button will end the game.
+\paragraph{Test Number:} BJ-039\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Hit function.\\
+\textbf{Requirements:} 3.7.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Hit.
+\end{enumerate}
+\textbf{Measure of Success}\\A new card will appear in the player's hand.
+\paragraph{Test Number:} BJ-040\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Hit function.\\
+\textbf{Requirements:} 3.7.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Hit.
+\end{enumerate}
+\textbf{Measure of Success}\\If the combined value of the cards in the player's hand is greater than 21 the player immediately loses the game.
+\paragraph{Test Number:} BJ-041\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Hit function.\\
+\textbf{Requirements:} 3.7.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The Hit button will be available as long as the game is in progress.
+\paragraph{Test Number:} BJ-042\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Split function.\\
+\textbf{Requirements:} 3.8 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The game will supply a Split button which will be unavailable.
+\paragraph{Test Number:} BJ-043\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Split function.\\
+\textbf{Requirements:} 3.8.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Hit.
+\end{enumerate}
+\textbf{Measure of Success}\\The Split button will not be available on any turn except the first turn.
+\paragraph{Test Number:} BJ-047\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Split function.\\
+\textbf{Requirements:} 3.8.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Hit.
+\end{enumerate}
+\textbf{Measure of Success}\\The Split button will not be available unless the user's hand contains two cards of the same value.
+\paragraph{Test Number:} BJ-044\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Split function.\\
+\textbf{Requirements:} 3.8.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Split.
+\end{enumerate}
+\textbf{Measure of Success}\\The Split button when clicked will allow the player to split their hand into two games playing each card in a separate game.
+\paragraph{Test Number:} BJ-045\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Split function.\\
+\textbf{Requirements:} 3.8.4 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Split.
+\end{enumerate}
+\textbf{Measure of Success}\\The Split button when clicked will allow the player to split their hand into two games; the second game will contain a bet equal to the first.
+\paragraph{Test Number:} BJ-046\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Split function.\\
+\textbf{Requirements:} 3.8.5 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\end{enumerate}
+\textbf{Measure of Success}\\The Split button must not be available if the user's current funds are less than the user's current bet.
+\paragraph{Test Number:} BJ-048\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Split function.\\
+\textbf{Requirements:} 3.8.6 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Split.
+\end{enumerate}
+\textbf{Measure of Success}\\The Split button when clicked will allow the player to split their hand into two games playing each card in a separate game; this will be visually represented by a second hand appearing on-screen.
+\paragraph{Test Number:} BJ-049\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's Split function.\\
+\textbf{Requirements:} 3.8.7 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Split.
+\end{enumerate}
+\textbf{Measure of Success}\\The Split button when clicked will split the hand into two games; the second bet pertaining to the second game will be displayed separately.
+\paragraph{Test Number:} BJ-055\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's AI. \\
+\textbf{Requirements:} 3.10 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Stand.
+\end{enumerate}
+\textbf{Measure of Success}\\The dealer will perform actions automatically under the control of a protocol (hereby known as the dealer or the AI).
+\paragraph{Test Number:} BJ-053\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's AI. \\
+\textbf{Requirements:} 3.10.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Stand.
+\end{enumerate}
+\textbf{Measure of Success}\\The dealer will hit if the value of their hand is less than 18.
+\paragraph{Test Number:} BJ-054\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's AI. \\
+\textbf{Requirements:} 3.10.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Click Stand.
+\end{enumerate}
+\textbf{Measure of Success}\\The dealer will stand if the value of their hand is 18 or more.
+\paragraph{Test Number:} BJ-056\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's shuffle method.\\
+\textbf{Requirements:} 3.11 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Continue to play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\The deck will repopulate with cards whose order is random.
+\paragraph{Test Number:} BJ-057\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's shuffle method.\\
+\textbf{Requirements:} 3.11.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Continue to play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\The deck will repopulate with shuffled cards. The cards will shuffle before any new cards are dealt.
+\paragraph{Test Number:} BJ-058\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's shuffle method.\\
+\textbf{Requirements:} 3.11.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Continue to play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\The cards that repopulate into the new deck will NOT include the cards currently in play.
+\paragraph{Test Number:} BJ-059\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's shuffle method.\\
+\textbf{Requirements:} 3.11.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Continue to play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\Drawing a card from the new deck must give a pseudorandom card.
+\paragraph{Test Number:} BJ-060\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's shuffle method.\\
+\textbf{Requirements:} 3.11.4 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Continue to play the game until the deck has emptied.
+\item Continue to play the game until the deck has emptied again.
+\end{enumerate}
+\textbf{Measure of Success}\\The shuffle method must be independent; that is the shuffling method must not use any static patterns.
+\paragraph{Test Number:} BJ-061\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's check for Blackjack.\\
+\textbf{Requirements:} 3.12 3.12.1 3.12.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Play until the user's hand contains Blackjack (i.e. an Ace and a 10 or face card).
+\end{enumerate}
+\textbf{Measure of Success}\\The game will recognize that the user or dealer's hand is a Blackjack and will automatically end the user's turn.
+\paragraph{Test Number:} BJ-062\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's WinLoss comparison.\\
+\textbf{Requirements:} 3.13 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\The game will perform a win-loss comparison of the value of the user's hand versus the value of the dealer's hand.
+\paragraph{Test Number:} BJ-063\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's WinLoss comparison.\\
+\textbf{Requirements:} 3.13.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\If at any time the player has over 21 points the user's turn is immediately terminated.
+\paragraph{Test Number:} BJ-064\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's WinLoss comparison.\\
+\textbf{Requirements:} 3.13.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\If at any time the player has over 21 points the user's turn is immediately terminated.  The user will lose the round.
+\paragraph{Test Number:} BJ-065\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's WinLoss comparison.\\
+\textbf{Requirements:} 3.13.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\Once the dealer stands the game must end.
+\paragraph{Test Number:} BJ-066\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's WinLoss comparison.\\
+\textbf{Requirements:} 3.13.4 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\If the game ends and neither player has over 21 points and one player has more points than another player that player will win.
+\paragraph{Test Number:} BJ-067\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's WinLoss comparison.\\
+\textbf{Requirements:} 3.13.5 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\If the game ends and neither player has over 21 points and the players have the same number of points no player will win.
+\paragraph{Test Number:} BJ-068\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's WinLoss comparison.\\
+\textbf{Requirements:} 3.13.6 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\If the dealer wins the player will lose.
+\paragraph{Test Number:} BJ-069\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's WinLoss comparison.\\
+\textbf{Requirements:} 3.13.7 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username into pop-up.
+\item Enter bet into pop-up.
+\item Play the game until the deck has emptied.
+\end{enumerate}
+\textbf{Measure of Success}\\If the player wins the dealer will win.
+\paragraph{Test Number:} BJ-070\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's betting process.\\
+\textbf{Requirements:} 3.14 3.14.1 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter bet.
+\end{enumerate}
+\textbf{Measure of Success}\\The user will bet at the beginning of each game.
+\paragraph{Test Number:} BJ-071\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's betting process.\\
+\textbf{Requirements:} 3.14.2 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter a bet that has a greater value than the amount of money the user currently has.
+\end{enumerate}
+\textbf{Measure of Success}\\The user will not be able to bet more money than they have.
+\paragraph{Test Number:} BJ-072\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's betting process.\\
+\textbf{Requirements:} 3.14.3 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter a bet of < 20 dollars.
+\end{enumerate}
+\textbf{Measure of Success}\\The user will not be able to bet less than twenty dollars on a single game.
+\paragraph{Test Number:} BJ-073\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's betting process.\\
+\textbf{Requirements:} 3.14.4 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username.
+\item Enter bet.
+\end{enumerate}
+\textbf{Measure of Success}\\The user should not be able to enter a bet once a game has started.
+\paragraph{Test Number:} BJ-074\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's rewards process.\\
+\textbf{Requirements:} 3.14.5 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username.
+\item Enter bet.
+\item Play game until the user wins.
+\end{enumerate}
+\textbf{Measure of Success}\\The user will be paid twice as much money as they bet on the game.
+\paragraph{Test Number:} BJ-075\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's rewards process.\\
+\textbf{Requirements:} 3.14.6 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username.
+\item Enter bet.
+\item Play game until the user loses.
+\end{enumerate}
+\textbf{Measure of Success}\\The user will be paid no money.
+\paragraph{Test Number:} BJ-076\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's rewards process.\\
+\textbf{Requirements:} 3.14.7 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username.
+\item Enter a bet between 20 and the users total funds that is not an integer.
+\end{enumerate}
+\textbf{Measure of Success}\\The user will not be able to bet a non-integer.
+\paragraph{Test Number:} BJ-077\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's rewards process.\\
+\textbf{Requirements:} 3.14.8 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username.
+\item Enter bet.
+\end{enumerate}
+\textbf{Measure of Success}\\The user's funds will decrement by the exact amount the user bets.
+\paragraph{Test Number:} BJ-078\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's rewards process.\\
+\textbf{Requirements:} 3.14.9 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username.
+\item Enter bet.
+\item Play game until the user wins.
+\end{enumerate}
+\textbf{Measure of Success}\\The user's funds will increment by the exact amount the user wins.
+\paragraph{Test Number:} BJ-079\\
+\textbf{Author:} Mat\\
+\textbf{Date:} 11/2/2012\\
+\textbf{Revision:} 1.0\\
+\textbf{Test Purpose:} Test the game's rewards process.\\
+\textbf{Requirements:} 3.14.10 \\
+\textbf{Test Procedures:} 
+\begin{enumerate}
+\item Start program.
+\item Enter username.
+\item Enter bet.
+\item Play game until the user and the dealer tie.
+\end{enumerate}
+\textbf{Measure of Success}\\The user's funds will increment by the exact amount the user bet
+\end{document}

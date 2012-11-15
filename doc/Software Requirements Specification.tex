@@ -1,0 +1,357 @@
+\documentclass{article}
+
+
+\def\Title{Software Requirements Specification}
+\def\Class{Software Engineering}
+\def\Project{SE-Blackjack}
+\def\Author{Sean Allred, Molly Domino, Joshua Kaminsky, Matthan Lee}
+\def\SDPVersion{1.4}
+\def\SRSVersion{1.3}
+\def\TMVersion{1.0}
+\def\SDDVersion{1.5}
+\def\STPVersion{0.0}
+\def\GUIVersion{1.0}
+\def\CodeVersion{1.0}
+\def\Version{\SRSVersion}
+\title{\Title}
+\author{\Author}
+\date{\today}
+
+
+
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\lhead{\Title}
+\rhead{\Project\\\Title\\Version \Version}
+
+
+
+
+
+
+
+
+
+%For sorting
+\usepackage{datatool}
+\newcommand{\sortitem}[2]{%
+  \DTLnewrow{list}%
+  \DTLnewdbentry{list}{label}{#1}%
+  \DTLnewdbentry{list}{description}{#2}%
+}
+
+\newenvironment{sortedlist}%
+{%
+  \DTLifdbexists{list}{\DTLcleardb{list}}{\DTLnewdb{list}}%
+}%
+{%
+  \DTLsort{label}{list}%
+  \begin{description}%
+    \DTLforeach*{list}{\theLabel=label,\theDesc=description}{%
+      \item \textbf{\theLabel} - \theDesc
+    }%
+  \end{description}%
+}
+
+\newcommand{\setupintro}{
+\renewcommand{\thepage}{}
+\maketitle
+\begin{center}
+\large Version \Version \normalsize
+\end{center}
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\roman{page}}
+\tableofcontents 
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\arabic{page}}
+}
+
+
+
+%Specific for the SRS:
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{5}
+\begin{document}
+\setupintro
+
+
+
+\section{Version History}
+\begin{tabular}{|l|l|p{3.25in}|l|}
+\hline
+Date & Version & Description & Author \\\hline
+Sept 6, 2012 & 1.0 & Initial requirements developed and added & Sean, Molly, Josh, Mat\\\hline
+Sept 21, 2012 & 1.1 & Response to comments and reTeXing to fit style of SDP & Josh\\\hline
+Oct 16, 2012 & 1.2 & Reorganization of requirements. Added Rank to Glossary.& Josh and Molly\\\hline
+Oct 16, 2012 & 1.3 & Changed requirements to reflect comments from customer.  Important changes to section 6.2, and 6.8.6.  Reworked sections in introduction to fit with template.  Edited language.& Josh\\\hline
+\end{tabular}
+
+\section{Introduction}
+
+\subsection{Purpose}
+
+This document will record all of the requirements of Blackjack version n.0.  It will record Functional, System, Hardware, Software, Interface, and Performance requirements.
+
+\subsection{Scope}
+
+This document will establish the requirements we will adhere to when creating the blackjack software.  It will serve as the customer's way of understanding what they should expect.  It will also serve as our standard for what we need to do in order to satisfy the customer.  This document will serve as the basis for any Testing.  Furthermore, this document will serve as a record of things the customer had asked us to do.  If something does not appear in this document, then it should not be expected out of the final product.  However, this document does not overrule the will of the customer.  If the customer should change his mind about any of the requirements herein, this document will be modified accordingly (potentially after negotiation).
+
+
+\subsection{Definitions, Acronyms, and Abbreviations}\label{Terms}
+\subsubsection{Acronyms}
+\begin{sortedlist}
+\sortitem{GUI }{ Graphical User Interface}
+\sortitem{SME }{ Subject Matter Expert}
+\sortitem{FA }{ Functional Analyst}
+\sortitem{SA }{ Solutions Architect}
+\sortitem{DEV }{ Developer }
+\sortitem{QA }{ Quality Assurance }
+\sortitem{SDP}{Software Development Plan}
+\sortitem{SRS}{Software Requirements Specification}
+\sortitem{TM}{Traceability Matrix}
+\sortitem{SDD}{Software Design Document}
+\sortitem{GHz}{GigaHertz}
+\sortitem{PC}{Personal Computer}
+\sortitem{RAM}{Random Access Memory}
+
+\end{sortedlist}
+
+\subsubsection{Definitions}
+\begin{sortedlist}
+\sortitem{Player}{A person or AI participating in a game of blackjack}
+\sortitem{User}{The human interfacing with the game}
+\sortitem{Dealer}{The computer controlled player}
+\sortitem{Test}{A formal practice of subjecting a piece of software to various conditions in order to ensure it functions.}
+\sortitem{Hit}{A move in blackjack.  The person who makes the move is dealt a card from the deck}
+\sortitem{Stand}{A move in blackjack.  This move signifies the end of the players turn.}
+\sortitem{Blackjack}{The game of we are making our software to simulate.}
+\sortitem{Blackjack }{A hand in the game blackjack that consists of only an ace and a face card.  This hand is superior to all other non-blackjack hands.}
+\sortitem{Face Card}{Jack, Queen, or King}
+\sortitem{Split}{A move in blackjack.  The user splits their hand into two separate hands, and makes a bet on the second hand equal to the initial bet.  The player then proceeds to play both hands separately.}
+\sortitem{Rank}{The number of points associated with a card.  For numbered cards, the rank is equal to the number.  For facecards, the rank is equal to 10.  For aces, the rank can be either 11 or 1.}
+%\sortitem{Coding}{The process of writing code.}
+\sortitem{.NET}{.NET is an integral part of many applications running on Windows and provides common functionality for those applications to run.}
+\end{sortedlist}
+
+\subsubsection{Abbreviations}
+\begin{sortedlist}
+\sortitem{Sept}{September}
+\sortitem{Oct}{October}
+\sortitem{Dec}{December}
+\sortitem{gig}{Gigabyte}
+\end{sortedlist}
+
+
+\subsection{References}
+
+\begin{itemize}
+\item SDP version \SDPVersion
+\item TM version \TMVersion
+\item SDD version \SDDVersion
+\item STP version \STPVersion
+\item GUI version \GUIVersion
+\item Code version \CodeVersion
+\item Glossary - see section \ref {Terms}
+\item Other - Microsoft.com provided the definition for .NET.
+\item Other - Thank you to GitHub.com for allowing our team to collaborate online.  
+\end{itemize}
+
+\subsection{Project Overview}
+
+We are going to create a fully functional GUI based 1-player blackjack game.
+
+\section{Functional Description}
+
+
+\subsection{Language and Terminology}
+
+Planned program features will use the following words to indicate whether a requirement is something the development team feels will benefit the project, or is specifically requested by the customer.
+\begin{sortedlist}
+\sortitem{\textbf{must}}{Indicates a feature specifically requested by the customer.}
+\sortitem{will}{Indicates a feature that is not requested, but is intended to be included in the software project.}
+\end{sortedlist}
+
+
+\subsection{Title}Program’s GUI \textbf{must} be headed by title text indicating the game being played (i.e. “Blackjack”).
+\subsection{Menu Bar}Program’s GUI \textbf{must} contain a standardized menu bar situated at the top of the GUI.  
+\subsubsection{File Button}Program’s menu \textbf{must} include a button to create a drop-down File menu.
+\subsubsection{Restart Button}Program’s File Button menu \textbf{must} include a button to start a new game.
+\subsubsection{Statistics Button}
+\paragraph{}Program’s File Button menu \textbf{must} include a button to view the user’s gameplay statistics.
+\paragraph{}The Statistics Button dialog \textbf{must} show the number of wins, losses, the largest win, and the greatest lost.
+\subsubsection{Exit}Program’s File Button menu \textbf{must} include a button to exit the program.
+\subsubsection{Help Button}Program’s menu \textbf{must} include a button to seek help.
+\subsubsection{About Menu}
+\paragraph{}Program’s Help button \textbf{must} display the name of the software.
+\paragraph{}Program’s Help button \textbf{must} display the authors of the software.
+\paragraph{}Program’s Help button \textbf{will} display the date of creation of the software.
+\paragraph{}The information \textbf{must} include the software version number. %Fix me?
+
+\subsection{Graphics}Program \textbf{must} access and display many visual resources, to include Windows graphics packages and external image files to represent objects in-game.
+
+
+\subsubsection{Back Card Display}Graphics \textbf{must} include an image to represent the back of a playing card (i.e., face-down).  
+\paragraph{}The image \textbf{must} not show the value or suit of the card.  
+
+
+\subsubsection{Card Front Display}Graphics \textbf{must} include an image to represent the front of a playing card (i.e., face-up).  
+\paragraph{}This graphic \textbf{must} display the suit and value of the card.
+
+
+\subsubsection{Deck Display}Graphics \textbf{must} include an image to represent more than one card in a stack or deck.  
+
+\subsubsection{Background}Graphics \textbf{must} include an image to represent the background of the game window (i.e., the “table” on which Blackjack is being played).  
+
+
+\subsubsection{Money Display}Graphics \textbf{must} include an actively-updated text field where the user’s current funds are to be displayed.
+\paragraph{}This display \textbf{must} include a label saying: “Funds:” followed by the amount of money the player currently has.
+
+
+\subsubsection{User’s Name}Graphics \textbf{must} include an actively-updated text field in which the user’s Name is displayed.
+
+
+\subsubsection{ Hit Button}Graphics \textbf{must} include a button for the user to indicate their wish to Hit.
+
+
+\subsubsection{Split Button}Graphics \textbf{must} include a button for the user to Split.
+
+
+\subsubsection{Stand Button}Graphics \textbf{must} include a button for the user to Stand.
+
+
+\subsubsection{ Betting Box}Graphics \textbf{must} include a betting box.
+
+\subsection{Splash Screens}
+
+
+\subsubsection{Game Ended Pop Up}Program \textbf{must} display a pop-up window or splash screen when the game ends.
+
+\paragraph{}It \textbf{must} display a message telling the user that they have won or lost
+
+\paragraph{}It \textbf{must} prompt the user to play again.
+
+\subsection{Start up}
+
+
+\subsubsection{Initialization}Program \textbf{must} initialize all buttons to be inactive.
+
+\paragraph{}Funds \textbf{must}  start at \$500.00.
+
+\paragraph{}Username \textbf{must}  start as ``''.
+
+\paragraph{}{The Deck \textbf{will} start empty of cards.}
+
+
+\subsubsection{Start GUI}
+
+\paragraph{}The screen \textbf{must} appear without any cards dealt.
+
+\subsubsection{Prompt for user name}Program \textbf{must} prompt the user for their user name, and display it on the GUI.  
+\paragraph{}This prompt \textbf{will} be in the form of a pop-up window or splash screen.
+\subsection{Hit}
+\subsubsection{Get a Card}A new card \textbf{must} appear in the players hand
+\subsubsection{BustCheck} The player \textbf{must} lose the game if they have more than 21 points.
+\subsubsection{Can Always Hit}The hit button \textbf{must} be available whenever the game is in progress
+\subsection{Split }
+\subsubsection{Only on First Turn}The split button \textbf{must} not be available if it is not the first turn
+\subsubsection{Only with a Pair}The split button \textbf{must} only be available if the user has two of the same card.
+\subsubsection{Play Twice}The split button \textbf{must} allow the player to play each card as a separate game.
+\subsubsection{Make a New Bet}The split button \textbf{must} place an additional bet equal to the first
+\subsubsection{\textbf{Must} be Able to Bet}The split button \textbf{must} not be available if the user’s money is less than their current bet%Possible Redundancy
+%\subsubsection{Play the Other Later}The split button \textbf{must not} cause one of the users cards to minimize
+\subsubsection{Play the Other Later}The split button \textbf{must} cause one of the players cards to appear in a separate hand next to the first one.
+\subsubsection{Display Second Bet}The split button \textbf{must} display the second bet outside the betting box
+\subsection{ Stand }
+\subsubsection{Dealer's Turn}The stand button \textbf{must} initiate the dealers turn
+\subsubsection{Can Always Stand}The stand button \textbf{must} be available whenever a game is in progress
+\subsubsection{Stand Ends Game} The stand button \textbf{must} end the game
+\subsection{ Dealer AI}
+\subsubsection{Dealer Hits}Dealer \textbf{must} hit if the total rank of cards in the dealer's hand is less than 18
+\subsubsection{Dealer Stands}Dealer \textbf{must} stand if the total rank of cards in the dealer's hand is 18 or more
+\subsection{Shuffling}
+\subsubsection{When to Shuffle}When the deck is empty, shuffling \textbf{must} happen before a card can be dealt.
+\subsubsection{Don't Pick up Cards}Cards that are in play \textbf{must} not be involved in shuffling
+\subsubsection{Randomization}Drawing a card from the deck \textbf{must} give a pseudorandom card.
+\subsubsection{Independence}Two shuffles \textbf{must} be independent
+\subsection{ BlackjackCheck}
+\subsubsection{Blackjack} If the player has a face card and an ace, then they \textbf{must} have blackjack
+\subsubsection{Blackjack Ends Game}If a player has blackjack, play \textbf{must} automatically proceed to the dealer
+\subsection{WinLoss Comparison}
+\subsubsection{Bust Ends Game}If a player has over 21 points, the game \textbf{must} end immediately
+\subsubsection{Bust Condition}If a player has over 21 points, that player \textbf{must} lose
+\subsubsection{Dealer Stands Ends Game}If the dealer stands, the game \textbf{must} end
+\subsubsection{No Bust Win Condition} If a game ends, and no player has over 21 points, and a player has more points than the other player, that player \textbf{must} win
+\subsubsection{Draw Condition} If both players have the same number of points, no players \textbf{must} win
+\subsubsection{Dealer Win}If the dealer wins, then the user \textbf{must} lose
+\subsubsection{Dealer Lose}If the dealer loses, then the user \textbf{must} win
+\subsection{ Betting}
+\subsubsection{Initial Bet}The user \textbf{must} bet at the beginning of each game
+\subsubsection{Max Bet}The user \textbf{must} not be able to bet more than they have
+\subsubsection{Min Bet}The user \textbf{must} not be able to bet less than \$20
+\subsubsection{Only Initial Bets}The user \textbf{must} not be able to bet during a game
+\subsubsection{Earnings}The user \textbf{must} receive twice their bet back if they win
+\subsubsection{Losses}The user \textbf{must} receive no money back if they lose
+\subsubsection{Restrictions on Bets}The user \textbf{must} not be able to bet an amount that is not an integer
+\subsubsection{Putting up the Bet}The user’s money \textbf{must} decrease by the amount bet
+\subsubsection{Receiving Winnings}The user’s money \textbf{must} increase by the amount won
+\subsubsection{In Case of Tie}The user \textbf{must} receive their money back if no one wins
+
+\section{System Requirements}
+
+
+\subsection{Hardware Requirements}
+
+\paragraph{} Windows compatible personal computer
+\paragraph{} 4GB of RAM
+\paragraph{} 2.0 GHz CPU
+
+\subsection{Software Requirements}
+
+\paragraph{} .NET 4
+\paragraph{} Windows 7
+
+
+\section{Interfaces}
+
+
+\subsection{Standalone Program}The program \textbf{will} not run in a manner that includes any network interaction.
+
+
+\subsection{Use of Windows}The program \textbf{must} run on computers using the Windows operating system.
+
+
+\subsection{Use of Keyboard and Mouse}The program \textbf{must} take input via a computer keyboard and computer mouse.
+
+\section{ Performance}
+
+\subsection{Size}The program \textbf{must} take up less than 1.0 gig of memory at any time.
+\subsection{Speed}
+\paragraph{}All moves except for stand \textbf{must} complete in less than 1.0 second.
+\paragraph{}If any action takes more than 1.0 second a waiting message \textbf{must} be displayed.
+\paragraph{}The time from the player taking the stand action until the end of the game \textbf{must} take less than 5.0 seconds.
+
+\section{Delivery}
+
+
+\subsection{CD-ROM}
+
+\paragraph{}Compiled program files \textbf{will} be delivered on a CD-ROM.
+
+\paragraph{}Users \textbf{must} be able to run the program by double-clicking or otherwise activating the .exe file on the CD-ROM.  
+
+
+\subsection{Installation}
+
+\paragraph{}The program \textbf{will} not contain any installation methods
+\paragraph{}The program \textbf{will} not be supported post-release.
+\paragraph{}The user \textbf{will} bear the responsibility for accessing the CD-ROM and activating the executable.
+
+
+\section{Schedule}
+\subsection{Final Release}The final release of blackjack \textbf{must} be on or before Dec 3, 2012.
+
+\section{ Miscellaneous}No Miscellaneous requirements.
+\end{document}

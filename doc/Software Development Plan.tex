@@ -1,0 +1,374 @@
+\documentclass{article}
+
+
+\def\Title{Software Development Plan}
+\def\Class{Software Engineering}
+\def\Project{SE-Blackjack}
+\def\Author{Sean Allred, Molly Domino, Joshua Kaminsky, Matthan Lee}
+\def\SDPVersion{1.4}
+\def\SRSVersion{1.2}
+\def\TMVersion{1.0}
+\def\SDDVersion{1.5}
+\def\STPVersion{0.0}
+\def\GUIVersion{1.0}
+\def\CodeVersion{0.0}
+\def\Version{\SDPVersion}
+\title{\Title}
+\author{\Author}
+\date{\today}
+
+
+
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\lhead{\Title}
+\setlength{\headheight}{36pt}
+\rhead{\Project\\\Title\\Version \Version}
+
+
+\usepackage{pgfgantt}
+\usepackage{multicol}
+
+%For sorting
+\usepackage{datatool}
+\newcommand{\sortitem}[2]{%
+  \DTLnewrow{list}%
+  \DTLnewdbentry{list}{label}{#1}%
+  \DTLnewdbentry{list}{description}{#2}%
+}
+
+\newenvironment{sortedlist}%
+{%
+  \DTLifdbexists{list}{\DTLcleardb{list}}{\DTLnewdb{list}}%
+}%
+{%
+  \DTLsort{label}{list}%
+  \begin{description}%
+    \DTLforeach*{list}{\theLabel=label,\theDesc=description}{%
+      \item[\theLabel] \theDesc
+    }%
+  \end{description}%
+}
+
+
+
+
+
+
+
+
+
+
+
+\newcommand{\setupintro}{
+\renewcommand{\thepage}{}
+\maketitle
+\begin{center}
+\large Version \Version \normalsize
+\end{center}
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\roman{page}}
+\tableofcontents 
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\arabic{page}}
+}
+
+
+\begin{document}
+\setupintro
+
+\section{Version History}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Date & Version & Description & Author \\\hline
+September 6, 2012 & 1.0 & Initial planning and description & Sean, Molly, Josh, Mat\\\hline
+September 21, 2012 & 1.1 & Response to comments & Josh\\\hline
+September 29, 2012 & 1.2 & Finalized Schedule and Gantt Chart& Josh\\\hline
+October 14, 2012 & 1.3 & Final Changes before Submission from Josh& Josh\\\hline
+October 15, 2012 & 1.4 & Final Changes before Submission from Sean and Molly& Sean, Molly\\\hline
+\end{tabular}
+\section{Introduction}
+\subsection{Purpose}
+This document will outline the procedures the development team plans to take over the course of the Blackjack project.  It will also outline the steps we will take in constructing the software, and the time-frames for those steps.  It will also describe the organizational structure for the team.
+\subsection{Scope}
+This document will outline procedures taken by the development team.  It will provide a thorough outline of how we will spend our time, how we will organize ourselves, and the methods we will use to complete the project.  It will not outline details of the project itself.  Furthermore, it will not reflect a general approach to this sort of work.  This document is specifically tailored to the project Blackjack, and should not be viewed as generalizable.  This document is also subject to change as the design process continues.  While we hope to follow the procedures outlined in this document, we allow that changes may be made to the following plans as more information becomes available.  Finally, all information in this document is subject to the approval of the customer.
+\subsection{Definitions, Acronyms, Abbreviations}\label{Terms}
+\subsubsection{Acronyms}
+\begin{sortedlist}
+\sortitem{GUI}{ Graphical User Interface}
+\sortitem{SME}{ Subject Matter Expert}
+\sortitem{FA}{ Functional Analyst}
+\sortitem{SA}{ Solutions Architect}
+\sortitem{DEV}{ Developer }
+\sortitem{QA}{ Quality Assurance }
+\sortitem{SDP}{Software Development Plan}
+\sortitem{SRS}{Software Requirements Specification}
+\sortitem{TM}{Traceability Matrix}
+\sortitem{SDD}{Software Design Document}
+\sortitem{STP}{Software Test Procedure}
+\end{sortedlist}
+
+\subsubsection{Definitions}
+\begin{sortedlist}
+\sortitem{Test}{A formal practice of subjecting a piece of software to various conditions in order to ensure it functions.}
+\sortitem{Coding}{The process of writing code.}
+\sortitem{Blackjack}{The game we are writing software to emulate.  Traditionally played with playing cards.}
+\end{sortedlist}
+
+%Left empty until we have some
+%\subsubsection{Abbreviations}
+\subsection{References}\label{references}
+\begin{itemize}
+\item SRS version \SRSVersion
+\item TM version \TMVersion
+\item SDD version \SDDVersion
+\item STP version \STPVersion
+\item GUI version \GUIVersion
+\item Code version \CodeVersion
+\item Glossary - see section \ref {Terms}
+\item Other - Thank you to GitHub.com for allowing our team to collaborate online
+\item Other - Thank you to Google.com for allowing our team to share documents online
+\item Other - The organizational structures referenced in Section \ref{organizational structures} come from www.Developer.com
+\end{itemize}
+\subsection{Overview}
+\paragraph{Project Overview}
+
+This section of the document provides a description of the purpose, scope, objectives and deliverables pertaining to the project.  It also discusses configuration management.
+\paragraph{Project Organization} We will organize ourselves according to the following table:
+\\
+\begin{tabular}{|r|c|c|c|c|c|}
+\hline
+Name & \multicolumn{5}{|c|}{Role}\\\hline
+& SME & FA & SA& DEV& QA \\\hline
+Sean Allred&  &  & & X & X \\\hline
+Molly Domino & X &  & X& & X \\\hline
+Joshua Kaminsky &  & X & & & X\\\hline
+Matthan Lee & X & X & X & X& X \\\hline
+\end{tabular}
+
+\vspace{12 pt}
+The table is explained in section \ref{organizational structures}.
+
+\paragraph{Management Process} This project should cost only time.  It should take about one semester to complete.  The major phases of this project are defined in sections \ref{estimates} and \ref{plans}
+\paragraph{Applicable Plans and Guidelines} We will proceed with the waterfall model, and prototype the GUI beforehand.
+\section{Project Overview}
+\subsection{Project Purpose, Scope, and Objectives}
+The purpose of our endeavors is to design and produce a blackjack game.  We intend to produce a fully functional 1-player blackjack game complete with GUI.
+
+We do not intend for our game to be extensible to multiple players.  We also do not intend to include any other game functionality.  We are not planning to include animation.
+
+We will deliver an executable installer, source code and all other documentation (SDP, SRS, TM, SDD, STP) to the customer as detailed in section \ref{plans}.
+\subsection{Assumptions and Constraints}
+We assume that the four of us will be the only staff members working on this project.  We each have our own computers, and access to the computers in Schaefer Hall.  We are each acquiring one copy of the most recent edition of Visual Studio in order to create our user interface as well as to have the same coding environment when we begin construction.  However, as Visual Studio is a free download to all St. Mary's computer science majors, we will purchase no additional equipment beyond what we currently possess.   Additionally, we will retain use of all equipment after the project finishes.
+\subsection{Project Deliverables}
+\begin{itemize}
+\item Executable Installer
+\item Source Code
+\item SDP
+\item SRS
+\item TM
+\item SDD
+\item STP
+\end{itemize}
+\subsection{Evolution of the Software Development Plan}
+We will mark all documents with a version number and a release number (version.release).  The version number will be one more than the number of times the software has been deployed.  The release number will correspond to the number of times the document has been updated since the previous deployment.  So if the software has been released twice, and the document has been updated 3 times since that release, then the document will be marked version 2.3.  Additionally, we will refer to the final version of a document (which will have an unknown version number) as version n.0.  Documentation will become more specific and polished as per direction from our client as well as the needs of the group.  Changes to the source code will not be documented in the code itself, but noted elsewhere as they become necessary.
+\section{Project Organization}
+\subsection{Organizational Structure}\label{organizational structures}
+\begin{sortedlist}
+\sortitem{Solutions Architect (SA)}
+{The Solutions Architect is responsible for creating the design documents from the requirements of the Functional Analysts. These design documents are used by the rest of the team (mostly Developers and Development Lead). The Solutions Architect is typically responsible for matching technologies to the problem being solved.  From our team, Molly and Matt will fulfill this role.}
+\sortitem{Subject Matter Expert (SME)}
+{The subject matter expert is the person(s) from which requirements are captured.  These are the people who know what the software needs to do and how the process works.  They are often the ones who will benefit from the use of the system. From our team, Molly and Matt will fulfill this role.}
+\sortitem{Functional Analyst (FA)}
+{Transforms the requirements of the SME into clear, concise, non-conflicting, and unambiguous requirements.  From our team, Josh and Mat will fulfill this role.}
+\sortitem{Developer (DEV)}
+{The developer (more often a team of them) writes the code according to the specification.  From our team, Sean, Molly, and Mat will fulfill this role}
+\sortitem{Quality Assurance (QA)}
+{The Quality Assurance team is responsible for ensuring the quality of the solution and its fit to the requirements gathered by the Functional Analyst.  They will conduct the process formally known as Test, among other things.  From our team, everyone will assume the role of quality assurance.}
+\end{sortedlist}
+\subsection{External Interfaces}
+This program must interface with the customer.  There are no additional interfaces.
+\subsection{Roles and Responsibilities}
+\begin{tabular}{|r|c|c|c|c|c|}
+\hline
+Name & SME & FA & SA& DEV& QA \\\hline
+Sean Allred&  &  & & X & X \\\hline
+Molly Domino & X &  & X& & X \\\hline
+Joshua Kaminsky &  & X & & & X\\\hline
+Matthan Lee & X & X & X & X& X \\\hline
+\end{tabular}
+
+\vspace{12 pt}
+
+For any duties not covered by one of these roles, the team will decide who is responsible informally.
+\section{Management Process}
+\subsection{Project Estimates}\label{estimates}
+This project will not put any financial strain on our team as this program will cost nothing to create.  However, as a form of payment for our good work, we expect to receive 4 credits with an A letter grade from the customer.
+\subsection{Project Plan}\label{plans}
+\subsubsection{Phase Plan}
+\begin{ganttchart}%
+[x unit = .5 cm,vgrid]{26}
+\gantttitle{Blackjack}{26}\\
+\gantttitle{9/3}{2}
+\gantttitle{9/10}{2}
+\gantttitle{9/17}{2}
+\gantttitle{9/24}{2}
+\gantttitle{10/1}{2}
+\gantttitle{10/8}{2}
+\gantttitle{10/15}{2}
+\gantttitle{10/22}{2}
+\gantttitle{10/29}{2}
+\gantttitle{11/5}{2}
+\gantttitle{11/12}{2}
+\gantttitle{11/19}{2}
+\gantttitle{11/26}{2}
+\\
+\ganttgroup[inline]{Communication}{1}{26}\\
+\ganttbar[progress=90,progress label anchor/.style={left=0pt},progress label text={#1\%},]{Questions}{1}{26}\\%Ask questions Seriously
+\ganttbar[progress=0,progress label anchor/.style={left=0pt},progress label text={#1\%},]{GUI Talk}{11}{16}\\%Talk about GUI
+%\ganttmilestone{Meetings\,\,}{0}
+\ganttmilestone{Meetings\,\,}{2}
+\ganttmilestone{}{4}
+\ganttmilestone{}{6}
+\ganttmilestone{}{8}
+\ganttmilestone{}{10}
+\ganttmilestone{}{12}
+\ganttmilestone{}{14}
+\ganttmilestone{}{16}
+\ganttmilestone{}{18}
+\ganttmilestone{}{20}
+\ganttmilestone{}{22}
+\ganttmilestone{}{24}
+\ganttmilestone{}{26}\\
+\ganttmilestone{Review}{10}\\
+\ganttgroup[inline]{Planning}{2}{12}\\
+\ganttbar[progress=100,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T2.1]{SDP}{2}{3} %SDP part 1.
+\ganttbar[progress=99,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T2.2]{}{5}{12}\\ %SDP rewrite.
+\ganttgroup[inline]{Modeling}{3}{17}\\
+\ganttbar[progress=100,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T3]{SRS}{3}{5}%SRS part 1
+\ganttbar[progress=95,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T2.2]{}{6}{13}\\%SRS rewrite
+\ganttbar[progress=100,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T3]{TM}{6}{7}%TM part 1
+\ganttbar[progress=0,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T2.2]{}{8}{14}\\% TM rewrite
+\ganttbar[progress=100,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T3]{SDD}{7}{9}%SDD part 1
+\ganttbar[progress=15,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T2.2]{}{10}{17}\\%SDD rewrite
+\ganttgroup[inline]{Construction}{7}{24}\\
+\ganttbar[progress=100,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T2.2]{GUI Prototype}{7}{10}
+\ganttbar[progress=10,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T2.2]{}{12}{14}\\
+\ganttbar[progress=75,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T2.2]{Coding}{11}{19}\\
+\ganttbar[progress=0,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T3]{STP}{15}{18}
+\ganttbar[progress=0,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T3]{}{19}{22}\\
+\ganttbar[progress=0,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T3]{Test}{18}{24}\\
+\ganttgroup[inline]{Deployment}{23}{26}\\
+\ganttbar[progress=0,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T7]{Deployment}{23}{26}\\
+\ganttbar[progress=0,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T7]{Support}{23}{26}\\
+\ganttbar[progress=0,progress label anchor/.style={left=0pt},progress label text={#1\%},name=T7]{Cookies}{25}{26}
+\end{ganttchart}
+\subsubsection{Iteration Objectives}
+We currently intend for the main part of our project to proceed in three iterations.  We will first provide prototype GUI mock-ups to the customer iteratively until he is satisfied with the design.  We do not foresee more than two mock-ups being necessary for him to be satisfied.  After obtaining a successful GUI prototype, we intend to do the rest in a single iteration.  This will not result in a full iterative waterfall model, because we will only construct the prototype separately.  Additionally, all documentation will go through at least two iterations: version 1.0, and version n.0.  The former will be the document submitted for review, and the latter will be the version submitted with the final release.
+
+\subsubsection{Releases}
+\begin{itemize}
+\item[Oct 8] GUI Prototype v1.0
+\item[Oct 22] GUI Prototype vn.0
+\item[Nov 11] Blackjack Release v1.0
+\item[Dec 3] Blackjack Release vn.0
+\end{itemize}
+\subsubsection{Project Schedule}
+\begin{tabular}{|c|p{5in}|}
+\hline
+\multicolumn{2}{|c|}{ Meeting Schedule}\\\hline
+Date & Subject \\\hline
+Sept 7 & Brainstorm questions for class.  Discuss SDP. \\\hline
+Sept 14 &  Examine comments on SDP.  Brainstorm Requirements for SRS.\\\hline
+Sept 21 &  Discuss TM and SDD drafts.  Discuss comments returned by client on SRS and SDP.\\\hline
+Sept 28& Discuss SDD draft.  Make final comments on SDP. \\\hline
+Oct 5& Peer Review GUI prototype.  Discuss all documents. Find a time to meet with customer for GUI Talks.  Discuss SRS if time allows.\\\hline
+Oct 12&  Peer Review SDP and SRS.  Discuss progress on GUI prototyping.\\\hline
+Oct 19&  Discuss progress on GUI.  Peer Review TM.  Field questions about SDD  \\\hline
+Oct 26& Initial Discussion of STP draft.  Ensure draft will be completed by next meeting.  Also ensure that coding is proceeding as planned.  Have final discussion about SDD if necessary. \\\hline
+Nov 2& Review the STP draft.  Ensure that coding is going to be complete on schedule. \\\hline
+Nov 9& Peer Review STP.  Discuss the progress of Test.  Discuss how the changes to the STP will affect previously conducted tests.  Ensure the project is on schedule for release. \\\hline
+Nov 16& Discuss the progress of Test.  Hopefully conclude that Test will not need to continue into the deployment phase. \\\hline
+Nov 23& Dealing with problems from blackjack v1.0.  Additionally, ensuring that our support system is functioning properly.  \\\hline
+Nov 30& Eating Cookies, and making sure everything is ready with Blackjack vn.0 \\\hline
+\end{tabular}
+
+\begin{tabular}{|c|c|l|p{3.75in}|}
+\hline
+\multicolumn{4}{|c|}{ General Schedule}\\\hline
+Start & End& Activity & Description \\\hline
+Sept 3 & Dec 3 & Questions & A general communications task.  We consult the customer about the specifics of the project.\\\hline
+Sept 5& Sept 12 & SDP I & The first draft of the SDP, will be completed and submitted for review\\\hline
+Sept 10 & Sept 19 & SRS I & The first draft of the SRS will be completed and submitted for review\\\hline
+Sept 17& Oct 15& SDP II & We will make changes to the SDP at the request of the client and resubmit.\\\hline
+Sept 19& Sept 26 & TM I & The first draft of the TM, will be completed and submitted for review\\\hline
+Sept 19& Oct 17& SRS II & We will make changes to the SRS at the request of the client and resubmit.\\\hline
+Sept 24& Oct 3 & SDD I & The first draft of the SDD, will be completed and submitted for review\\\hline
+Sept 24& Oct 8 & GUI Prototype I & Construct the first GUI prototype to show the client.\\\hline
+Sept 26& Oct 22& TM II & We will make changes to the TM at the request of the client and resubmit.\\\hline
+Oct 3& Oct 31& SDD II & We will make changes to the SDD at the request of the client and resubmit.\\\hline
+Oct 8 & \null & Review & The customer evaluates our progress \\\hline
+Oct 8 & Oct  22& GUI Talk & Show the client our GUI prototype and ensure that it meets their specifications. \\\hline
+Oct 10 & Oct  22& GUI Prototype II  & Using the clients feedback from GUI Talk, we will construct more GUI prototypes until one meets the clients specifications.\\\hline
+Oct 22& Nov 5 & STP I & The first draft of the STP, will be completed and submitted for review\\\hline
+Oct 22 & Nov 7 & Coding & We will write the code for the software. \\\hline
+Nov 5& Nov 19& STP II & We will make changes to the STP at the request of the client and resubmit.\\\hline
+Nov 7 & Nov 26& Test& We will follow through on all of the procedures outlined in the STP.\\\hline
+Nov 19& Dec 3& Delivery & We deliver the software to the customer.\\\hline
+Nov 19& Dec 3& Support & We will respond to the customer's problems with the software after the initial release, and respond with solutions for any problems that arise. \\\hline
+Nov 26 & Dec 3& Cookies & We make and eat cookies\\\hline
+\end{tabular}
+\subsubsection{Project Resourcing}
+In total, we have four staff members: Sean Allred, Molly Domino, Joshua Kaminksy, and Matthan Lee.  They will take care of modeling, creating prototypes, consulting with the client, deployment, construction of all code, writing (and editing) documentation, and communicating with each other as well as end of project cookies.
+\subsection{Project Monitoring and Control}
+\subsubsection{Requirements Management}
+Documentation will be monitored and changed through Google Docs.  All requirements will be outlined in the Software Requirement Specification referenced in section \ref{references}. Furthermore, the Traceability Matrix (also referenced in section \ref{references}) will outline how these requirements are grouped into aspects.  It is the responsibility of the team coding each aspect to assure that they meet all of the requirements.  Additionally, after any aspect is complete, it will be subject to Test to ensure it meets all associated requirements.
+\subsubsection{Quality Control}
+As stated above, any aspect that is completed will be subject to Test to ensure that it meets all of the associated requirements.  Aspects that do not meet requirements will be logged on a document created for that purpose.  That document (which can just be the text in an email) will be sent to the team who worked on that aspect, letting them know that changes need to be made before release.  A separate more formal document will be used to keep track of which aspects have passed testing, and are ready for release.  Finally, code will be routinely posted to GitHub, and checked to ensure all components can run synchronously.
+
+\subsubsection{Reporting and Management}
+After the final release of the software, we intend to wash our hands of it.  In light of this, we will allow a period for the customer to report errors after the initial release.  The development team will use the remaining time to address these errors in the same way they would handle a bug found from Test (with the possible exception of also updating the testing requirements and STP).
+\subsubsection{Configuration Management}
+Configuration management will be processed entirely through GitHub.  GitHub includes several relevant features for this purpose.  It does automatic version management, and automatically constructs a tree diagram of the evolution of the code (based on which code it was designed from).  These features will allow the development team to ensure that code will work with the current system, before merging separate projects.  Furthermore, in the case that code will not work, it will allow us to determine precisely the changes that were made that caused components to not function together.  Finally, it allows us to revert to older code should we find that we have made a terrible mistake.
+\section{Annexes}
+\subsection{Cookie Recipe}
+Recipe for cookies we plan to make when finished:
+
+Browned butter chocolate chip cookies with a dash of sea salt.
+\subsubsection{Ingredients}
+\begin{itemize}
+\item 2 sticks unsalted butter, cut into tablespoon slices
+\item 2-1/2 cups bread flour
+\item 1/2 teaspoon coarse sea salt
+\item 1 teaspoon baking soda
+\item 1/4 cup granulated sugar
+\item 1-1/4 cups light brown sugar
+\item 1 large egg
+\item 1 large egg yolk
+\item 2 tablespoons milk
+\item 1-1/2 teaspoons vanilla extract
+\item 2 cups semisweet chocolate chips
+\item Coarse sea salt, for sprinkling
+\end{itemize}
+\subsubsection{Instructions}
+\begin{enumerate}
+\item In a small pot melt the butter over medium heat, whisking occasionally. Once melted the butter will foam up, then subside. Continue cooking, whisking occasionally, until light brown specks form at the bottom of the pot and the butter has a nutty aroma. Remove from heat and pour into a glass bowl. Set aside to cool.
+\item In a small bowl, sift together the bread flour, sea salt and baking soda. Set aside.
+\item In a small bowl whisk together the milk, egg, egg yolk and vanilla extract. Set aside.
+\item Using an electric mixer with the paddle attachment, on medium speed cream together the browned butter and sugars for 2 minutes.
+\item On low speed, add in the egg mixture, mixing until well combined, about 30 seconds.
+\item Slowly stir in the flour mixture, mixing until well combined, scraping down the sides as needed.
+\item Stir in the chocolate chips.
+\item Chill the dough in the fridge overnight or up to 48 hours.
+\item Preheat oven to 375 degrees.
+\item Line two cookie sheets with silicone liners or parchment paper.
+\item Place 1-inch balls about 2 inches apart on each pan. Flatten balls slightly. Sprinkle very lightly with coarse sea salt, don't over do it a little goes a long way.
+\item Bake for 10-12 minutes, rotating the pans halfway through for evening browning.
+\item Cool slightly before moving to a wire rack to cool completely.
+\end{enumerate}
+(Adapted from Alton Brown’s Chewy Chocolate Chip Cookie recipe) 
+
+\end{document}

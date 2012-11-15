@@ -1,0 +1,174 @@
+\documentclass [landscape, 12pt] {article}
+\usepackage[landscape, margin=1in]{geometry}
+\usepackage{longtable}
+\newcommand {\tab} {\hspace*{2em}}
+
+\title{Traceability Matrix}
+\author{Sean Allred, Molly Domino, Joshua Kaminsky, Matthan Lee}
+\date{\today}
+
+\pagestyle{headings}
+\markright{\thesection\hfill Blackjack}
+
+\newcommand{\setupintro}{
+\renewcommand{\thepage}{}
+\maketitle
+\begin{center}
+\large Version 1.0 \normalsize
+\end{center}
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\roman{page}}
+\tableofcontents 
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thepage}{\arabic{page}}
+}
+
+\begin{document}
+\setupintro
+\section{Version History}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Date & Version Number & Major changes & Change description \\[.5ex] \hline
+9/26/12 & 1.0 & First iteration& Developed document \\
+\hline
+
+\end {tabular}
+
+\section {Introduction} 
+ \subsection {Purpose}
+\tab The purpose of this document is two-fold.  On one side, this document is valuable to the client as it provides a readable list of the qualities their product will have.  This is vital as, should something important be missing, it can be addressed.  It provides the client a good sense of exactly how long their project is going to take to create as well as easily accessible milestones to see how their project is progressing.  \\
+\tab It is also helpful for team members to create such a document as it ensures all requirements have been considered and have been written in a way that makes them testable.  It is a prioritized list of all requirements and desire-ments in the project which creates an efficient manner with which to develop code during construction.  Therefore, the Traceability Matrix is useful both to the client and software development team.  \\
+	 \subsection {Document References}
+		\tab To completely understand the terminology used in this document.  The No Dice team recommends keeping the Software Development Plan version 1.1 on hand as a reference.  No Dice team also recommends having a copy of the Software Requirements Specification version 1.1 around so that should the reader have further questions on the requirements, they will have the more in depth document to reference.  
+
+\section {Traceability Table} 
+ \subsection {Requirements List}
+		 
+%	\begin {table}[!h]
+%		\caption {Requirements List}
+%		\centering
+		\begin {longtable}{p{4cm}p{3cm}p{10cm}}
+			\hline\hline
+			Requirement Number & Section Number & SRS Description \\[0.5ex]
+			\hline
+		
+			R1 &  2.2.1 &  Program's GUI must be headed by title text indicating the game being played\\
+			R2 & 2.3 & Program's GUI must contain a standardized menu bar situated at the top of the GUI. \\
+			R3 & 2.3.1 & Program's menu must include a button to create a drop-down File menu.\\
+			R4 & 2.3.2 & Program's File Button menu must include a button to start a new game.\\
+			R5 & 2.3.3 & Program's File Button menu must include a button to view the user's game play statistics. The Statistics Button dialog must show the number of wins, losses, the largest win, and the greatest lost.\\
+			R6 & 2.3.4 & Program's File Button menu must include a button to exit the program.\\
+			R7 & 2.3.5 & Program's menu must include a button to seek help.\\
+			R8 & 2.3.6 & Program's Help button must display information about the software.  The information must include the software version number.  The information may include the software version number.\\
+			R9 & 2.4 & Program must access and display many visual resources, to include Windows graphics packages and external image files to represent objects in-game.\\
+			R10 & 2.4.1 & Must include an image to represent the back of a playing card (i.e., face-down).  The image must not show the value or suit of the card. \\
+			R11 & 2.4.2 & Must include an image to represent the front of a playing card (i.e., face-up).  This graphic must display the suit and value of the card \\
+			R12 & 2.4.3 & Must include an image to represent more than one card in a stack or deck.  \\
+			R13 & 2.4.5 & Must include an image to represent the background of the game window\\
+			R14 & 2.4.6 & Must include an actively-updated text field in which the user's current funds will be displayed.  This display must include a label saying: “Funds:”\\
+			R15 & 2.4.7 & Must include an actively-updated text field in which the user's Name is displayed.\\
+			R16 & 2.4.8 & Must include a button for the user to indicate their wish to Hit.\\
+			R17 & 2.4.9 & Must include a button for the user to Split.\\
+			R18 & 2.4.10 & Must include a button for the user to Stand.\\
+			R19 & 2.4.11 & Must include a betting box.\\
+			R20 & 2.5.1.1 & Must display a pop-up window or splash screen when the game ends. It must display a message telling the user that they have won or lost.\\
+			R21 & 2.5.1.2 & Must display a pop-up window or splash screen when the game ends. It must prompt the user to play again.\\
+			R22 & 2.6.1 & Program must initialize all buttons to be inactive.\\
+			R23 & 2.6.1.1 & Instance variables (money and bet, etc.) are initialized to their specific default values.  \\
+			R24 & 2.6.2.1 & The screen must appear without any cards dealt.\\
+			R25 & 2.6.2.2 & The player's name and total starting funds (\$500.00) must be displayed.  Buttons must remain inactive.\\  
+			R26 & 2.6.3 & Program must prompt the user for their user name, and display it on the GUI.  \\
+			R27 & 2.7.1 & A new card must appear in the players hand when the Hit Button is pressed\\
+			R28 & 2.7.2 & The hit button must be available whenever the game is in progress\\
+			R29 & 2.7.3 & A check for a bust must be performed when the Hit Button is pressed\\
+			R30 & 2.8.1 & The split button must not be available if it is not the first turn\\
+			R31 & 2.8.2 & The split button must only be available if the user has two of the same card.\\
+			R32 & 2.8.3 & The split button must allow the player to play each card as a separate game.\\
+			R33 & 2.8.4 & The split button must not be available if the user's money is less than their current bet\\
+			R34 & 2.8.5 & The split button may cause one of the users cards to minimize\\
+			R35 & 2.8.6 & The split button must display the second bet outside the betting box\\
+			R36 & 2.8.7 & The stand button must initiate the dealers turn\\
+			R37 & 2.9.1 & The stand button must be available whenever a game is in progress.\\
+			R38 & 2.9.2 & The stand button must end the user's turn\\
+			R39 & 2.9.3  & The Dealer must stand to mark the end of its turn\\
+			R40 & 2.10.1 & Dealer must stand if it has 18 or more.  Otherwise the dealer must hit\\
+			R41 & 2.11.1 & When the deck is empty, shuffling must happen\\
+			R42 & 2.11.2 & Cards that are in play must not be involved in shuffling\\
+			R43 & 2.11.3 & Shuffling must create a pseudo-random order for cards\\
+			R44 & 2.11.4 & Shuffling may imitate physical shuffling in algorithm\\
+			R45 & 2.11.5 & Two shuffles must be independent\\
+			R46 & 2.12.1 & If the player has a face card and an ace, then they must have blackjack\\
+			R47 & 2.12.2 & If a player has blackjack, play must automatically proceed to the dealer\\
+			R48 & 2.13.1 & If a player has over 21 points, the game must end immediately\\
+			R49 & 2.13.2 & If a player has over 21 points, that player must lose\\
+			R50 & 2.13.3 &  If the dealer stands, the game must end\\
+			R51 & 2.13.4 & If a game ends, and no player has over 21 points, and a player has more points than the other player, that player must win\\
+			R52 & 2.13.5 & If the dealer wins, then the user must lose\\
+			R53 & 2.13.6 & If the dealer loses, then the user must win\\
+			R54 & 2.14.1 & The user must bet at the beginning of each game\\
+			R55 & 2.14.2 & The user must not be able to bet more than they have\\
+			R56 & 2.14.3 & The user must not be able to bet less than \$20\\
+			R57 & 2.14.4 & The user must not be able to bet during the game\\
+			R58 & 2.14.5 & The user must receive twice their bet back if they win\\
+			R59 & 2.14.6 & The user must receive no money back if they lose\\
+			R60 & 2.14.7 & The user must not be able to bet an amount that is not an integer\\
+			R61 & 2.14.8 & The user's money must decrease by the amount bet\\
+			R62 & 2.14.9 & The user's money must increase by the amount won\\
+
+\hline
+
+
+		\end {longtable}
+	\label {table: req}
+%	\end {table}
+
+
+\subsection {Aspects List}
+%	\begin {table}
+%	\caption {Aspects List}
+%		\centering
+		\begin {longtable}{p{4cm} p{4cm} p{10cm}}
+			\hline\hline
+			Aspect Number & Aspect Name& Aspect Description \\[0.5ex]
+			\hline
+			A1 & Card Display & Pertains to all sections of the project involved with allowing images of cards appear in our user interface\\
+			A2 & Splash Windows & Pertains to all sections of the project involved with allowing pop-up or splash windows to appear in our user interface\\
+			A3 & Menu Bar & Pertains to all parts of the project related to allowing a menu bar appear in the topmost part of our user interface\\
+			A4 & Menu Items & Pertains to all parts of the project related to the items in the menu bar (see A3)\\
+			A5 & Buttons & Relates to the graphical needs of all buttons in the Blackjack user interface \\
+			A6 & Funds Display & Relates to all graphical needs of the user interface that involve displaying the user's available funds.  \\ 
+			A7 & Name Display & Relates to all graphical needs of the user interface that involve displaying the user's name\\
+			A8 & Betting Box & Relates to all graphical needs of the user interface that involve displaying the betting box (where the user may see what they placed as a bet at any given time).\\
+			A9 & Background & Relates to all graphical needs of the user interface that involve displaying the background of the user interface\\
+			A10 & Other & Relates to other aspects of the user interface.  While too trivial to receive their own column, they are marked in this section to show that they will be addressed.  \\
+			A11 & Rendering GUI & Pertains to all times when the source code must interface with the user interface\\
+			A12 & New Game Functionality & Relates to all source code that is involved with starting a new game \\
+			A13 & Quit Functionality & Relates to all source code that is involved with quitting a game\\
+			A14 & Reset Functionality & Relates to all source code that is involved with resetting a game\\
+			A15 & Help Functionality & Relates to all source code that is involved with receiving help during a game\\
+			A16 & Betting Functionality & Relates to all source code that is involved with betting \\
+			A17 & Saving Game Specific Data & Relates to source code that is involved with saving data from a specific round of Blackjack.  This includes but is not limited to which cards are in play, the total value of the player and dealer's hands, etc.  This information is saved for the course of a hand, but if the user starts a new game, it is lost \\
+			A18 & Saving Iteration Specific Data & Relates to source code that is involved with keeping track of certain pieces of data that must not be reset at the start of a new hand of Blackjack.  This includes but is not limited to saving the number of wins and losses, the greatest win and loss of money, which cards have been played, etc.  This information is saved over many hands of blackjack, but is not retained when the user quits and re-opens Blackjack.\\
+
+			A19 & Saving Program Specific Data & Relates to source code that is involved with keeping track of certain pieces of data that must not be reset ever.  This includes but is not limited to the name of the game, the developer team name, the name of the team members, cookie recipe, etc. \\ 
+			A20 & Button Handling & Relates to all source code involved with acting in a certain way when a button is pressed.  \\
+			A21 & Card Handling & Relates to all source code involved with card objects.  This includes but is not limited to functions like keeping track of which cards are in play, calculating their total value, ensuring they are not re-incorporated back into the deck until shuffle, shuffling, etc\\
+			A22 & Blackjack Check & Relates to all source code involved with determining if there is a Blackjack in play.  \\
+			A23 & Bust Check& Relates to all source code involved with determining if there either player's hand has exceeded the value of 21.\\
+			A24 & Hit Functionality & Relates to all source code involved with performing the actions of a Hit.\\
+			A25 & Split Functionality & Relates to all source code involved with performing the actions of a Split.\\
+			A26 & Stand Functionality & Relates to all source code involved with performing the actions of a Stand.\\
+			A27 & Win Loss Comparison Functionality & Relates to all source code involved with comparing the user and the dealer's scores to determine the winner and distribute funds accordingly.\\
+			A28 & Dealer AI & Relates to all source code involved in determining how the Dealer artificial intelligence will act in a given situation.  \\
+	\end {longtable}
+	\label {table: asp}
+%	\end {table}
+	\subsection {Traceability Matrix}
+		\tab See Attached.  
+
+
+	
+
+\end {document}
