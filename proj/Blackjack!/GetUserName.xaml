@@ -8,7 +8,7 @@
     </Window.Resources>
     <Grid Height="73" VerticalAlignment="Top">
         <Label Content="Please enter your name:" VerticalContentAlignment="Center" Margin="5,9,213,0" Height="28" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtName" Height="23" TextWrapping="Wrap" Margin="145,12,10,0" VerticalContentAlignment="Center" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtName" Height="23" TextWrapping="Wrap" Margin="145,12,10,0" VerticalContentAlignment="Center" VerticalAlignment="Top" KeyDown="accept"/>
         <Button Content="OK" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" Width="338" Click="Button_Click_1"/>
     </Grid>
 </Window>

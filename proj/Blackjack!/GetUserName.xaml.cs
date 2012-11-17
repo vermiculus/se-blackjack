@@ -22,6 +22,7 @@ namespace Blackjack
         public GetUserName()
         {
             InitializeComponent();
+            txtName.Focus();
         }
 
         public GetUserName(ref GameServant game) : this()
@@ -40,6 +41,14 @@ namespace Blackjack
             else
             {
                 MessageBox.Show("Please enter a name.");
+            }
+        }
+
+        private void accept(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Button_Click_1(null, null);
             }
         }
     }

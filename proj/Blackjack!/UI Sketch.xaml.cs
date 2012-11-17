@@ -24,8 +24,9 @@ namespace Blackjack
             InitializeComponent();
             game = new GameServant();
             //game = FindResource("game") as GameServant;
-            //(new GetUserName(ref game)).ShowDialog();
-            game.PlayerName = "Sean";
+            (new GetUserName(ref game)).ShowDialog();
+            game.init();
+            (new GetBet(ref game)).ShowDialog();
             this.DataContext = game;
         }
 
@@ -42,6 +43,21 @@ namespace Blackjack
                 default:
                     break;
             }
+        }
+
+        private void btnNormalHit_Click(object sender, RoutedEventArgs e)
+        {
+            game.Hit();
+        }
+
+        private void draw()
+        {
+
+        }
+
+        private void btnNormalStand_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

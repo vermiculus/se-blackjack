@@ -72,6 +72,9 @@
       <DependentUpon>CardStack.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameServant.cs" />
+    <Compile Include="GetBet.xaml.cs">
+      <DependentUpon>GetBet.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GetUserName.xaml.cs">
       <DependentUpon>GetUserName.xaml</DependentUpon>
     </Compile>
@@ -84,6 +87,10 @@
       <DependentUpon>UI Sketch.xaml</DependentUpon>
     </Compile>
     <Page Include="CardStack.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GetBet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

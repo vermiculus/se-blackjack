@@ -25,7 +25,7 @@
                 x:Name="btnNormalHit"
                 VerticalAlignment="Top"
                 Width="231"
-                IsEnabled="{Binding IsNormalActive, UpdateSourceTrigger=PropertyChanged}" />
+                IsEnabled="{Binding IsNormalActive, UpdateSourceTrigger=PropertyChanged}" Click="btnNormalHit_Click" />
         <Button Content="Split"
                 Height="23"
                 HorizontalAlignment="Left"
@@ -41,15 +41,15 @@
                 x:Name="btnNormalStand"
                 VerticalAlignment="Top"
                 Width="231"
-                IsEnabled="{Binding IsNormalActive, UpdateSourceTrigger=PropertyChanged}" />
-        <Label Content="(Split Bet)"
+                IsEnabled="{Binding IsNormalActive, UpdateSourceTrigger=PropertyChanged}" Click="btnNormalStand_Click" />
+        <Label Content="{Binding PlayerSplitBet, UpdateSourceTrigger=PropertyChanged}"
                Height="28"
                HorizontalAlignment="Left"
                Margin="249,12,0,0"
                Name="label1"
                VerticalAlignment="Top"
                Width="219" />
-        <Label Content="Bet"
+        <Label Content="{Binding PlayerNormalBet, UpdateSourceTrigger=PropertyChanged}"
                Height="28"
                HorizontalAlignment="Left"
                Margin="12,12,0,0"
@@ -61,7 +61,7 @@
                 Margin="249,250,0,0"
                 x:Name="btnSplitHit" VerticalAlignment="Top"
                 Width="231"
-                IsEnabled="{Binding IsSplitActive, UpdateSourceTrigger=PropertyChanged}" />
+                IsEnabled="{Binding IsSplitActive, UpdateSourceTrigger=PropertyChanged}" Click="btnNormalHit_Click" />
         <Button Content="Stand"
                 Height="23"
                 HorizontalAlignment="Left"
@@ -77,9 +77,9 @@
             Width="59"
             Click="Button_Click_1"/>
         <Image Height="96" HorizontalAlignment="Left" Margin="327,46,0,0" Source="/cards_png/b1fv.png" VerticalAlignment="Top" />
-        <local:CardStack Margin="12,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <local:CardStack Margin="249,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <local:CardStack Margin="12,46,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <local:CardStack x:Name="csPlayerNormal" Margin="12,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <local:CardStack x:Name="csPlayerSplit" Margin="249,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <local:CardStack x:Name="csDealerNormal" Margin="12,46,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         
     </Grid>
 </Window>
