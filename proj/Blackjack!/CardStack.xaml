@@ -1,8 +1,10 @@
 ﻿<UserControl x:Class="Blackjack.CardStack"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="96" d:DesignWidth="231">
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="96"
+             d:DesignWidth="231"
+             mc:Ignorable="d">
+    <StackPanel x:Name="stack" Orientation="Horizontal" />
 </UserControl>

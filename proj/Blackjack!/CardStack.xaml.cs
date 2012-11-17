@@ -20,186 +20,117 @@ namespace Blackjack
     public partial class CardStack : UserControl
     {
         private List<Card> cards;
-        private static Card[]
-            RoyalFlush = {
-                             new Card(Rank.King, Suit.Hearts) };
-
-        public static readonly DependencyProperty CardsProperty =
-            DependencyProperty.Register(
-                "Cards",
-                typeof(List<Card>),
-                typeof(CardStack),
-                new PropertyMetadata(new List<Card>())
-            );
 
         public List<Card> Cards
         {
-            get { return (List<Card>)GetValue(CardsProperty); }
-            set
-            {
-                SetValue(CardsProperty, value);
-                draw();
+            get {
+                return new List<Card>(cards);
             }
+        }
+
+        public void Add(Rank r, Suit s)
+        {
+            cards.Add(new Card(r, s));
+            draw();
         }
 
         public CardStack()
         {
             InitializeComponent();
+            cards = new List<Card>();
         }
 
         private void draw()
         {
-            int lm = 0;
-            foreach (Card card in cards)
+            stack.Children.Clear();
+            foreach (Card c in cards)
             {
-                Label cardDisplay = new Label();
-                cardDisplay.Content = getCardImage(card);
-                cardDisplay.Margin = new Thickness(lm, 0, 0, 0);
-                this.AddChild(cardDisplay);
-                lm += 14;
+                Image cardDisplay = getCardImage(c);
+                cardDisplay.Margin = new Thickness(0, 0, -64, 0);
+                stack.Children.Add(cardDisplay);
             }
         }
 
-        private object getCardImage(Card c)
+        private Image getCardImage(Card c)
         {
-            switch (c.Suit)
+            Func<Rank, Suit, string, string> getFilename = (rn, su, ext) =>
             {
-                case Suit.Hearts:
-                    switch (c.Rank)
-                    {
-                        case Rank.Ace:
-                            return Properties.Resources.h1;
-                        case Rank.Two:
-                            return Properties.Resources.h2;
-                        case Rank.Three:
-                            return Properties.Resources.h3;
-                        case Rank.Four:
-                            return Properties.Resources.h4;
-                        case Rank.Five:
-                            return Properties.Resources.h5;
-                        case Rank.Six:
-                            return Properties.Resources.h6;
-                        case Rank.Seven:
-                            return Properties.Resources.h7;
-                        case Rank.Eight:
-                            return Properties.Resources.h8;
-                        case Rank.Nine:
-                            return Properties.Resources.h9;
-                        case Rank.Ten:
-                            return Properties.Resources.h10;
-                        case Rank.Jack:
-                            return Properties.Resources.hj;
-                        case Rank.Queen:
-                            return Properties.Resources.hq;
-                        case Rank.King:
-                            return Properties.Resources.hk;
-                        default:
-                            break;
-                    }
-                    break;
-                case Suit.Spades:
-                    switch (c.Rank)
-                    {
-                        case Rank.Ace:
-                            return Properties.Resources.s1;
-                        case Rank.Two:
-                            return Properties.Resources.s2;
-                        case Rank.Three:
-                            return Properties.Resources.s3;
-                        case Rank.Four:
-                            return Properties.Resources.s4;
-                        case Rank.Five:
-                            return Properties.Resources.s5;
-                        case Rank.Six:
-                            return Properties.Resources.s6;
-                        case Rank.Seven:
-                            return Properties.Resources.s7;
-                        case Rank.Eight:
-                            return Properties.Resources.s8;
-                        case Rank.Nine:
-                            return Properties.Resources.s9;
-                        case Rank.Ten:
-                            return Properties.Resources.s10;
-                        case Rank.Jack:
-                            return Properties.Resources.sj;
-                        case Rank.Queen:
-                            return Properties.Resources.sq;
-                        case Rank.King:
-                            return Properties.Resources.sk;
-                        default:
-                            break;
-                    }
-                    break;
-                case Suit.Diamonds:
-                    switch (c.Rank)
-                    {
-                        case Rank.Ace:
-                            return Properties.Resources.d1;
-                        case Rank.Two:
-                            return Properties.Resources.d2;
-                        case Rank.Three:
-                            return Properties.Resources.d3;
-                        case Rank.Four:
-                            return Properties.Resources.d4;
-                        case Rank.Five:
-                            return Properties.Resources.d5;
-                        case Rank.Six:
-                            return Properties.Resources.d6;
-                        case Rank.Seven:
-                            return Properties.Resources.d7;
-                        case Rank.Eight:
-                            return Properties.Resources.d8;
-                        case Rank.Nine:
-                            return Properties.Resources.d9;
-                        case Rank.Ten:
-                            return Properties.Resources.d10;
-                        case Rank.Jack:
-                            return Properties.Resources.dj;
-                        case Rank.Queen:
-                            return Properties.Resources.dq;
-                        case Rank.King:
-                            return Properties.Resources.dk;
-                        default:
-                            break;
-                    }
-                    break;
-                case Suit.Clubs:
-                    switch (c.Rank)
-                    {
-                        case Rank.Ace:
-                            return Properties.Resources.c1;
-                        case Rank.Two:
-                            return Properties.Resources.c2;
-                        case Rank.Three:
-                            return Properties.Resources.c3;
-                        case Rank.Four:
-                            return Properties.Resources.c4;
-                        case Rank.Five:
-                            return Properties.Resources.c5;
-                        case Rank.Six:
-                            return Properties.Resources.c6;
-                        case Rank.Seven:
-                            return Properties.Resources.c7;
-                        case Rank.Eight:
-                            return Properties.Resources.c8;
-                        case Rank.Nine:
-                            return Properties.Resources.c9;
-                        case Rank.Ten:
-                            return Properties.Resources.c10;
-                        case Rank.Jack:
-                            return Properties.Resources.cj;
-                        case Rank.Queen:
-                            return Properties.Resources.cq;
-                        case Rank.King:
-                            return Properties.Resources.ck;
-                        default:
-                            break;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            throw new InvalidOperationException("Invalid Card given");
+                string rnk, sut;
+                switch (rn)
+                {
+                    case Rank.Ace:
+                        rnk = "1";
+                        break;
+                    case Rank.Two:
+                        rnk = "2";
+                        break;
+                    case Rank.Three:
+                        rnk = "3";
+                        break;
+                    case Rank.Four:
+                        rnk = "4";
+                        break;
+                    case Rank.Five:
+                        rnk = "5";
+                        break;
+                    case Rank.Six:
+                        rnk = "6";
+                        break;
+                    case Rank.Seven:
+                        rnk = "7";
+                        break;
+                    case Rank.Eight:
+                        rnk = "8";
+                        break;
+                    case Rank.Nine:
+                        rnk = "9";
+                        break;
+                    case Rank.Ten:
+                        rnk = "10";
+                        break;
+                    case Rank.Jack:
+                        rnk = "j";
+                        break;
+                    case Rank.Queen:
+                        rnk = "q";
+                        break;
+                    case Rank.King:
+                        rnk = "k";
+                        break;
+                    default:
+                        rnk = null;
+                        break;
+                }
+                switch (su)
+                {
+                    case Suit.Hearts:
+                        sut = "h";
+                        break;
+                    case Suit.Spades:
+                        sut = "s";
+                        break;
+                    case Suit.Diamonds:
+                        sut = "d";
+                        break;
+                    case Suit.Clubs:
+                        sut = "c";
+                        break;
+                    default:
+                        sut = null;
+                        break;
+                }
+                return sut + rnk + "." + ext;
+            };
+
+            Image finalImage = new Image();
+            finalImage.Width = 80;
+            BitmapImage logo = new BitmapImage();
+            logo.BeginInit();
+            logo.UriSource = new Uri(@"/Blackjack!;component/cards_png/" + 
+                getFilename(c.Rank, c.Suit, "png"), UriKind.Relative);
+            logo.EndInit();
+            finalImage.Source = logo;
+            return finalImage;
         }
     }
 }

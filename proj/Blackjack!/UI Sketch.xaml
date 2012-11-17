@@ -48,13 +48,13 @@
                Margin="249,12,0,0"
                Name="label1"
                VerticalAlignment="Top"
-               Width="160" />
+               Width="219" />
         <Label Content="Bet"
                Height="28"
                HorizontalAlignment="Left"
                Margin="12,12,0,0"
                VerticalAlignment="Top"
-               Width="160" />
+               Width="231" />
         <Button Content="Hit"
                 Height="23"
                 HorizontalAlignment="Left"
@@ -76,10 +76,10 @@
             VerticalAlignment="Top"
             Width="59"
             Click="Button_Click_1"/>
-        <Rectangle Height="96" HorizontalAlignment="Left" Margin="327,46,0,0" Name="rectangle4" Stroke="Black" VerticalAlignment="Top" Width="71" Fill="{x:Null}" />
-        <!--<local:CardStack Cards="{Binding PlayerNormalCards}" Margin="12,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image Height="96" HorizontalAlignment="Left" Margin="327,46,0,0" Source="/cards_png/b1fv.png" VerticalAlignment="Top" />
+        <local:CardStack Margin="12,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <local:CardStack Margin="249,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <local:CardStack Margin="12,46,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        -->
+        
     </Grid>
 </Window>
