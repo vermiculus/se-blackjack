@@ -111,15 +111,29 @@ namespace Blackjack {
         #endregion
         #endregion
 
-        public GameServant() {
-            this.ActiveHand = ActiveHandPotentials.None;
-            this._source = new CardCollection(1);
-            this._discard = new CardCollection(1, false);
+        public GameServant(bool testing=false) {
+            if (!testing) {
+                this.ActiveHand = ActiveHandPotentials.None;
+                this._source = new CardCollection(1);
+                this._discard = new CardCollection(1, false);
 
-            this.ActiveHand = ActiveHandPotentials.Normal;
-            this._playerHand = new PlayerHand(_source, _discard);
-            this._dealerHand = new DealerHand(_source, _discard);
-            (new GetUserName(this)).ShowDialog();
+                this.ActiveHand = ActiveHandPotentials.Normal;
+                this._playerHand = new PlayerHand(_source, _discard);
+                this._dealerHand = new DealerHand(_source, _discard);
+                (new GetUserName(this)).ShowDialog();
+            } else {
+                this.ActiveHand = ActiveHandPotentials.None;
+                var d = new Microsoft.Win32.OpenFileDialog();
+                d.Filter = "CSV Files (.csv)|*.csv";
+                d.ShowDialog();
+                this._source = new PredeterministicCardCollection(d.FileName);
+                this._discard = new CardCollection(Int32.MaxValue, false);
+
+                this.ActiveHand = ActiveHandPotentials.Normal;
+                this._playerHand = new PlayerHand(_source, _discard);
+                this._dealerHand = new DealerHand(_source, _discard);
+                (new GetUserName(this)).ShowDialog();
+            }
         }
 
         public void Hit() {

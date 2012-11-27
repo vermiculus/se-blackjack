@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define TESTING
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +25,11 @@ namespace Blackjack {
         }
         public void init() {
             this.Visibility = System.Windows.Visibility.Hidden;
+#if TESTING
+            game = new GameServant(true);
+#else
             game = new GameServant();
+#endif
             this.DataContext = game;
             game.NotifyAll();
             newr();
