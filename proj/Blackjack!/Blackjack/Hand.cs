@@ -63,6 +63,32 @@ namespace Blackjack {
         }
 
         /// <summary>
+        /// Draws the specified cards from the parent shoe
+        /// </summary>
+        /// <param name="cardsToDraw">The cards to draw, unordered</param>
+        public void Draw(params Card[] cardsToDraw) {
+            int curindex = 0;
+            var mc = new List<Card>(cardsToDraw);
+            while(mc.Count > 0) {
+                cards.Add(source.Draw());
+                try {
+                    while (!cardsToDraw.Contains(cards.Last())) {
+                        try {
+                            Discard((uint)curindex);
+                            cards.Add(source.Draw());
+                        } catch (Blackjack.OutOfCardsException) {
+                            discard.Refill(source);
+                        }
+                    }
+                    mc.Remove(cards.Last());
+                    curindex++;
+                } catch (InvalidOperationException) {
+                    // For some reason, it skips 'cards.Add(source.Draw())'... not really sure why
+                }
+            }
+        }
+
+        /// <summary>
         /// Places the specified card back into its respective CardSource
         /// </summary>
         /// <param name="card">The card to replace</param>

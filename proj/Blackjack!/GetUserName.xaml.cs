@@ -16,31 +16,38 @@ namespace Blackjack {
     /// Interaction logic for GetUserName.xaml
     /// </summary>
     public partial class GetUserName : Window {
-        GameServant codebehind;
+        GameServant game;
         public GetUserName() {
             InitializeComponent();
             txtName.Focus();
         }
 
-        public GetUserName(ref GameServant game)
+        public GetUserName(GameServant g)
             : this() {
-            game = this.FindResource("game") as GameServant;
-            codebehind = game;
+            game = g;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e) {
+        public void doClick() {
             if (txtName.Text.Length > 0) {
-                codebehind.PlayerName = txtName.Text;
+                game.PlayerName = txtName.Text;
                 this.Close();
             } else {
                 MessageBox.Show("Please enter a name.");
             }
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e) {
+            doClick();
+        }
+
         private void accept(object sender, KeyEventArgs e) {
             if (e.Key == Key.Enter) {
-                Button_Click_1(null, null);
+                doClick();
             }
+        }
+
+        private void closing(object sender, System.ComponentModel.CancelEventArgs e) {
+
         }
     }
 }
