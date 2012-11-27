@@ -7,7 +7,7 @@ namespace Blackjack {
     /// <summary>
     /// Extends a normal Hand and adds functionality specific to the game Blackjack
     /// </summary>
-    abstract class BlackjackHand : Hand {
+    public abstract class BlackjackHand : Hand {
 
         /// <summary>
         /// Creates a new Blackjack Hand from the specified Shoe

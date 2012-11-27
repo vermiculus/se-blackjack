@@ -12,38 +12,33 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Blackjack
-{
+namespace Blackjack {
     /// <summary>
     /// Interaction logic for CardStack.xaml
     /// </summary>
-    public partial class CardStack : UserControl
-    {
+    public partial class CardStack : UserControl {
         private List<Card> cards;
 
-        public List<Card> Cards
-        {
+        public List<Card> Cards {
             get {
                 return cards;
             }
             set {
                 cards = value;
+                draw();
             }
         }
 
-        public void Add(Rank r, Suit s)
-        {
+        public void Add(Rank r, Suit s) {
             cards.Add(new Card(r, s));
             draw();
         }
 
-        public void Clear()
-        {
+        public void Clear() {
             cards.Clear();
         }
 
-        public CardStack()
-        {
+        public CardStack() {
             InitializeComponent();
             cards = new List<Card>();
         }
@@ -51,15 +46,14 @@ namespace Blackjack
         /// <summary>
         /// Draws cards on the control.
         /// </summary>
-        private void draw()
-        {
+        private void draw() {
             stack.Children.Clear();
             if (cards != null)
-                foreach (Card c in cards)
-                {
+                foreach (Card c in cards) {
                     Image cardDisplay = getCardImage(c);
                     cardDisplay.Margin = new Thickness(0, 0, -64, 0);
                     stack.Children.Add(cardDisplay);
+                    // TODO: Distribute cards evenly
                 }
         }
 
@@ -68,13 +62,10 @@ namespace Blackjack
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        private Image getCardImage(Card c)
-        {
-            Func<Rank, Suit, string, string> getFilename = (rn, su, ext) =>
-                {
+        private Image getCardImage(Card c) {
+            Func<Rank, Suit, string, string> getFilename = (rn, su, ext) => {
                     string rnk, sut;
-                    switch (rn)
-                    {
+                    switch (rn) {
                         case Rank.Ace:
                             rnk = "1";
                             break;
@@ -118,8 +109,7 @@ namespace Blackjack
                             rnk = null;
                             break;
                     }
-                    switch (su)
-                    {
+                    switch (su) {
                         case Suit.Hearts:
                             sut = "h";
                             break;
@@ -138,7 +128,7 @@ namespace Blackjack
                     }
                     return sut + rnk + "." + ext;
                 };
-            
+
             Image cardImg = new Image();
             cardImg.Width = 80;
             BitmapImage cardBMP = new BitmapImage();

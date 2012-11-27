@@ -1,85 +1,151 @@
 ﻿<Window x:Class="Blackjack.UI_Sketch"
-        x:Name="UISketch"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Blackjack"
-        Title="Blackjack!" Height="382" Width="513">
-    <!--<Window.Resources>
+        x:Name="UISketch"
+        Title="Blackjack!"
+        Width="520"
+        Height="412"
+        Closing="window_exit"
+        Loaded="on_load"
+        WindowStartupLocation="CenterScreen">
+    <!--
+        <Window.Resources>
         <local:GameServant x:Key="game" />
-    </Window.Resources>-->
+        </Window.Resources>
+    -->
     <Grid>
-        <Label Content="{Binding PlayerName, UpdateSourceTrigger=PropertyChanged}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="339*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="1"
                Height="28"
+               Margin="0,5,27,0"
                HorizontalAlignment="Right"
-               Margin="0,12,27,0"
-               VerticalAlignment="Top" />
-        <Label Content="{Binding PlayerFunds, UpdateSourceTrigger=PropertyChanged}"
+               VerticalAlignment="Top"
+               Content="{Binding PlayerName,
+                                 UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="1"
                Height="28"
+               Margin="0,26,27,0"
                HorizontalAlignment="Right"
-               Margin="0,46,27,0"
-               VerticalAlignment="Top"/>
-        <Button Content="Hit"
-                Height="23"
-                HorizontalAlignment="Left"
-                Margin="12,250,0,0"
-                x:Name="btnNormalHit"
-                VerticalAlignment="Top"
-                Width="231"
-                IsEnabled="{Binding IsNormalActive, UpdateSourceTrigger=PropertyChanged}" Click="btnNormalHit_Click" />
-        <Button Content="Split"
-                Height="23"
-                HorizontalAlignment="Left"
-                Margin="12,279,0,0"
-                x:Name="btnNormalSplit"
-                VerticalAlignment="Top"
-                Width="231"
-                IsEnabled="{Binding IsNormalActive, UpdateSourceTrigger=PropertyChanged}" />
-        <Button Content="Stand"
-                Height="23"
-                HorizontalAlignment="Left"
-                Margin="12,308,0,0"
-                x:Name="btnNormalStand"
-                VerticalAlignment="Top"
-                Width="231"
-                IsEnabled="{Binding IsNormalActive, UpdateSourceTrigger=PropertyChanged}" Click="btnNormalStand_Click" />
-        <Label Content="{Binding PlayerSplitBet, UpdateSourceTrigger=PropertyChanged}"
-               Height="28"
-               HorizontalAlignment="Left"
-               Margin="249,12,0,0"
-               Name="label1"
                VerticalAlignment="Top"
-               Width="219" />
-        <Label Content="{Binding PlayerNormalBet, UpdateSourceTrigger=PropertyChanged}"
+               Content="{Binding PlayerFunds,
+                                 UpdateSourceTrigger=PropertyChanged}" />
+        <Button x:Name="btnNormalHit"
+                Grid.Row="1"
+                Width="231"
+                Height="23"
+                Margin="12,0,0,78"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnNormalHit_Click"
+                Content="Hit"
+                IsEnabled="{Binding IsNormalActive,
+                                    UpdateSourceTrigger=PropertyChanged}" />
+        <Button x:Name="btnNormalSplit"
+                Grid.Row="1"
+                Width="231"
+                Height="23"
+                Margin="12,0,0,49"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Content="Split"
+                IsEnabled="{Binding CanPlayerSplit,
+                                    UpdateSourceTrigger=PropertyChanged}" />
+        <Button x:Name="btnNormalStand"
+                Grid.Row="1"
+                Width="231"
+                Height="23"
+                Margin="12,0,0,20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnNormalStand_Click"
+                Content="Stand"
+                IsEnabled="{Binding IsNormalActive,
+                                    UpdateSourceTrigger=PropertyChanged}" />
+        <Label Name="label1"
+               Grid.Row="1"
+               Width="149"
                Height="28"
-               HorizontalAlignment="Left"
-               Margin="12,12,0,0"
+               Margin="0,5,94,0"
+               HorizontalAlignment="Right"
                VerticalAlignment="Top"
-               Width="231" />
-        <Button Content="Hit"
-                Height="23"
-                HorizontalAlignment="Left"
-                Margin="249,250,0,0"
-                x:Name="btnSplitHit" VerticalAlignment="Top"
+               Content="{Binding PlayerSplitBet,
+                                 UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="1"
+               Width="231"
+               Height="28"
+               Margin="12,5,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Content="{Binding PlayerNormalBet,
+                                 UpdateSourceTrigger=PropertyChanged}" />
+        <Button x:Name="btnSplitHit"
+                Grid.Row="1"
                 Width="231"
-                IsEnabled="{Binding IsSplitActive, UpdateSourceTrigger=PropertyChanged}" Click="btnNormalHit_Click" />
-        <Button Content="Stand"
                 Height="23"
-                HorizontalAlignment="Left"
-                Margin="249,308,0,0"
-                x:Name="btnSplitStand"
-                VerticalAlignment="Top"
+                Margin="0,0,12,78"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="btnNormalHit_Click"
+                Content="Hit"
+                IsEnabled="{Binding IsSplitActive,
+                                    UpdateSourceTrigger=PropertyChanged}" />
+        <Button x:Name="btnSplitStand"
+                Grid.Row="1"
                 Width="231"
-                IsEnabled="{Binding IsSplitActive, UpdateSourceTrigger=PropertyChanged}" />
-        <Button Content="{Binding ActiveHand, UpdateSourceTrigger=PropertyChanged}"
-            HorizontalAlignment="Left"
-            Margin="419,98,0,0"
-            VerticalAlignment="Top"
-            Width="59"
-            Click="Button_Click_1"/>
-        <Image Height="96" HorizontalAlignment="Left" Margin="327,46,0,0" Source="/cards_png/b1fv.png" VerticalAlignment="Top" />
-        <local:CardStack x:Name="csPlayerNormal" Margin="12,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <local:CardStack x:Name="csPlayerSplit" Margin="249,148,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <local:CardStack x:Name="csDealerNormal" Margin="12,46,0,0" Height="96" Width="231" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        
+                Height="23"
+                Margin="0,0,12,20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Content="Stand"
+                IsEnabled="{Binding IsSplitActive,
+                                    UpdateSourceTrigger=PropertyChanged}" />
+        <Image Grid.Row="1"
+               Height="96"
+               Margin="0,41,172,0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Source="/cards_png/b1fv.png" />
+        <local:CardStack x:Name="csPlayerNormal"
+                         Grid.Row="1"
+                         Width="231"
+                         Height="96"
+                         Margin="12,142,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top" />
+        <local:CardStack x:Name="csPlayerSplit"
+                         Grid.Row="1"
+                         Width="231"
+                         Height="96"
+                         Margin="0,142,12,0"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Top" />
+        <local:CardStack x:Name="csDealerNormal"
+                         Grid.Row="1"
+                         Width="231"
+                         Height="96"
+                         Margin="12,40,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top" />
+        <Menu>
+            <!--  SRS 1.3 3.3  -->
+            <MenuItem Header="_File...">
+                <!--  SRS 1.3 3.3.1  -->
+                <MenuItem Click="menu_restart" Header="_Restart" />
+                <!--  SRS 1.3 3.3.2  -->
+                <MenuItem Click="menu_stats" Header="_Statistics" />
+                <!--  SRS 1.3 3.3.3.1  -->
+                <MenuItem Click="menu_exit" Header="E_xit" />
+                <!--  SRS 1.3 3.3.4  -->
+            </MenuItem>
+            <MenuItem Header="_Help...">
+                <!--  SRS 1.3 3.3.5  -->
+                <MenuItem Click="menu_about" Header="_About" />
+                <!--  SRS 1.3 3.3.6  -->
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>

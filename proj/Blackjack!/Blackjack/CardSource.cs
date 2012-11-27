@@ -8,7 +8,7 @@ namespace Blackjack
     class OutOfCardsException : Exception
     {
         string msg;
-        public string Message
+        public override string Message
         {
             get { return this.msg; }
         }
@@ -17,7 +17,7 @@ namespace Blackjack
             this.msg = message;
         }
     }
-    class CardCollection {
+    public class CardCollection {
         /// <summary>
         /// The collection Cards that make up the Shoe
         /// </summary>

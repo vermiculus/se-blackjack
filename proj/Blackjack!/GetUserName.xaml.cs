@@ -11,43 +11,34 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Blackjack
-{
+namespace Blackjack {
     /// <summary>
     /// Interaction logic for GetUserName.xaml
     /// </summary>
-    public partial class GetUserName : Window
-    {
+    public partial class GetUserName : Window {
         GameServant codebehind;
-        public GetUserName()
-        {
+        public GetUserName() {
             InitializeComponent();
             txtName.Focus();
         }
 
-        public GetUserName(ref GameServant game) : this()
-        {
+        public GetUserName(ref GameServant game)
+            : this() {
             game = this.FindResource("game") as GameServant;
             codebehind = game;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            if (txtName.Text.Length > 0)
-            {
+        private void Button_Click_1(object sender, RoutedEventArgs e) {
+            if (txtName.Text.Length > 0) {
                 codebehind.PlayerName = txtName.Text;
                 this.Close();
-            }
-            else
-            {
+            } else {
                 MessageBox.Show("Please enter a name.");
             }
         }
 
-        private void accept(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
+        private void accept(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
                 Button_Click_1(null, null);
             }
         }

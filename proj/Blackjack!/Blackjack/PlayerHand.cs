@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace Blackjack {
-    class PlayerHand : BlackjackHand {
+    public class PlayerHand : BlackjackHand {
 
         /// <summary>
         /// Denotes which hand the player is currently making moves for.

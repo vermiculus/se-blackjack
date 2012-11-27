@@ -7,7 +7,7 @@ namespace Blackjack {
     /// <summary>
     /// An ordered collection of Cards
     /// </summary>
-    class Hand {
+    public class Hand {
         /// <summary>
         /// The source this Hand draws from
         /// </summary>

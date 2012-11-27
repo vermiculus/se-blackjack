@@ -8,23 +8,24 @@
         ShowInTaskbar="False"
         SizeToContent="WidthAndHeight"
         Topmost="True"
-        WindowStyle="ToolWindow">
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow" Closing="onclose">
     <Grid Height="73" VerticalAlignment="Top">
         <Label Height="28"
                Margin="5,9,213,0"
                VerticalAlignment="Top"
                VerticalContentAlignment="Center"
-               Content="Please enter your name:" />
+               Content="Please enter your bet:" />
         <TextBox x:Name="txtBet"
                  Height="23"
                  Margin="145,12,10,0"
                  VerticalAlignment="Top"
                  VerticalContentAlignment="Center"
-                 TextWrapping="Wrap" KeyDown="keydown" />
-        <Button Width="338"
-                Margin="10,42,0,0"
-                HorizontalAlignment="Left"
+                 KeyDown="keydown"
+                 TextWrapping="Wrap" />
+        <Button
+                Margin="10,42,10,0"
                 VerticalAlignment="Top"
-                Content="OK" />
+                Content="OK" IsDefault="True" Click="Button_Click_1" />
     </Grid>
 </Window>
