@@ -10,7 +10,50 @@ namespace Blackjack {
             None
         }
 
+        [Serializable]
+        public class IllegalMoveException : Exception {
+            public IllegalMoveException() {
+            }
+            public IllegalMoveException(string message) : base(message) {
+            }
+            public IllegalMoveException(string message, Exception inner) : base(message, inner) {
+            }
+            protected IllegalMoveException(
+              System.Runtime.Serialization.SerializationInfo info,
+              System.Runtime.Serialization.StreamingContext context)
+                : base(info, context) {
+            }
+        }
 
+        [Serializable]
+        public class BustedException : Exception {
+            public BustedException() {
+            }
+            public BustedException(string message) : base(message) {
+            }
+            public BustedException(string message, Exception inner) : base(message, inner) {
+            }
+            protected BustedException(
+              System.Runtime.Serialization.SerializationInfo info,
+              System.Runtime.Serialization.StreamingContext context)
+                : base(info, context) {
+            }
+        }
+
+        [Serializable]
+        public class BlackjackException : Exception {
+            public BlackjackException() {
+            }
+            public BlackjackException(string message) : base(message) {
+            }
+            public BlackjackException(string message, Exception inner) : base(message, inner) {
+            }
+            protected BlackjackException(
+              System.Runtime.Serialization.SerializationInfo info,
+              System.Runtime.Serialization.StreamingContext context)
+                : base(info, context) {
+            }
+        }
 
         #region Instance Variables
         #region Front-matter
@@ -21,18 +64,12 @@ namespace Blackjack {
             get {
                 return _numWins;
             }
-            set {
-                _numWins = value;
-            }
         }
         private uint _numLosses;
 
         public uint NumLosses {
             get {
                 return _numLosses;
-            }
-            set {
-                _numLosses = value;
             }
         }
         private uint _largestWin;
@@ -41,9 +78,6 @@ namespace Blackjack {
             get {
                 return _largestWin;
             }
-            set {
-                _largestWin = value;
-            }
         }
         private uint _largestLoss;
 
@@ -51,15 +85,12 @@ namespace Blackjack {
             get {
                 return _largestLoss;
             }
-            set {
-                _largestLoss = value;
-            }
         }
         #endregion
 
         #region Back-matter
         public static uint NUM_DECKS = 1;
-        public static uint MIN_BET = 1;
+        public static uint MIN_BET = 20;
         private CardCollection _source;
         private CardCollection _discard;
 
@@ -84,49 +115,120 @@ namespace Blackjack {
             this.ActiveHand = ActiveHandPotentials.None;
             this._source = new CardCollection(1);
             this._discard = new CardCollection(1, false);
-        }
 
-        public void init() {
-            //isinit = true;
             this.ActiveHand = ActiveHandPotentials.Normal;
             this._playerHand = new PlayerHand(_source, _discard);
             this._dealerHand = new DealerHand(_source, _discard);
+            (new GetUserName(this)).ShowDialog();
         }
 
         public void Hit() {
             switch (ActiveHand) {
                 case ActiveHandPotentials.Normal:
                     PlayerHand.Draw();
-                    Notify("PlayerNormalCards");
+                    if (PlayerHand.IsBust) {
+                        throw new BustedException();
+                    }
                     break;
                 case ActiveHandPotentials.Split:
                     PlayerHand.SplitHand.Draw();
-                    Notify("PlayerSplitCards");
                     break;
                 case ActiveHandPotentials.None:
                 default:
-                    throw new Exception("Oh no!");
+                    throw new Exception("Oh no! What happened? I don't even know!");
             }
+            NotifyAll();
         }
 
         public void Split() {
             switch (ActiveHand) {
                 case ActiveHandPotentials.Normal:
                     PlayerHand.Split();
-                    Notify("PlayerNormalCards");
-                    Notify("PlayerSplitCards");
                     break;
                 case ActiveHandPotentials.Split:
                 case ActiveHandPotentials.None:
                 default:
-                    throw new Exception("Oh no!");
+                    throw new IllegalMoveException("Oh no! I can't split like this!");
             }
+            NotifyAll();
         }
 
         public void Stand() {
-            while (DealerHand.Sum <= 17) {
-                DealerHand.Draw();
+            switch (_activeHand) {
+                case ActiveHandPotentials.Normal:
+                    PlayerHand.HasStood = true;
+                    break;
+                case ActiveHandPotentials.Split:
+                    PlayerHand.SplitHand.HasStood = true;
+                    break;
+                case ActiveHandPotentials.None:
+                default:
+                    throw new IllegalMoveException("wait... what?");
             }
+            if (PlayerHand.HasSplit) {
+                if (ActiveHand == ActiveHandPotentials.Split) {
+                    while (DealerHand.Sum <= 17) {
+                        DealerHand.Draw();
+                    }
+                    _displayHole = true;
+                }
+            } else {
+                while (DealerHand.Sum <= 17) {
+                    DealerHand.Draw();
+                }
+                _displayHole = true;
+            }
+        }
+
+        /// <summary>
+        /// Compares 'on' to the dealer's hand for win/loss and does any needed action with the player's cash/bet
+        /// </summary>
+        /// <param name="on">a playerhand to compare against</param>
+        /// <returns>Who won the round, if either.</returns>
+        public WinLoss Winner(PlayerHand on) {
+            WinLoss ret = WinLoss.NoWin;
+            if (on.IsBlackjack && DealerHand.IsBlackjack) {
+                ret = WinLoss.Push;
+            } else if (on.IsBust && DealerHand.IsBust) {
+                if (on.Sum < DealerHand.Sum) {
+                    ret = WinLoss.Player;
+                } else if (on.Sum > DealerHand.Sum) {
+                    ret = WinLoss.Dealer;
+                } else {
+                    ret = WinLoss.Push;
+                }
+            } else if (on.IsBust || DealerHand.IsBlackjack) {
+                ret = WinLoss.Dealer;
+            } else if (DealerHand.IsBust || on.IsBlackjack) {
+                ret = WinLoss.Player;
+            } else {
+                if (PlayerHand.Sum > DealerHand.Sum) {
+                    ret = WinLoss.Player;
+                } else if (PlayerHand.Sum < DealerHand.Sum) {
+                    ret = WinLoss.Dealer;
+                } else {
+                    ret = WinLoss.Push;
+                }
+            }
+
+            switch (ret) {
+                case WinLoss.Dealer:
+                    _numLosses++;
+                    _largestLoss = PlayerHand.Bet > _largestLoss ? PlayerHand.Bet : _largestLoss;
+                    break;
+                case WinLoss.Player:
+                    _numWins++;
+                    _largestWin = PlayerHand.Bet > _largestWin ? PlayerHand.Bet : _largestWin;
+                    break;
+                default:
+                    break;
+            }
+
+            if (ret != WinLoss.NoWin) {
+                on.doBet(ret);
+            }
+
+            return ret;
         }
 
         #region Properties and Events
@@ -191,86 +293,54 @@ namespace Blackjack {
                 return _playerHand.SplitHand.Cards;
             }
         }
-        /// <summary>
-        /// Compares 'on' to the dealer's hand for win/loss
-        /// </summary>
-        /// <param name="on">a playerhand to compare against</param>
-        /// <returns>Who won the round, if either.</returns>
-        public WinLoss Winner(PlayerHand on) {
-            /*if (on.IsBust && DealerHand.IsBust) {
-                if (on.Sum < DealerHand.Sum) {
-                    return WinLoss.Player;
-                } else if (on.Sum > DealerHand.Sum) {
-                    return WinLoss.Dealer;
-                } else {
-                    return WinLoss.Push;
-                }
+        public WinLoss PlayerNormalWinLoss {
+            get {
+                return Winner(PlayerHand);
             }
-
-            if (on.IsBlackjack && DealerHand.IsBlackjack) {
-                return WinLoss.Push;
-            }
-
-            if (on.IsBust) {
-                return WinLoss.Dealer;
-            }
-
-            if (DealerHand.IsBust) {
-                return WinLoss.Dealer;
-            }
-
-            if (on.Sum > DealerHand.Sum) {
-                return WinLoss.Player;
-            } else if (on.Sum < DealerHand.Sum) {
-                return WinLoss.Dealer;
-            } else {
-                return WinLoss.NoWin;
-            }*/
-
-            WinLoss ret = WinLoss.NoWin;
-            if (on.IsBlackjack && DealerHand.IsBlackjack) {
-                ret = WinLoss.Push;
-            } else if (on.IsBust && DealerHand.IsBust) {
-                if (on.Sum < DealerHand.Sum) {
-                    ret = WinLoss.Player;
-                } else if (on.Sum > DealerHand.Sum) {
-                    ret = WinLoss.Dealer;
-                } else {
-                    ret = WinLoss.Push;
-                }
-            } else if (on.IsBust || DealerHand.IsBlackjack) {
-                ret = WinLoss.Dealer;
-            } else if (DealerHand.IsBust || on.IsBlackjack) {
-                ret = WinLoss.Player;
-            } else {
-                if (PlayerHand.Sum > DealerHand.Sum) {
-                    ret = WinLoss.Player;
-                } else if (PlayerHand.Sum < DealerHand.Sum) {
-                    ret = WinLoss.Dealer;
-                } else {
-                    ret = WinLoss.Push;
-                }
-            }
-
-            switch (ret) {
-                case WinLoss.Dealer:
-                    _numLosses++;
-                    _largestLoss = PlayerHand.Bet > _largestLoss ? PlayerHand.Bet : _largestLoss;
-                    break;
-                case WinLoss.Player:
-                    _numWins++;
-                    _largestWin = PlayerHand.Bet > _largestWin ? PlayerHand.Bet : _largestWin;
-                    break;
-                default:
-                    break;
-            }
-
-            return ret;
         }
-        
+        public WinLoss PlayerSplitWinLoss {
+            get {
+                return Winner(PlayerHand.SplitHand);
+            }
+        }
+        public bool IsOver {
+            get {
+                if (PlayerHand.HasSplit) {
+                    return (PlayerHand.HasStood || PlayerHand.IsBust) && (PlayerHand.SplitHand.HasStood || PlayerHand.SplitHand.IsBust);
+                } else {
+                    return PlayerHand.HasStood || PlayerHand.IsBust;
+                }
+            }
+        }
+
+
+        string[] all = { "IsNormalActive",
+                             "IsSplitActive",
+                             "PlayerName",
+                             "PlayerFunds",
+                             "PlayerNormalBet",
+                             "PlayerSplitBet",
+                             "CanPlayerSplit",
+                             "PlayerNormalCards",
+                             "PlayerSplitCards",
+                             "ActiveHand",
+                             "PlayerNormalWinLoss",
+                             "PlayerSplitWinLoss"
+                           };
+        private void NotifyAll() {
+            foreach (string prop in all) {
+                Notify(prop);
+            }
+        }
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
-        public const int MINBET = 20;
+        private bool _displayHole;
+
+        public bool DisplayHole {
+            get {
+                return _displayHole;
+            }
+        }
 
         // This method is called by the Set accessor of each property.
         // parameter causes the property name of the caller to be substituted as an argument.
@@ -280,10 +350,15 @@ namespace Blackjack {
         }
         #endregion
         #endregion
+        
+        internal void NewRound() {
+            _playerHand.DiscardAll();
+            _dealerHand.DiscardAll();
+            _displayHole = false;
+            ActiveHand = ActiveHandPotentials.Normal;
 
-        internal void GetBetAndDeal() {
-            if (PlayerHand.Cash < 20) {
-                throw new InvalidOperationException("I can't do that, Dave.");
+            if (PlayerHand.Cash < MIN_BET) {
+                throw new IllegalMoveException("I can't do that, Dave.");
             }
             var b = new GetBet(this);
             b.ShowDialog();
@@ -291,19 +366,23 @@ namespace Blackjack {
             b.Close();
             _playerHand.Draw(2);
             _dealerHand.Draw(2);
-            Notify("PlayerFunds");
-            Notify("PlayerNormalBet");
+
+            if (_playerHand.IsBlackjack) {
+                throw new BlackjackException();
+            }
+
+            NotifyAll();
         }
 
-        internal void NewRound() {
-            if (_playerHand.HasSplit) {
-                _playerHand.doBet(Winner(_playerHand.SplitHand));
+        public WinLoss?[] EndRound() {
+            ActiveHand = ActiveHandPotentials.None;
+            WinLoss Hand1 = Winner(PlayerHand);
+            WinLoss? Hand2 = null;
+            if (PlayerHand.HasSplit) {
+                Hand2 = Winner(PlayerHand.SplitHand);
             }
-            _playerHand.doBet(Winner(_playerHand));
-            _playerHand.DiscardAll();
-            _dealerHand.DiscardAll();
-            ActiveHand = ActiveHandPotentials.Normal;
-            GetBetAndDeal();
+            WinLoss?[] ret = {Hand1, Hand2};
+            return ret;
         }
     }
 }

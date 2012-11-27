@@ -7,13 +7,7 @@
         Width="520"
         Height="412"
         Closing="window_exit"
-        Loaded="on_load"
         WindowStartupLocation="CenterScreen">
-    <!--
-        <Window.Resources>
-        <local:GameServant x:Key="game" />
-        </Window.Resources>
-    -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20*" />

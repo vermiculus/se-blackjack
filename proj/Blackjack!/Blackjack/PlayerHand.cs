@@ -248,5 +248,10 @@ namespace Blackjack {
                     throw new ArgumentOutOfRangeException(String.Format("The user pressed an unrecognized key and the error checking failed to recognize: {0}", k));
             };
         }
+
+        public bool HasStood {
+            get;
+            set;
+        }
     }
 }
