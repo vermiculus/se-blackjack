@@ -27,8 +27,8 @@ namespace Blackjack {
         }
 
         private void end() {
-            if (txtBet.Text == "" || int.Parse(txtBet.Text) < GameServant.MINBET || int.Parse(txtBet.Text) > game.PlayerFunds) {
-                MessageBox.Show(String.Format("The bet must be between {0} and {1}", GameServant.MINBET, game.PlayerFunds));
+            if (txtBet.Text == "" || int.Parse(txtBet.Text) < GameServant.MIN_BET || int.Parse(txtBet.Text) > game.PlayerFunds) {
+                MessageBox.Show(String.Format("The bet must be between {0} and {1}", GameServant.MIN_BET, game.PlayerFunds));
             } else {
                 Bet = uint.Parse(txtBet.Text);
                 this.Visibility = System.Windows.Visibility.Hidden;

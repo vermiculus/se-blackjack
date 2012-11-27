@@ -21,23 +21,37 @@ namespace Blackjack {
             InitializeComponent();
             init();
         }
-        public void init(bool fullrestart=true) {
-            if (fullrestart) {
-                game = new GameServant();
-                //game = FindResource("game") as GameServant;
-                (new GetUserName(ref game)).ShowDialog();
-                game.init();
-                this.DataContext = game;
-            }
-            game.GetBetAndDeal();
+        public void init() {
+            this.Visibility = System.Windows.Visibility.Hidden;
+            game = new GameServant();
+            this.DataContext = game;
+            game.NotifyAll();
+            newr();
             paint();
+            this.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void newr() {
+            try {
+                game.NewRound();
+                game.NotifyAll();
+                paint();
+                //throw new GameServant.BlackjackException();
+            } catch (GameServant.BlackjackException) {
+                paint();
+                endRound(true);
+            }
         }
 
         private void paint() {
+            this.Visibility = System.Windows.Visibility.Visible;
             csPlayerNormal.Cards = game.PlayerNormalCards;
             if (game.PlayerHand.HasSplit)
                 csPlayerSplit.Cards = game.PlayerSplitCards;
-            if (gameover)
+            else {
+                csPlayerSplit.Cards = new List<Card>();
+            }
+            if (game.DisplayHole)
             {
                 csDealerNormal.Cards = game.DealerHand.Cards;
             } else {
@@ -45,128 +59,93 @@ namespace Blackjack {
                 hole[0] = null;
                 csDealerNormal.Cards = hole;
             }
-            try {
-                this.Visibility = System.Windows.Visibility.Visible;
-            } catch (InvalidOperationException e) {
-                // WHAT.  WHAT.  YOU THINK THIS IS A GAME?
-
-                // (since this method can be called when the window is
-                // closing, bad things can happen)
-            }
-
-            if (game.PlayerHand.IsBlackjack) {
-                playAgain("You won!");
-            }
         }
 
         private void btnNormalHit_Click(object sender, RoutedEventArgs e) {
-            game.Hit();
-            paint();
-            switch (game.ActiveHand) {
-                case GameServant.ActiveHandPotentials.Normal:
-                    if (game.PlayerHand.IsBust) {
-                        if (game.PlayerHand.HasSplit) {
-                            MessageBox.Show("Busted!");
-                            game.ActiveHand = GameServant.ActiveHandPotentials.Split;
-                        } else {
-                            playAgain("Busted! Lost the round!");
-                        }
-                        //gameover = true;
-                    }
-                    break;
-                case GameServant.ActiveHandPotentials.Split:
-                    if (game.PlayerHand.SplitHand.IsBust) {
-                        playAgain("Busted! Lost the round!");
-                    }
-                    if (game.DealerHand.IsBust) {
-                        playAgain("You won!");
-                    }
-                    break;
-                case GameServant.ActiveHandPotentials.None:
-                    break;
-                default:
-                    break;
-            }
-            paint();
-        }
-
-        private void playAgain(string message) {
-            if (game.PlayerFunds < 20) {
-                MessageBox.Show("You don't have enough cash to keep playing!", message);
-                game.ActiveHand = GameServant.ActiveHandPotentials.None;
-            } else if (MessageBox.Show("Play again?", message, MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
-                game.NewRound();
-                gameover = false;
+            try {
+                game.Hit();
+            } catch (GameServant.BustedException) {
                 paint();
-            } else {
-                this.Close();
+                switchHandsIfApplicable();
             }
+            paint();
         }
 
-        bool gameover = false;
         private void btnNormalStand_Click(object sender, RoutedEventArgs e) {
             game.Stand();
-            if (game.PlayerHand.HasSplit) {
+            paint();
+            switchHandsIfApplicable();
+        }
+
+        private void switchHandsIfApplicable() {
+            if (game.PlayerHand.HasSplit && game.ActiveHand == GameServant.ActiveHandPotentials.Normal) {
                 game.ActiveHand = GameServant.ActiveHandPotentials.Split;
-                paint();
             } else {
-                game.ActiveHand = GameServant.ActiveHandPotentials.None;
-                gameover = true;
-                paint();
-                endround();
+                endRound();
             }
         }
 
-        private void endround() {
-            if (!game.PlayerHand.HasSplit) {
-                switch (game.Winner(game.PlayerHand)) {
+        private void endRound(bool blj = false) {
+            paint();
+            if (blj) {
+                game.EndRound();
+                playAgain("Blackjack!", true);
+            } else {
+                WinLoss?[] results = game.EndRound();
+                string h1, h2;
+                bool won;
+                switch (results[0]) {
                     case WinLoss.Dealer:
-                        playAgain("Dealer won!");
+                        h1 = "Lost!";
+                        won = false;
                         break;
                     case WinLoss.Player:
-                        playAgain("You won!");
+                        h1 = "Won!";
+                        won = true;
                         break;
                     case WinLoss.Push:
-                        playAgain("Push!!");
-                        break;
-                    case WinLoss.NoWin:
-                        throw new Exception("HELP!!!");
-                }
-            } else {
-                string norm = "Hand 1: ";
-                string splt = "Hand 2: ";
-
-                switch (game.Winner(game.PlayerHand)) {
-                    case WinLoss.Dealer:
-                        norm += "Lost!";
-                        break;
-                    case WinLoss.Player:
-                        norm += "Won!";
-                        break;
-                    case WinLoss.NoWin:
-                        norm += "Push!";
+                        h1 = "Push!!";
+                        won = true;
                         break;
                     default:
-                        throw new Exception("HELP!!!");
+                        throw new Exception("What");
                 }
-
-                switch (game.Winner(game.PlayerHand.SplitHand)) {
-                    case WinLoss.Dealer:
-                        splt += "Lost!";
-                        break;
-                    case WinLoss.Player:
-                        splt += "Won!";
-                        break;
-                    case WinLoss.NoWin:
-                        splt += "Push!";
-                        break;
-                    default:
-                        throw new Exception("HELP!!!");
+                if (game.PlayerHand.HasSplit) {
+                    switch (results[1]) {
+                        case WinLoss.Dealer:
+                            h2 = "Lost!";
+                            break;
+                        case WinLoss.Player:
+                            h2 = "Won!";
+                            break;
+                        case WinLoss.Push:
+                            h2 = "Push!!";
+                            break;
+                        default:
+                            throw new Exception("What");
+                    }
+                    playAgain(String.Format("Hand 1: {0}  Hand 2: {1}", h1, h2), won);
+                } else {
+                    playAgain(h1, won);
                 }
-
-                playAgain(norm + Environment.NewLine + splt);
             }
         }
+
+        private void playAgain(string msg, bool playerwon = false) {
+            if (game.PlayerFunds < GameServant.MIN_BET && !playerwon) {
+                MessageBox.Show("You lost the game!!! You have no more money!!", "Lost the game!",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            } else if (MessageBox.Show("Play Again?", msg,
+                MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes)
+                == MessageBoxResult.Yes) {
+                paint();
+                newr();
+                paint();
+            }
+            paint();
+        }
+
+        #region Window and Menu Operations
 
         private void menu_exit(object sender, RoutedEventArgs e) {
             this.Close();
@@ -174,10 +153,10 @@ namespace Blackjack {
 
         private void window_exit(object sender, System.ComponentModel.CancelEventArgs e) {
             if (MessageBox.Show("Are you sure?", "Exiting Blackjack!",
-                MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) != MessageBoxResult.Yes) {
+                MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.No) {
                 e.Cancel = true;
-                game.NewRound();
-                paint();
+            } else {
+                Environment.Exit(0);
             }
         }
         
@@ -188,7 +167,7 @@ namespace Blackjack {
         }
 
         private void menu_about(object sender, RoutedEventArgs e) {
-
+            MessageBox.Show("No Dice! Blackjack program.\nVersion 1.1");
         }
 
         private void menu_stats(object sender, RoutedEventArgs e) {
@@ -196,7 +175,11 @@ namespace Blackjack {
                 game.NumWins, game.NumLosses, game.LargestWin, game.LargestLoss));
         }
 
-        private void on_load(object sender, RoutedEventArgs e) {
+        #endregion
+
+        private void btnNormalSplit_Click(object sender, RoutedEventArgs e) {
+            game.Split();
+            paint();
         }
     }
 }

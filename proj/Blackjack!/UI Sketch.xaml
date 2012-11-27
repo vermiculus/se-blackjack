@@ -7,13 +7,7 @@
         Width="520"
         Height="412"
         Closing="window_exit"
-        Loaded="on_load"
         WindowStartupLocation="CenterScreen">
-    <!--
-        <Window.Resources>
-        <local:GameServant x:Key="game" />
-        </Window.Resources>
-    -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20*" />
@@ -53,7 +47,7 @@
                 VerticalAlignment="Bottom"
                 Content="Split"
                 IsEnabled="{Binding CanPlayerSplit,
-                                    UpdateSourceTrigger=PropertyChanged}" />
+                                    UpdateSourceTrigger=PropertyChanged}" Click="btnNormalSplit_Click" />
         <Button x:Name="btnNormalStand"
                 Grid.Row="1"
                 Width="231"
@@ -101,6 +95,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Content="Stand"
+                Click="btnNormalStand_Click"
                 IsEnabled="{Binding IsSplitActive,
                                     UpdateSourceTrigger=PropertyChanged}" />
         <Image Grid.Row="1"
