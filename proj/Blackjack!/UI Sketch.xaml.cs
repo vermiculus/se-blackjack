@@ -25,17 +25,32 @@ namespace Blackjack {
             this.Visibility = System.Windows.Visibility.Hidden;
             game = new GameServant();
             this.DataContext = game;
-            game.NewRound();
-            game.PlayerHand.Cards[0] = new Card(Rank.Ace, Suit.Spades);
-            game.PlayerHand.Cards[1] = new Card(Rank.Jack, Suit.Spades);
+            game.NotifyAll();
+            newr();
             paint();
             this.Visibility = System.Windows.Visibility.Visible;
         }
 
+        private void newr() {
+            try {
+                game.NewRound();
+                game.NotifyAll();
+                paint();
+                //throw new GameServant.BlackjackException();
+            } catch (GameServant.BlackjackException) {
+                paint();
+                endRound(true);
+            }
+        }
+
         private void paint() {
+            this.Visibility = System.Windows.Visibility.Visible;
             csPlayerNormal.Cards = game.PlayerNormalCards;
             if (game.PlayerHand.HasSplit)
                 csPlayerSplit.Cards = game.PlayerSplitCards;
+            else {
+                csPlayerSplit.Cards = new List<Card>();
+            }
             if (game.DisplayHole)
             {
                 csDealerNormal.Cards = game.DealerHand.Cards;
@@ -51,7 +66,7 @@ namespace Blackjack {
                 game.Hit();
             } catch (GameServant.BustedException) {
                 paint();
-                endRound();
+                switchHandsIfApplicable();
             }
             paint();
         }
@@ -59,58 +74,73 @@ namespace Blackjack {
         private void btnNormalStand_Click(object sender, RoutedEventArgs e) {
             game.Stand();
             paint();
-            endRound();
+            switchHandsIfApplicable();
         }
 
-        private void endRound() {
-            WinLoss?[] results = game.EndRound();
-            string h1, h2;
-            switch (results[0]) {
-                case WinLoss.Dealer:
-                    h1 = "Lost!";
-                    break;
-                case WinLoss.Player:
-                    h1 = "Won!";
-                    break;
-                case WinLoss.Push:
-                    h1 = "Push!!";
-                    break;
-                default:
-                    throw new Exception("What");
+        private void switchHandsIfApplicable() {
+            if (game.PlayerHand.HasSplit && game.ActiveHand == GameServant.ActiveHandPotentials.Normal) {
+                game.ActiveHand = GameServant.ActiveHandPotentials.Split;
+            } else {
+                endRound();
             }
-            if (game.PlayerHand.HasSplit) {
-                switch (results[1]) {
+        }
+
+        private void endRound(bool blj = false) {
+            paint();
+            if (blj) {
+                game.EndRound();
+                playAgain("Blackjack!", true);
+            } else {
+                WinLoss?[] results = game.EndRound();
+                string h1, h2;
+                bool won;
+                switch (results[0]) {
                     case WinLoss.Dealer:
-                        h2 = "Lost!";
+                        h1 = "Lost!";
+                        won = false;
                         break;
                     case WinLoss.Player:
-                        h2 = "Won!";
+                        h1 = "Won!";
+                        won = true;
                         break;
                     case WinLoss.Push:
-                        h2 = "Push!!";
+                        h1 = "Push!!";
+                        won = true;
                         break;
                     default:
                         throw new Exception("What");
                 }
-                playAgain(String.Format("Hand 1: {0}\nHand 2: {1}", h1, h2));
-            } else {
-                playAgain(h1);
+                if (game.PlayerHand.HasSplit) {
+                    switch (results[1]) {
+                        case WinLoss.Dealer:
+                            h2 = "Lost!";
+                            break;
+                        case WinLoss.Player:
+                            h2 = "Won!";
+                            break;
+                        case WinLoss.Push:
+                            h2 = "Push!!";
+                            break;
+                        default:
+                            throw new Exception("What");
+                    }
+                    playAgain(String.Format("Hand 1: {0}  Hand 2: {1}", h1, h2), won);
+                } else {
+                    playAgain(h1, won);
+                }
             }
         }
 
-        private void playAgain(string msg) {
-            if (game.PlayerFunds < GameServant.MIN_BET) {
+        private void playAgain(string msg, bool playerwon = false) {
+            if (game.PlayerFunds < GameServant.MIN_BET && !playerwon) {
                 MessageBox.Show("You lost the game!!! You have no more money!!", "Lost the game!",
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
             } else if (MessageBox.Show("Play Again?", msg,
                 MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes)
                 == MessageBoxResult.Yes) {
                 paint();
-                try {
-                    game.NewRound();
-                } catch (GameServant.BlackjackException) {
-                    playAgain("Won!");
-                }
+                newr();
+                paint();
             }
             paint();
         }
@@ -146,5 +176,10 @@ namespace Blackjack {
         }
 
         #endregion
+
+        private void btnNormalSplit_Click(object sender, RoutedEventArgs e) {
+            game.Split();
+            paint();
+        }
     }
 }

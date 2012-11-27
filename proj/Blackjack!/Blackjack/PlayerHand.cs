@@ -19,7 +19,12 @@ namespace Blackjack {
         public const int DEFAULT_CASH = 500;
 
         public uint Cash {
-            get { return myCash; }
+            get {
+                return myCash;
+            }
+            set {
+                myCash = value;
+            }
         }
         
         private PlayerHand psplit;
@@ -64,6 +69,7 @@ namespace Blackjack {
             psplit.Cards.Add(this.Discard(0));
             psplit.psplit = this;
             psplit.myBet = myBet;
+            psplit.myCash = 0;
             myCash -= myBet;
         }
 
@@ -111,7 +117,7 @@ namespace Blackjack {
 
         public override void PutCardsBack() {
             if (HasSplit) {
-                psplit.DiscardAll();
+                //psplit.DiscardAll(); //TODO
                 psplit = null;
             }
             DiscardAll();

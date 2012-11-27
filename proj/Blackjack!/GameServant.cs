@@ -132,6 +132,9 @@ namespace Blackjack {
                     break;
                 case ActiveHandPotentials.Split:
                     PlayerHand.SplitHand.Draw();
+                    if (PlayerHand.SplitHand.IsBust) {
+                        throw new BustedException();
+                    }
                     break;
                 case ActiveHandPotentials.None:
                 default:
@@ -202,9 +205,9 @@ namespace Blackjack {
             } else if (DealerHand.IsBust || on.IsBlackjack) {
                 ret = WinLoss.Player;
             } else {
-                if (PlayerHand.Sum > DealerHand.Sum) {
+                if (on.Sum > DealerHand.Sum) {
                     ret = WinLoss.Player;
-                } else if (PlayerHand.Sum < DealerHand.Sum) {
+                } else if (on.Sum < DealerHand.Sum) {
                     ret = WinLoss.Dealer;
                 } else {
                     ret = WinLoss.Push;
@@ -214,11 +217,11 @@ namespace Blackjack {
             switch (ret) {
                 case WinLoss.Dealer:
                     _numLosses++;
-                    _largestLoss = PlayerHand.Bet > _largestLoss ? PlayerHand.Bet : _largestLoss;
+                    _thisLoss += on.Bet;
                     break;
                 case WinLoss.Player:
                     _numWins++;
-                    _largestWin = PlayerHand.Bet > _largestWin ? PlayerHand.Bet : _largestWin;
+                    _thisWin += on.Bet;
                     break;
                 default:
                     break;
@@ -327,7 +330,7 @@ namespace Blackjack {
                              "PlayerNormalWinLoss",
                              "PlayerSplitWinLoss"
                            };
-        private void NotifyAll() {
+        public void NotifyAll() {
             foreach (string prop in all) {
                 Notify(prop);
             }
@@ -335,6 +338,8 @@ namespace Blackjack {
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
         private bool _displayHole;
+        private uint _thisLoss;
+        private uint _thisWin;
 
         public bool DisplayHole {
             get {
@@ -352,8 +357,10 @@ namespace Blackjack {
         #endregion
         
         internal void NewRound() {
-            _playerHand.DiscardAll();
+            _playerHand.PutCardsBack();
+
             _dealerHand.DiscardAll();
+            NotifyAll();
             _displayHole = false;
             ActiveHand = ActiveHandPotentials.Normal;
 
@@ -364,8 +371,10 @@ namespace Blackjack {
             b.ShowDialog();
             PlayerHand.makeBet(b.Bet);
             b.Close();
+            //PlayerHand.Draw(new Card(Rank.Ace, Suit.Clubs), new Card(Rank.Ace, Suit.Hearts)); // TODO
             _playerHand.Draw(2);
             _dealerHand.Draw(2);
+            NotifyAll();
 
             if (_playerHand.IsBlackjack) {
                 throw new BlackjackException();
@@ -380,8 +389,12 @@ namespace Blackjack {
             WinLoss? Hand2 = null;
             if (PlayerHand.HasSplit) {
                 Hand2 = Winner(PlayerHand.SplitHand);
+                PlayerHand.Cash += PlayerHand.SplitHand.Cash;
             }
-            WinLoss?[] ret = {Hand1, Hand2};
+            WinLoss?[] ret = { Hand1, Hand2 };
+            _largestWin = _thisWin > _largestWin ? _thisWin : _largestWin;
+            _largestLoss = _thisLoss > _largestLoss ? _thisLoss : _largestLoss;
+            _thisWin = _thisLoss = 0;
             return ret;
         }
     }
