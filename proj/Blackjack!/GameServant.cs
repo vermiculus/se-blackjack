@@ -14,9 +14,11 @@ namespace Blackjack {
         public class IllegalMoveException : Exception {
             public IllegalMoveException() {
             }
-            public IllegalMoveException(string message) : base(message) {
+            public IllegalMoveException(string message)
+                : base(message) {
             }
-            public IllegalMoveException(string message, Exception inner) : base(message, inner) {
+            public IllegalMoveException(string message, Exception inner)
+                : base(message, inner) {
             }
             protected IllegalMoveException(
               System.Runtime.Serialization.SerializationInfo info,
@@ -29,9 +31,11 @@ namespace Blackjack {
         public class BustedException : Exception {
             public BustedException() {
             }
-            public BustedException(string message) : base(message) {
+            public BustedException(string message)
+                : base(message) {
             }
-            public BustedException(string message, Exception inner) : base(message, inner) {
+            public BustedException(string message, Exception inner)
+                : base(message, inner) {
             }
             protected BustedException(
               System.Runtime.Serialization.SerializationInfo info,
@@ -44,9 +48,11 @@ namespace Blackjack {
         public class BlackjackException : Exception {
             public BlackjackException() {
             }
-            public BlackjackException(string message) : base(message) {
+            public BlackjackException(string message)
+                : base(message) {
             }
-            public BlackjackException(string message, Exception inner) : base(message, inner) {
+            public BlackjackException(string message, Exception inner)
+                : base(message, inner) {
             }
             protected BlackjackException(
               System.Runtime.Serialization.SerializationInfo info,
@@ -89,6 +95,7 @@ namespace Blackjack {
         #endregion
 
         #region Back-matter
+        public List<string> log;
         public static uint NUM_DECKS = 1;
         public static uint MIN_BET = 20;
         private CardCollection _source;
@@ -111,30 +118,88 @@ namespace Blackjack {
         #endregion
         #endregion
 
-        public GameServant() {
-            this.ActiveHand = ActiveHandPotentials.None;
-            this._source = new CardCollection(1);
-            this._discard = new CardCollection(1, false);
+        public void l(string s = "", bool printstats = true) {
+            var d = DateTime.Now;
+            log.Add(string.Format("{0}.{1}.{2}.{3}: {4}",
+                d.Hour,
+                d.Minute,
+                d.Second,
+                d.Millisecond,
+                s));
+            if (printstats) {
+                log.Add(string.Format("\tDealer:{0}",
+                    DealerHand.ToRevealingString()));
+                log.Add(string.Format("\tPlayer:{0}{1}",
+                    PlayerHand.ToString(),
+                    PlayerHand.HasSplit ? PlayerHand.SplitHand.ToString() : ""));
+                log.Add(string.Format("\tBet: {0}",
+                    PlayerHand.Bet));
+                log.Add(string.Format("\tCash: {0}",
+                    PlayerHand.Cash));
+                log.Add(string.Format("\tSource Pile: {0}",
+                    PlayerHand.SourceCollection.ToString()));
+                log.Add(string.Format("\tDiscard Pile: {0}",
+                    PlayerHand.DiscardCollection.ToString()));
+            }
+        }
 
-            this.ActiveHand = ActiveHandPotentials.Normal;
-            this._playerHand = new PlayerHand(_source, _discard);
-            this._dealerHand = new DealerHand(_source, _discard);
-            (new GetUserName(this)).ShowDialog();
+        public GameServant(bool testing = false) {
+            log = new List<string>();
+            l(string.Format("New Game ({0}:{1}:{2})", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day), false);
+            if (!testing) {
+                l("In production mode...", false);
+                this.ActiveHand = ActiveHandPotentials.None;
+                l("Creating Source Deck", false);
+                this._source = new CardCollection(1);
+                l("Creating Discard Deck", false);
+                this._discard = new CardCollection(1, false);
+
+                this.ActiveHand = ActiveHandPotentials.Normal;
+
+                l("Creating the player's hand", false);
+                this._playerHand = new PlayerHand(_source, _discard);
+                l("Creating the dealer's hand", false);
+                this._dealerHand = new DealerHand(_source, _discard);
+                l("Getting user name", false);
+                (new GetUserName(this)).ShowDialog();
+                l("User name received", false);
+            } else {
+                l("In testing mode...", false);
+                this.ActiveHand = ActiveHandPotentials.None;
+                var d = new Microsoft.Win32.OpenFileDialog();
+                d.Filter = "CSV Files (.csv)|*.csv";
+                d.ShowDialog();
+                this._source = new PredeterministicCardCollection(d.FileName);
+                this._discard = new CardCollection(Int32.MaxValue, false);
+
+                this.ActiveHand = ActiveHandPotentials.Normal;
+                this._playerHand = new PlayerHand(_source, _discard);
+                this._dealerHand = new DealerHand(_source, _discard);
+                (new GetUserName(this)).ShowDialog();
+            }
+            NotifyAll();
         }
 
         public void Hit() {
+            l("Player hit", false);
             switch (ActiveHand) {
                 case ActiveHandPotentials.Normal:
+                    l("Normal hand; Player drawing", false);
                     PlayerHand.Draw();
                     if (PlayerHand.IsBust) {
+                        l("Hand busted");
                         throw new BustedException();
                     }
+                    l("Hit successful");
                     break;
                 case ActiveHandPotentials.Split:
+                    l("Split hand; Player drawing", false);
                     PlayerHand.SplitHand.Draw();
                     if (PlayerHand.SplitHand.IsBust) {
+                        l("Hand busted");
                         throw new BustedException();
                     }
+                    l("Hit successful");
                     break;
                 case ActiveHandPotentials.None:
                 default:
@@ -144,9 +209,11 @@ namespace Blackjack {
         }
 
         public void Split() {
+            l("Player split", false);
             switch (ActiveHand) {
                 case ActiveHandPotentials.Normal:
                     PlayerHand.Split();
+                    l("Split successful");
                     break;
                 case ActiveHandPotentials.Split:
                 case ActiveHandPotentials.None:
@@ -159,9 +226,11 @@ namespace Blackjack {
         public void Stand() {
             switch (_activeHand) {
                 case ActiveHandPotentials.Normal:
+                    l("Normal hand; player stood");
                     PlayerHand.HasStood = true;
                     break;
                 case ActiveHandPotentials.Split:
+                    l("Split hand; player stood");
                     PlayerHand.SplitHand.HasStood = true;
                     break;
                 case ActiveHandPotentials.None:
@@ -170,16 +239,20 @@ namespace Blackjack {
             }
             if (PlayerHand.HasSplit) {
                 if (ActiveHand == ActiveHandPotentials.Split) {
-                    while (DealerHand.Sum <= 17) {
+                    l("Dealer turn begin", false);
+                    while (DealerHand.Sum < 17) {
                         DealerHand.Draw();
                     }
                     _displayHole = true;
+                    l("Dealer turn end");
                 }
             } else {
-                while (DealerHand.Sum <= 17) {
+                l("Dealer turn begin", false);
+                while (DealerHand.Sum < 17) {
                     DealerHand.Draw();
                 }
                 _displayHole = true;
+                l("Dealer turn end");
             }
         }
 
@@ -189,31 +262,44 @@ namespace Blackjack {
         /// <param name="on">a playerhand to compare against</param>
         /// <returns>Who won the round, if either.</returns>
         public WinLoss Winner(PlayerHand on) {
+            l("Checking Win/Loss");
             WinLoss ret = WinLoss.NoWin;
             if (on.IsBlackjack && DealerHand.IsBlackjack) {
+                l("Both hands blackjack: push");
                 ret = WinLoss.Push;
             } else if (on.IsBust && DealerHand.IsBust) {
+                l(String.Format("Both hands bust. Hand Sum: {0} Dealer Sum: {1}", on.Sum, DealerHand.Sum));
                 if (on.Sum < DealerHand.Sum) {
+                    l("Player wins");
                     ret = WinLoss.Player;
                 } else if (on.Sum > DealerHand.Sum) {
+                    l("Dealer wins");
                     ret = WinLoss.Dealer;
                 } else {
+                    l("Push");
                     ret = WinLoss.Push;
                 }
             } else if (on.IsBust || DealerHand.IsBlackjack) {
+                l("Hand busted or Dealer blackjack - dealer wins");
                 ret = WinLoss.Dealer;
             } else if (DealerHand.IsBust || on.IsBlackjack) {
+                l("Dealer busted or Hand is blackjack - player wins");
                 ret = WinLoss.Player;
             } else {
+                l(String.Format("No special case. Hand Sum: {0} Dealer Sum: {1}", on.Sum, DealerHand.Sum));
                 if (on.Sum > DealerHand.Sum) {
+                    l("Player wins");
                     ret = WinLoss.Player;
                 } else if (on.Sum < DealerHand.Sum) {
+                    l("Dealer wins");
                     ret = WinLoss.Dealer;
                 } else {
+                    l("Push");
                     ret = WinLoss.Push;
                 }
             }
 
+            l("Updating statistics");
             switch (ret) {
                 case WinLoss.Dealer:
                     _numLosses++;
@@ -226,8 +312,10 @@ namespace Blackjack {
                 default:
                     break;
             }
+            l(String.Format("Wins:Losses;Win:Loss::{0}:{1};{2}:{3}", NumWins, NumLosses, LargestWin, LargestLoss));
 
             if (ret != WinLoss.NoWin) {
+                l("Applying bet");
                 on.doBet(ret);
             }
 
@@ -266,19 +354,19 @@ namespace Blackjack {
                 Notify("PlayerName");
             }
         }
-        public uint PlayerFunds {
+        public string PlayerFunds {
             get {
-                return _playerHand != null ? _playerHand.Cash : 500;
+                return "Funds: $" + (_playerHand != null ? _playerHand.Cash : 500);
             }
         }
         public string PlayerNormalBet {
             get {
-                return _playerHand.Bet.ToString();
+                return "$" + _playerHand.Bet.ToString();
             }
         }
         public string PlayerSplitBet {
             get {
-                return _playerHand.HasSplit ? _playerHand.SplitHand.Bet.ToString() : "";
+                return _playerHand.HasSplit ? "$" + _playerHand.SplitHand.Bet.ToString() : "";
             }
         }
         public bool CanPlayerSplit {
@@ -355,8 +443,9 @@ namespace Blackjack {
         }
         #endregion
         #endregion
-        
-        internal void NewRound() {
+
+        internal void NewRound(UI_Sketch ui = null) {
+            l("New Round", false);
             _playerHand.PutCardsBack();
 
             _dealerHand.DiscardAll();
@@ -365,18 +454,25 @@ namespace Blackjack {
             ActiveHand = ActiveHandPotentials.Normal;
 
             if (PlayerHand.Cash < MIN_BET) {
+                l("Cash is less than MIN_BET", false);
                 throw new IllegalMoveException("I can't do that, Dave.");
             }
-            var b = new GetBet(this);
-            b.ShowDialog();
+            l("Retrieving bet", false);
+            var b = new GetBet(this, ui);
+            l("Making bet", false);
             PlayerHand.makeBet(b.Bet);
             b.Close();
-            //PlayerHand.Draw(new Card(Rank.Ace, Suit.Clubs), new Card(Rank.Ace, Suit.Hearts)); // TODO
+
+            l("Player draws 2 cards", false);
             _playerHand.Draw(2);
+
+            l("Dealer draws 2 cards", false);
             _dealerHand.Draw(2);
             NotifyAll();
+            l("Cards drawn");
 
             if (_playerHand.IsBlackjack) {
+                l("Player drew Blackjack");
                 throw new BlackjackException();
             }
 
@@ -384,18 +480,38 @@ namespace Blackjack {
         }
 
         public WinLoss?[] EndRound() {
+            l("Ending round", false);
             ActiveHand = ActiveHandPotentials.None;
+            l("Getting result of normal hand", false);
             WinLoss Hand1 = Winner(PlayerHand);
             WinLoss? Hand2 = null;
             if (PlayerHand.HasSplit) {
+                l("Getting result of stood hand", false);
                 Hand2 = Winner(PlayerHand.SplitHand);
+                l("Applying split hand's results to normal hand", false);
                 PlayerHand.Cash += PlayerHand.SplitHand.Cash;
             }
             WinLoss?[] ret = { Hand1, Hand2 };
+
+            l("Updating statistics", false);
             _largestWin = _thisWin > _largestWin ? _thisWin : _largestWin;
             _largestLoss = _thisLoss > _largestLoss ? _thisLoss : _largestLoss;
             _thisWin = _thisLoss = 0;
+            l(String.Format("Wins:Losses;Win:Loss::{0}:{1};{2}:{3}", NumWins, NumLosses, LargestWin, LargestLoss));
+            l("Round ended");
             return ret;
+        }
+
+        public void WriteLogToFile(string path) {
+            bool log_mode = false;
+            if (log_mode) {
+                if (System.IO.File.Exists(path)) {
+                    System.IO.File.AppendAllLines(path, log);
+                } else {
+                    System.IO.File.WriteAllLines(path, log);
+                }
+                log.Clear();
+            }
         }
     }
 }
