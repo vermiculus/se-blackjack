@@ -47,8 +47,8 @@ namespace Blackjack {
         /// </summary>
         public bool IsBlackjack { // SRS 1.3 2.3.2
             get {
-                return Count == 2 && (   this[0].Rank == Rank.Ace && this[1].Rank == Rank.Jack
-                                      || this[1].Rank == Rank.Ace && this[0].Rank == Rank.Jack
+                return Count == 2 && (   this[0].Rank == Rank.Ace && this[1].IsFaceCard //Rank == Rank.Jack
+                                      || this[1].Rank == Rank.Ace && this[0].IsFaceCard //Rank == Rank.Jack
                                      );
             }
         }

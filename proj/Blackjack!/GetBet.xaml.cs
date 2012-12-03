@@ -18,33 +18,36 @@ namespace Blackjack {
     public partial class GetBet : Window {
         public uint Bet;
         public GameServant game;
+        private System.Timers.Timer t;
 
-        public GetBet(GameServant g) {
+        public GetBet(GameServant g, UI_Sketch ui) {
             InitializeComponent();
-            this.Title += String.Format(" ({0} available)", g.PlayerFunds);
+            this.Title += String.Format(" ({0} available)", g.PlayerFunds.Substring(7));
+            t = new System.Timers.Timer(100);
+            t.Elapsed += t_Elapsed;
             game = g;
+            if (ui != null) {
+                ui.Visibility = System.Windows.Visibility.Visible;
+            }
+            if (Application.Current != null) {
+                Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Background, new Action(delegate {
+                }));
+            }
+            this.ShowDialog();
+            txtBet.Focus();
+            //t.Start();
+        }
+
+        void t_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
             txtBet.Focus();
         }
 
         private void end() {
-            if (txtBet.Text == "" || int.Parse(txtBet.Text) < GameServant.MIN_BET || int.Parse(txtBet.Text) > game.PlayerFunds) {
-                MessageBox.Show(String.Format("The bet must be between {0} and {1}", GameServant.MIN_BET, game.PlayerFunds));
+            if (txtBet.Text == "" || int.Parse(txtBet.Text) < GameServant.MIN_BET || int.Parse(txtBet.Text) > game.PlayerHand.Cash) {
+                MessageBox.Show(String.Format("The bet must be between ${0} and {1}", GameServant.MIN_BET, game.PlayerFunds.Substring(7)));
             } else {
                 Bet = uint.Parse(txtBet.Text);
                 this.Visibility = System.Windows.Visibility.Hidden;
-            }
-        }
-
-        private void keydown(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Enter) {
-                end();
-            }
-            if (!(
-                e.Key == Key.D0 || e.Key == Key.D1 || e.Key == Key.D2 || e.Key == Key.D3 || e.Key == Key.D4 ||
-                e.Key == Key.D5 || e.Key == Key.D6 || e.Key == Key.D7 || e.Key == Key.D8 || e.Key == Key.D9 ||
-                e.Key == Key.NumPad0 || e.Key == Key.NumPad1 || e.Key == Key.NumPad2 || e.Key == Key.NumPad3 || e.Key == Key.NumPad4 ||
-                e.Key == Key.NumPad5 || e.Key == Key.NumPad6 || e.Key == Key.NumPad7 || e.Key == Key.NumPad8 || e.Key == Key.NumPad9)) {
-                e.Handled = true;
             }
         }
 
@@ -54,6 +57,28 @@ namespace Blackjack {
 
         private void onclose(object sender, System.ComponentModel.CancelEventArgs e) {
             e.Cancel = true;
+        }
+
+        private void txtBet_TextChanged(object sender, TextChangedEventArgs e) {
+            string s = "";
+            int idx = txtBet.CaretIndex;
+            bool did_screw_up = false;
+            foreach (char c in txtBet.Text) {
+                if (char.IsDigit(c))
+                    s += c;
+                else
+                    did_screw_up = true;
+            }
+            txtBet.Text = s;
+            txtBet.CaretIndex = did_screw_up ? (idx > 0 ? idx - 1 : 0) : idx;
+        }
+
+        private void givefocus(object sender, RoutedEventArgs e) {
+            txtBet.Focus();
+        }
+
+        private void foc(object sender, KeyEventArgs e) {
+            txtBet.Focus();
         }
     }
 }

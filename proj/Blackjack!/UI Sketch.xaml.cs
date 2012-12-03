@@ -1,4 +1,4 @@
-﻿#define TESTING
+﻿//#define TESTING
 
 using System;
 using System.Collections.Generic;
@@ -25,12 +25,9 @@ namespace Blackjack {
         }
         public void init() {
             this.Visibility = System.Windows.Visibility.Hidden;
-#if TESTING
-            game = new GameServant(true);
-#else
-            game = new GameServant();
-#endif
+            game = new GameServant(god_mode);
             this.DataContext = game;
+            game.ActiveHand = GameServant.ActiveHandPotentials.None;
             game.NotifyAll();
             newr();
             paint();
@@ -39,7 +36,7 @@ namespace Blackjack {
 
         private void newr() {
             try {
-                game.NewRound();
+                game.NewRound(this);
                 game.NotifyAll();
                 paint();
                 //throw new GameServant.BlackjackException();
@@ -49,7 +46,8 @@ namespace Blackjack {
             }
         }
 
-        private void paint() {
+        public void paint() {
+            game.NotifyAll();
             this.Visibility = System.Windows.Visibility.Visible;
             csPlayerNormal.Cards = game.PlayerNormalCards;
             if (game.PlayerHand.HasSplit)
@@ -138,7 +136,7 @@ namespace Blackjack {
         }
 
         private void playAgain(string msg, bool playerwon = false) {
-            if (game.PlayerFunds < GameServant.MIN_BET && !playerwon) {
+            if (game.PlayerHand.Cash < GameServant.MIN_BET && !playerwon) {
                 MessageBox.Show("You lost the game!!! You have no more money!!", "Lost the game!",
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
             } else if (MessageBox.Show("Play Again?", msg,
@@ -162,18 +160,24 @@ namespace Blackjack {
                 MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.No) {
                 e.Cancel = true;
             } else {
+                game.l("Game Ending");
+                game.WriteLogToFile(@"blackjack.log");
                 Environment.Exit(0);
             }
         }
         
         private void menu_restart(object sender, RoutedEventArgs e) {
             this.Visibility = System.Windows.Visibility.Hidden;
+            game.l("Restarting");
+            var oldlog = game.log;
             init();
+            oldlog.AddRange(game.log);
+            game.log = oldlog;
             this.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void menu_about(object sender, RoutedEventArgs e) {
-            MessageBox.Show("No Dice! Blackjack program.\nVersion 1.1");
+            MessageBox.Show("Blackjack by No Dice!\nVersion 1.1\nCreation Date: 1 December 2012\nAuthors: Sean Allred, Molly Domino, Joshua Kaminsky, and Matthan Lee");
         }
 
         private void menu_stats(object sender, RoutedEventArgs e) {
@@ -186,6 +190,29 @@ namespace Blackjack {
         private void btnNormalSplit_Click(object sender, RoutedEventArgs e) {
             game.Split();
             paint();
+        }
+
+        bool god_mode = false;
+        private void menu_godmode(object sender, RoutedEventArgs e) {
+            god_mode = true;
+            MessageBox.Show("Provide the CSV file in the coming dialog. Don't screw up; it'll crash.\nBe sure to put in a file - even exiting the dialog will crash it.");
+            this.Visibility = System.Windows.Visibility.Hidden;
+            game.l("Restarting in God Mode");
+            var oldlog = game.log;
+            init();
+            oldlog.AddRange(game.log);
+            game.log = oldlog;
+            this.Visibility = System.Windows.Visibility.Visible;
+        }
+        private void menu_log(object sender, RoutedEventArgs e) {
+            game.WriteLogToFile(@"blackjack.log");
+        }
+
+        private void buttonpaint(object sender, DependencyPropertyChangedEventArgs e) {
+            if (!((Button)sender).IsEnabled) {
+                ((Button)sender).Background.Opacity = 0.5;
+                //((Button)sender).Foreground.Opacity = 0.5;
+            }
         }
     }
 }

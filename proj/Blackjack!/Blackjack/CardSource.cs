@@ -99,6 +99,20 @@ namespace Blackjack
             destination.cards.InsertRange(0, cards);
             cards.Clear();
         }
+
+        public override string ToString() {
+            return prettyprint(cards);
+        }
+
+        protected static string prettyprint(IEnumerable<Object> lst) {
+            StringBuilder s = new StringBuilder("[");
+            foreach (var o in lst) {
+                s.AppendFormat("{0}, ", o.ToString());
+            }
+            string ret = s.ToString();
+            ret = ret.TrimEnd(", ".ToArray());
+            return ret + "]";
+        }
     }
 
     /// <summary>
@@ -166,6 +180,10 @@ namespace Blackjack
             }
 
             return ret;
+        }
+
+        public override string ToString() {
+            return prettyprint(drawPile);
         }
     }
 }

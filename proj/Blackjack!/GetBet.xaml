@@ -9,7 +9,7 @@
         SizeToContent="WidthAndHeight"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="ToolWindow" Closing="onclose">
+        WindowStyle="ToolWindow" Closing="onclose" GotFocus="givefocus" KeyDown="foc">
     <Grid Height="73" VerticalAlignment="Top">
         <Label Height="28"
                Margin="5,9,213,0"
@@ -21,8 +21,7 @@
                  Margin="145,12,10,0"
                  VerticalAlignment="Top"
                  VerticalContentAlignment="Center"
-                 KeyDown="keydown"
-                 TextWrapping="Wrap" />
+                 TextWrapping="Wrap" TextChanged="txtBet_TextChanged" />
         <Button
                 Margin="10,42,10,0"
                 VerticalAlignment="Top"
