@@ -1,4 +1,5 @@
 ﻿//#define TESTING
+//#define ENABLE_HOTKEYS
 
 using System;
 using System.Collections.Generic;
@@ -180,12 +181,12 @@ namespace Blackjack {
         }
 
         private void menu_about(object sender, RoutedEventArgs e) {
-            MessageBox.Show("Blackjack by No Dice!\nVersion 1.1\nRelease Date: 3 December 2012\nAuthors: Sean Allred, Molly Domino, Joshua Kaminsky, and Matthan Lee");
+            MessageBox.Show("Blackjack by No Dice!\nVersion 1.1\nRelease Date: 3 December 2012\nAuthors: Sean Allred, Molly Domino, Joshua Kaminsky, and Matthan Lee", "About Blackjack!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void menu_stats(object sender, RoutedEventArgs e) {
-            MessageBox.Show(String.Format("Number of Wins: {0}\nNumber of Losses: {1}\nBiggest Win: {2}\nBiggest Loss: {3}",
-                game.NumWins, game.NumLosses, game.LargestWin, game.LargestLoss));
+            MessageBox.Show(String.Format("Number of Wins: {0}\nNumber of Losses: {1}\nBiggest Win: {2}\nBiggest Loss: {3}", 
+                game.NumWins, game.NumLosses, game.LargestWin, game.LargestLoss), "Statistics", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         #endregion
@@ -216,6 +217,24 @@ namespace Blackjack {
                 ((Button)sender).Background.Opacity = 0.5;
                 //((Button)sender).Foreground.Opacity = 0.5;
             }
+        }
+
+        private void heydown(object sender, KeyEventArgs e) {
+#if ENABLE_HOTKEYS
+            switch (e.Key) {
+                case Key.Down:
+                    btnNormalStand_Click(null, null);
+                    break;
+                case Key.Right:
+                    btnNormalHit_Click(null, null);
+                    break;
+                case Key.Up:
+                    btnNormalSplit_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+#endif
         }
     }
 }

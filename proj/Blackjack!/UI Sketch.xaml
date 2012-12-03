@@ -8,7 +8,7 @@
         Height="412"
         Background="#FF094914"
         Closing="window_exit"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" KeyDown="heydown">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Template">
