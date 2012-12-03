@@ -49,18 +49,19 @@ namespace Blackjack {
         public void paint() {
             game.NotifyAll();
             this.Visibility = System.Windows.Visibility.Visible;
-            csPlayerNormal.Cards = game.PlayerNormalCards;
+            csPlayerNormal.Cards = new List<Card>(game.PlayerNormalCards);
             if (game.PlayerHand.HasSplit)
-                csPlayerSplit.Cards = game.PlayerSplitCards;
+                csPlayerSplit.Cards = new List<Card>(game.PlayerSplitCards);
             else {
                 csPlayerSplit.Cards = new List<Card>();
             }
             if (game.DisplayHole)
             {
-                csDealerNormal.Cards = game.DealerHand.Cards;
+                csDealerNormal.Cards = new List<Card>(game.DealerHand.Cards);
             } else {
                 var hole = new List<Card>(game.DealerHand.Cards);
-                hole[0] = null;
+                if(hole.Count > 0)
+                    hole[0] = null;
                 csDealerNormal.Cards = hole;
             }
         }
@@ -169,6 +170,8 @@ namespace Blackjack {
         private void menu_restart(object sender, RoutedEventArgs e) {
             this.Visibility = System.Windows.Visibility.Hidden;
             game.l("Restarting");
+            game.PlayerHand.PutCardsBack();
+            game.DealerHand.PutCardsBack();
             var oldlog = game.log;
             init();
             oldlog.AddRange(game.log);
@@ -177,7 +180,7 @@ namespace Blackjack {
         }
 
         private void menu_about(object sender, RoutedEventArgs e) {
-            MessageBox.Show("Blackjack by No Dice!\nVersion 1.1\nCreation Date: 1 December 2012\nAuthors: Sean Allred, Molly Domino, Joshua Kaminsky, and Matthan Lee");
+            MessageBox.Show("Blackjack by No Dice!\nVersion 1.1\nRelease Date: 3 December 2012\nAuthors: Sean Allred, Molly Domino, Joshua Kaminsky, and Matthan Lee");
         }
 
         private void menu_stats(object sender, RoutedEventArgs e) {

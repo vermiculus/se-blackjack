@@ -32,13 +32,14 @@ namespace Blackjack
             get { return Count == 0; }
         }
 
+        private static Random rand = new Random();
         /// <summary>
         /// Returns a random card from this Source, removing it internally
         /// </summary>
         public virtual Card Draw() {
             if (IsEmpty)
                 throw new OutOfCardsException();
-            Card r = cards[(new Random()).Next(cards.Count)];
+            Card r = cards[rand.Next(cards.Count)];
             cards.Remove(r);
             return r;
         }

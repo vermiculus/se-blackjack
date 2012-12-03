@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>cards_png\icn.ico</ApplicationIcon>
+    <ApplicationIcon>cards_png\multicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -254,6 +254,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="cards_png\b1fvmul.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="cards_png\multicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

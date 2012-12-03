@@ -27,6 +27,12 @@ namespace Blackjack {
             t.Elapsed += t_Elapsed;
             game = g;
             if (ui != null) {
+                ui.csDealerNormal.Cards.Clear();
+                ui.csPlayerNormal.Cards.Clear();
+                ui.csPlayerSplit.Cards.Clear();
+                ui.btnNormalHit.IsEnabled = false;
+                ui.btnNormalStand.IsEnabled = false;
+                ui.paint();
                 ui.Visibility = System.Windows.Visibility.Visible;
             }
             if (Application.Current != null) {
@@ -34,6 +40,12 @@ namespace Blackjack {
                 }));
             }
             this.ShowDialog();
+
+            Binding bind = new Binding("IsNormalActive");
+            bind.Source = game;
+            ui.btnNormalHit.SetBinding(Button.IsEnabledProperty, bind);
+            ui.btnNormalStand.SetBinding(Button.IsEnabledProperty, bind);
+
             txtBet.Focus();
             //t.Start();
         }

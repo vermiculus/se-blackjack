@@ -503,12 +503,15 @@ namespace Blackjack {
         }
 
         public void WriteLogToFile(string path) {
-            if (System.IO.File.Exists(path)) {
-                System.IO.File.AppendAllLines(path, log);
-            } else {
-                System.IO.File.WriteAllLines(path, log);
+            bool log_mode = false;
+            if (log_mode) {
+                if (System.IO.File.Exists(path)) {
+                    System.IO.File.AppendAllLines(path, log);
+                } else {
+                    System.IO.File.WriteAllLines(path, log);
+                }
+                log.Clear();
             }
-            log.Clear();
         }
     }
 }

@@ -192,8 +192,8 @@
             <MenuItem Header="_Help...">
                 <!--  SRS 1.3 3.3.5  -->
                 <MenuItem Click="menu_about" Header="_About" />
-                <MenuItem Click="menu_godmode" Header="_God Mode (restarts the game)" />
-                <MenuItem Click="menu_log" Header="_Write Out Log File" />
+                <!--<MenuItem Click="menu_godmode" Header="_God Mode (restarts the game)" />
+                <MenuItem Click="menu_log" Header="_Write Out Log File" />-->
                 <!--  SRS 1.3 3.3.6  -->
             </MenuItem>
         </Menu>
