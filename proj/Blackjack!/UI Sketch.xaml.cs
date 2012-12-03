@@ -1,4 +1,7 @@
-﻿using System;
+﻿//#define TESTING
+//#define ENABLE_HOTKEYS
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,8 +26,9 @@ namespace Blackjack {
         }
         public void init() {
             this.Visibility = System.Windows.Visibility.Hidden;
-            game = new GameServant();
+            game = new GameServant(god_mode);
             this.DataContext = game;
+            game.ActiveHand = GameServant.ActiveHandPotentials.None;
             game.NotifyAll();
             newr();
             paint();
@@ -33,7 +37,7 @@ namespace Blackjack {
 
         private void newr() {
             try {
-                game.NewRound();
+                game.NewRound(this);
                 game.NotifyAll();
                 paint();
                 //throw new GameServant.BlackjackException();
@@ -43,20 +47,22 @@ namespace Blackjack {
             }
         }
 
-        private void paint() {
+        public void paint() {
+            game.NotifyAll();
             this.Visibility = System.Windows.Visibility.Visible;
-            csPlayerNormal.Cards = game.PlayerNormalCards;
+            csPlayerNormal.Cards = new List<Card>(game.PlayerNormalCards);
             if (game.PlayerHand.HasSplit)
-                csPlayerSplit.Cards = game.PlayerSplitCards;
+                csPlayerSplit.Cards = new List<Card>(game.PlayerSplitCards);
             else {
                 csPlayerSplit.Cards = new List<Card>();
             }
             if (game.DisplayHole)
             {
-                csDealerNormal.Cards = game.DealerHand.Cards;
+                csDealerNormal.Cards = new List<Card>(game.DealerHand.Cards);
             } else {
                 var hole = new List<Card>(game.DealerHand.Cards);
-                hole[0] = null;
+                if(hole.Count > 0)
+                    hole[0] = null;
                 csDealerNormal.Cards = hole;
             }
         }
@@ -132,7 +138,7 @@ namespace Blackjack {
         }
 
         private void playAgain(string msg, bool playerwon = false) {
-            if (game.PlayerFunds < GameServant.MIN_BET && !playerwon) {
+            if (game.PlayerHand.Cash < GameServant.MIN_BET && !playerwon) {
                 MessageBox.Show("You lost the game!!! You have no more money!!", "Lost the game!",
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
             } else if (MessageBox.Show("Play Again?", msg,
@@ -156,23 +162,31 @@ namespace Blackjack {
                 MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.No) {
                 e.Cancel = true;
             } else {
+                game.l("Game Ending");
+                game.WriteLogToFile(@"blackjack.log");
                 Environment.Exit(0);
             }
         }
         
         private void menu_restart(object sender, RoutedEventArgs e) {
             this.Visibility = System.Windows.Visibility.Hidden;
+            game.l("Restarting");
+            game.PlayerHand.PutCardsBack();
+            game.DealerHand.PutCardsBack();
+            var oldlog = game.log;
             init();
+            oldlog.AddRange(game.log);
+            game.log = oldlog;
             this.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void menu_about(object sender, RoutedEventArgs e) {
-            MessageBox.Show("No Dice! Blackjack program.\nVersion 1.1");
+            MessageBox.Show("Blackjack by No Dice!\nVersion 1.1\nRelease Date: 3 December 2012\nAuthors: Sean Allred, Molly Domino, Joshua Kaminsky, and Matthan Lee", "About Blackjack!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void menu_stats(object sender, RoutedEventArgs e) {
-            MessageBox.Show(String.Format("Number of Wins: {0}\nNumber of Losses: {1}\nBiggest Win: {2}\nBiggest Loss: {3}",
-                game.NumWins, game.NumLosses, game.LargestWin, game.LargestLoss));
+            MessageBox.Show(String.Format("Number of Wins: {0}\nNumber of Losses: {1}\nBiggest Win: {2}\nBiggest Loss: {3}", 
+                game.NumWins, game.NumLosses, game.LargestWin, game.LargestLoss), "Statistics", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         #endregion
@@ -180,6 +194,47 @@ namespace Blackjack {
         private void btnNormalSplit_Click(object sender, RoutedEventArgs e) {
             game.Split();
             paint();
+        }
+
+        bool god_mode = false;
+        private void menu_godmode(object sender, RoutedEventArgs e) {
+            god_mode = true;
+            MessageBox.Show("Provide the CSV file in the coming dialog. Don't screw up; it'll crash.\nBe sure to put in a file - even exiting the dialog will crash it.");
+            this.Visibility = System.Windows.Visibility.Hidden;
+            game.l("Restarting in God Mode");
+            var oldlog = game.log;
+            init();
+            oldlog.AddRange(game.log);
+            game.log = oldlog;
+            this.Visibility = System.Windows.Visibility.Visible;
+        }
+        private void menu_log(object sender, RoutedEventArgs e) {
+            game.WriteLogToFile(@"blackjack.log");
+        }
+
+        private void buttonpaint(object sender, DependencyPropertyChangedEventArgs e) {
+            if (!((Button)sender).IsEnabled) {
+                ((Button)sender).Background.Opacity = 0.5;
+                //((Button)sender).Foreground.Opacity = 0.5;
+            }
+        }
+
+        private void heydown(object sender, KeyEventArgs e) {
+#if ENABLE_HOTKEYS
+            switch (e.Key) {
+                case Key.Down:
+                    btnNormalStand_Click(null, null);
+                    break;
+                case Key.Right:
+                    btnNormalHit_Click(null, null);
+                    break;
+                case Key.Up:
+                    btnNormalSplit_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+#endif
         }
     }
 }

@@ -47,7 +47,12 @@ namespace Blackjack {
         }
 
         private void closing(object sender, System.ComponentModel.CancelEventArgs e) {
-
+            if (txtName.Text.Length > 0) {
+                game.PlayerName = txtName.Text;
+            } else {
+                MessageBox.Show("Please enter a name.");
+                e.Cancel = true;
+            }
         }
     }
 }

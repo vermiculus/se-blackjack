@@ -32,13 +32,14 @@ namespace Blackjack
             get { return Count == 0; }
         }
 
+        private static Random rand = new Random();
         /// <summary>
         /// Returns a random card from this Source, removing it internally
         /// </summary>
         public virtual Card Draw() {
             if (IsEmpty)
                 throw new OutOfCardsException();
-            Card r = cards[(new Random()).Next(cards.Count)];
+            Card r = cards[rand.Next(cards.Count)];
             cards.Remove(r);
             return r;
         }
@@ -98,6 +99,20 @@ namespace Blackjack
         internal void Refill(CardCollection destination) {
             destination.cards.InsertRange(0, cards);
             cards.Clear();
+        }
+
+        public override string ToString() {
+            return prettyprint(cards);
+        }
+
+        protected static string prettyprint(IEnumerable<Object> lst) {
+            StringBuilder s = new StringBuilder("[");
+            foreach (var o in lst) {
+                s.AppendFormat("{0}, ", o.ToString());
+            }
+            string ret = s.ToString();
+            ret = ret.TrimEnd(", ".ToArray());
+            return ret + "]";
         }
     }
 
@@ -166,6 +181,10 @@ namespace Blackjack
             }
 
             return ret;
+        }
+
+        public override string ToString() {
+            return prettyprint(drawPile);
         }
     }
 }
